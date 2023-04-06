@@ -781,6 +781,18 @@ video {
   margin-top: 0.5rem;
 }
 
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mt-3 {
+  margin-top: 0.75rem;
+}
+
+.mt-\[100px\] {
+  margin-top: 100px;
+}
+
 .block {
   display: block;
 }
@@ -855,6 +867,18 @@ video {
 
 .w-\[250px\] {
   width: 250px;
+}
+
+.w-\[800px\] {
+  width: 800px;
+}
+
+.w-\[500px\] {
+  width: 500px;
+}
+
+.w-\[450px\] {
+  width: 450px;
 }
 
 .max-w-\[120px\] {
@@ -1100,6 +1124,14 @@ video {
   padding-top: 9rem;
 }
 
+.pt-48 {
+  padding-top: 12rem;
+}
+
+.pt-52 {
+  padding-top: 13rem;
+}
+
 .text-center {
   text-align: center;
 }
@@ -1204,6 +1236,10 @@ video {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.opacity-0 {
+  opacity: 0;
 }
 
 .shadow-lg {
@@ -1418,6 +1454,26 @@ body {
     margin-left: 650px;
   }
 
+  .md\:-mt-8 {
+    margin-top: -2rem;
+  }
+
+  .md\:-mt-\[200\] {
+    margin-top: -200;
+  }
+
+  .md\:-mt-\[200px\] {
+    margin-top: -200px;
+  }
+
+  .md\:-mt-\[300px\] {
+    margin-top: -300px;
+  }
+
+  .md\:-mt-\[280px\] {
+    margin-top: -280px;
+  }
+
   .md\:w-1\/2 {
     width: 50%;
   }
@@ -1462,6 +1518,18 @@ body {
     max-width: 100px;
   }
 
+  .md\:pt-36 {
+    padding-top: 9rem;
+  }
+
+  .md\:pt-20 {
+    padding-top: 5rem;
+  }
+
+  .md\:pt-16 {
+    padding-top: 4rem;
+  }
+
   .md\:text-lg {
     font-size: 1.125rem;
     line-height: 1.75rem;
@@ -1503,6 +1571,10 @@ body {
     right: 0px;
   }
 
+  .lg\:top-0 {
+    top: 0px;
+  }
+
   .lg\:mx-6 {
     margin-left: 1.5rem;
     margin-right: 1.5rem;
@@ -1539,6 +1611,26 @@ body {
 
   .lg\:ml-\[1300px\] {
     margin-left: 1300px;
+  }
+
+  .lg\:-mt-\[350px\] {
+    margin-top: -350px;
+  }
+
+  .lg\:-mt-\[370px\] {
+    margin-top: -370px;
+  }
+
+  .lg\:-mt-\[400px\] {
+    margin-top: -400px;
+  }
+
+  .lg\:-mt-\[450px\] {
+    margin-top: -450px;
+  }
+
+  .lg\:mt-\[80px\] {
+    margin-top: 80px;
   }
 
   .lg\:block {
@@ -1583,6 +1675,10 @@ body {
 
   .lg\:w-\[500px\] {
     width: 500px;
+  }
+
+  .lg\:w-\[450px\] {
+    width: 450px;
   }
 
   .lg\:max-w-full {
