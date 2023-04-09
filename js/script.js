@@ -37,3 +37,10 @@ setInterval(() => {
   carouselNavItems[currentIndex].classList.remove("bg-gray-500");
   carouselNavItems[currentIndex].classList.add("bg-white");
 }, 5000);
+
+// swiperJs
+var swiper = new Swiper(".mySwiper", {
+  pagination: {
+    el: ".swiper-pagination",
+  },
+});
