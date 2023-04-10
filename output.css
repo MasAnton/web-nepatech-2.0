@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.3.1 | MIT License | https://tailwindcss.com
+! tailwindcss v3.3.0 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -872,18 +872,6 @@ video {
   padding: 0.75rem;
 }
 
-.p-4 {
-  padding: 1rem;
-}
-
-.p-2 {
-  padding: 0.5rem;
-}
-
-.p-7 {
-  padding: 1.75rem;
-}
-
 .p-6 {
   padding: 1.5rem;
 }
@@ -965,8 +953,8 @@ video {
   padding-top: 13rem;
 }
 
-.pb-1 {
-  padding-bottom: 0.25rem;
+.pb-4 {
+  padding-bottom: 1rem;
 }
 
 .text-center {
@@ -1296,6 +1284,14 @@ body {
     margin-top: 80px;
   }
 
+  .lg\:ml-7 {
+    margin-left: 1.75rem;
+  }
+
+  .lg\:ml-8 {
+    margin-left: 2rem;
+  }
+
   .lg\:block {
     display: block;
   }
@@ -1336,60 +1332,12 @@ body {
     width: 100%;
   }
 
-  .lg\:max-w-\[100px\] {
-    max-width: 100px;
-  }
-
   .lg\:max-w-\[120px\] {
     max-width: 120px;
   }
 
   .lg\:max-w-full {
     max-width: 100%;
-  }
-
-  .lg\:max-w-\[\] {
-    max-width: ;
-  }
-
-  .lg\:max-w-\[200px\] {
-    max-width: 200px;
-  }
-
-  .lg\:max-w-\[700\] {
-    max-width: 700;
-  }
-
-  .lg\:max-w-\[700px\] {
-    max-width: 700px;
-  }
-
-  .lg\:max-w-\[500px\] {
-    max-width: 500px;
-  }
-
-  .lg\:max-w-\[400px\] {
-    max-width: 400px;
-  }
-
-  .lg\:max-w-\[450px\] {
-    max-width: 450px;
-  }
-
-  .lg\:max-w-\[440px\] {
-    max-width: 440px;
-  }
-
-  .lg\:max-w-\[430px\] {
-    max-width: 430px;
-  }
-
-  .lg\:max-w-\[420px\] {
-    max-width: 420px;
-  }
-
-  .lg\:max-w-\[410px\] {
-    max-width: 410px;
   }
 
   .lg\:rounded-none {
