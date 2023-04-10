@@ -864,6 +864,11 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
+.bg-slate-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(100 116 139 / var(--tw-bg-opacity));
+}
+
 .fill-current {
   fill: currentColor;
 }
@@ -1145,6 +1150,42 @@ body {
 
 .hover\:w-\[55px\]:hover {
   width: 55px;
+}
+
+.hover\:w-\[\]:hover {
+  width: ;
+}
+
+.hover\:w-\[150\%\]:hover {
+  width: 150%;
+}
+
+.hover\:w-\[50\%\]:hover {
+  width: 50%;
+}
+
+.hover\:w-\[20\%\]:hover {
+  width: 20%;
+}
+
+.hover\:w-\[200px\]:hover {
+  width: 200px;
+}
+
+.hover\:w-\[800\]:hover {
+  width: 800;
+}
+
+.hover\:w-\[800px\]:hover {
+  width: 800px;
+}
+
+.hover\:w-\[500px\]:hover {
+  width: 500px;
+}
+
+.hover\:w-\[400px\]:hover {
+  width: 400px;
 }
 
 .hover\:border-primary:hover {
