@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.3.0 | MIT License | https://tailwindcss.com
+! tailwindcss v3.3.1 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -864,11 +864,6 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
-.bg-slate-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(100 116 139 / var(--tw-bg-opacity));
-}
-
 .fill-current {
   fill: currentColor;
 }
@@ -879,10 +874,6 @@ video {
 
 .p-6 {
   padding: 1.5rem;
-}
-
-.p-4 {
-  padding: 1rem;
 }
 
 .px-2 {
@@ -946,6 +937,10 @@ video {
   padding-bottom: 8rem;
 }
 
+.pb-4 {
+  padding-bottom: 1rem;
+}
+
 .pt-10 {
   padding-top: 2.5rem;
 }
@@ -960,10 +955,6 @@ video {
 
 .pt-52 {
   padding-top: 13rem;
-}
-
-.pb-4 {
-  padding-bottom: 1rem;
 }
 
 .text-center {
@@ -1152,42 +1143,6 @@ body {
   width: 55px;
 }
 
-.hover\:w-\[\]:hover {
-  width: ;
-}
-
-.hover\:w-\[150\%\]:hover {
-  width: 150%;
-}
-
-.hover\:w-\[50\%\]:hover {
-  width: 50%;
-}
-
-.hover\:w-\[20\%\]:hover {
-  width: 20%;
-}
-
-.hover\:w-\[200px\]:hover {
-  width: 200px;
-}
-
-.hover\:w-\[800\]:hover {
-  width: 800;
-}
-
-.hover\:w-\[800px\]:hover {
-  width: 800px;
-}
-
-.hover\:w-\[500px\]:hover {
-  width: 500px;
-}
-
-.hover\:w-\[400px\]:hover {
-  width: 400px;
-}
-
 .hover\:border-primary:hover {
   --tw-border-opacity: 1;
   border-color: rgb(240 131 0 / var(--tw-border-opacity));
@@ -1317,24 +1272,12 @@ body {
     margin-top: -450px;
   }
 
-  .lg\:ml-10 {
-    margin-left: 2.5rem;
-  }
-
   .lg\:ml-14 {
     margin-left: 3.5rem;
   }
 
   .lg\:mt-\[80px\] {
     margin-top: 80px;
-  }
-
-  .lg\:ml-7 {
-    margin-left: 1.75rem;
-  }
-
-  .lg\:ml-8 {
-    margin-left: 2rem;
   }
 
   .lg\:block {
@@ -1383,10 +1326,6 @@ body {
 
   .lg\:max-w-full {
     max-width: 100%;
-  }
-
-  .lg\:max-w-\[100px\] {
-    max-width: 100px;
   }
 
   .lg\:rounded-none {
