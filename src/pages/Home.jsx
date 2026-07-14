@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import ContactForm from "../components/ContactForm";
 
 const galleryLinks = [
   { slug: "furnace", name: "Suhu", title: "Furnace" },
@@ -413,6 +414,8 @@ function Home() {
           </div>
         </section>
       </main>
+
+      <ContactForm />
 
       <footer className="bg-slate-950 pb-12 pt-24 text-slate-300">
         <div className="container">

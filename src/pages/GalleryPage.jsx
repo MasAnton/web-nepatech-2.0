@@ -82,6 +82,7 @@ function GalleryPage() {
                 <img
                   src={image.src}
                   alt={image.alt}
+                  loading="lazy"
                   className="w-full object-cover"
                 />
               </div>
