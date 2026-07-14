@@ -1,5 +1,5 @@
 import { useState } from "react";
-import emailjs from "emailjs-com";
+import emailjs from "@emailjs/browser";
 
 function ContactForm() {
   const [status, setStatus] = useState(null);
@@ -43,7 +43,7 @@ function ContactForm() {
 
           <div className="mb-4">
             <label className="block mb-2 text-sm font-medium">Email</label>
-            <input name="reply_to" type="email" required className="w-full rounded-lg border px-4 py-2" />
+            <input name="email_id" type="email" required className="w-full rounded-lg border px-4 py-2" />
           </div>
 
           <div className="mb-4">
