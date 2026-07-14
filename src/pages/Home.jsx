@@ -153,6 +153,7 @@ function Home() {
                   ["Tentang Kami", "#about"],
                   ["Galeri Kerja", "#portfolio"],
                   ["Pelanggan", "#clients"],
+                  ["Kontak", "#contact"],
                 ].map(([label, href]) => (
                   <li key={label} className="group">
                     <a
@@ -476,6 +477,13 @@ function Home() {
                     href="#clients"
                     className="inline-block text-base transition hover:text-orange-400">
                     Pelanggan
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#contact"
+                    className="inline-block text-base transition hover:text-orange-400">
+                    Kontak
                   </a>
                 </li>
               </ul>
