@@ -144,7 +144,15 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    const sections = ["home", "about", "portfolio", "clients", "faq", "contact"];
+    const sections = [
+      "home",
+      "about",
+      "portfolio",
+      "clients",
+      "faq",
+      "location",
+      "contact",
+    ];
     const observers = [];
 
     sections.forEach((id) => {
@@ -222,10 +230,12 @@ function Home() {
         <div className="container relative">
           <div className="flex items-center justify-between gap-3 px-4 py-3 lg:py-0">
             <div>
-              <a href="#home" className="block text-lg font-bold text-primary">
+              <a
+                href="#home"
+                className="inline-flex rounded-xl p-1.5 transition-colors duration-300 ring-1 ring-transparent dark:bg-white/95 dark:ring-slate-200 dark:shadow-lg dark:shadow-black/20">
                 <img
                   src="/img/logoNGS.png"
-                  className="w-[100px] py-2 sm:w-[120px]"
+                  className="w-[100px] sm:w-[120px]"
                   alt="PT. Nepatech Global Solusindo"
                 />
               </a>
@@ -266,6 +276,7 @@ function Home() {
                   ["Galeri Kerja", "#portfolio"],
                   ["Pelanggan", "#clients"],
                   ["FAQ", "#faq"],
+                  ["Lokasi", "#location"],
                   ["Kontak", "#contact"],
                 ].map(([label, href]) => {
                   const id = href.replace("#", "");
@@ -274,7 +285,7 @@ function Home() {
                     <li key={label} className="group">
                       <a
                         href={href}
-                        className={`mx-5 flex py-2 text-base transition ${isActive ? "border-b-4 border-b-primary text-primary font-semibold" : "text-slate-900 group-hover:border-b-4 group-hover:border-b-primary dark:text-slate-100"}`}>
+                        className={`mx-3 flex py-2 text-sm transition xl:mx-5 xl:text-base ${isActive ? "border-b-4 border-b-primary text-primary font-semibold" : "text-slate-900 group-hover:border-b-4 group-hover:border-b-primary dark:text-slate-100"}`}>
                         {label}
                       </a>
                     </li>
@@ -295,6 +306,7 @@ function Home() {
                   ["Galeri Kerja", "#portfolio"],
                   ["Pelanggan", "#clients"],
                   ["FAQ", "#faq"],
+                  ["Lokasi", "#location"],
                   ["Kontak", "#contact"],
                 ].map(([label, href]) => (
                   <li key={label}>
