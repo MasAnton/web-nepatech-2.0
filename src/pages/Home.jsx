@@ -66,13 +66,45 @@ const heroSlides = [
   },
 ];
 
+const faqItems = [
+  {
+    question: "Apa saja layanan yang tersedia?",
+    answer:
+      "Kami menyediakan kalibrasi, maintenance, supply peralatan laboratorium, dan support teknis untuk industri batu bara dan analitik.",
+  },
+  {
+    question: "Berapa lama waktu pengerjaannya?",
+    answer:
+      "Durasi bergantung pada jenis alat dan ruang lingkup pekerjaan. Umumnya estimasi dikomunikasikan setelah survei awal.",
+  },
+  {
+    question: "Apakah ada garansi untuk layanan?",
+    answer:
+      "Ya, setiap layanan kami disertai jaminan kualitas dan dukungan purna jual. Detail garansi akan dijelaskan dalam penawaran.",
+  },
+  {
+    question: "Bagaimana cara menghubungi tim sales?",
+    answer:
+      "Gunakan formulir kontak di bawah, atau langsung hubungi WhatsApp kami lewat tombol di pojok kanan bawah.",
+  },
+];
+
 function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window === "undefined") return false;
+    const stored = window.localStorage.getItem("nepatech-dark-mode");
+    if (stored !== null) {
+      return stored === "true";
+    }
+
+    return window.matchMedia?.("(prefers-color-scheme: dark)")?.matches ?? false;
+  });
   const [activeSlide, setActiveSlide] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
   const [pageVisible, setPageVisible] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [openFaqIndex, setOpenFaqIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -110,7 +142,7 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    const sections = ["home", "about", "portfolio", "clients", "contact"];
+    const sections = ["home", "about", "portfolio", "clients", "faq", "contact"];
     const observers = [];
 
     sections.forEach((id) => {
@@ -139,7 +171,17 @@ function Home() {
     return () => document.documentElement.classList.remove("js-mounted");
   }, []);
 
-  const toggleDarkMode = () => setDarkMode((prev) => !prev);
+  const toggleDarkMode = () => {
+    setDarkMode((prev) => {
+      const next = !prev;
+      window.localStorage.setItem("nepatech-dark-mode", String(next));
+      return next;
+    });
+  };
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", darkMode);
+  }, [darkMode]);
 
   return (
     <div
@@ -467,6 +509,50 @@ function Home() {
                     <img loading="lazy" src={logo.src} alt={logo.alt} />
                   </a>
                 ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="faq" data-reveal className="reveal-section bg-white pb-32 pt-36 dark:bg-slate-900">
+          <div className="container">
+            <div className="mb-12 px-4 text-center">
+              <span className="inline-flex rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold uppercase tracking-[0.2em] text-orange-600">
+                FAQ
+              </span>
+              <h2 className="mt-5 text-4xl font-bold text-slate-900 dark:text-slate-100 sm:text-5xl lg:text-6xl">
+                Pertanyaan yang sering diajukan
+              </h2>
+              <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-slate-600 dark:text-slate-300 sm:text-lg">
+                Semua jawaban singkat tentang layanan, proses, dan cara kerja kami.
+              </p>
+            </div>
+            <div className="mx-auto max-w-4xl px-4">
+              <div className="space-y-4">
+                {faqItems.map((item, index) => {
+                  const isOpen = index === openFaqIndex;
+                  return (
+                    <button
+                      key={item.question}
+                      type="button"
+                      onClick={() => setOpenFaqIndex(isOpen ? null : index)}
+                      className="w-full rounded-[28px] border border-slate-200 bg-slate-50 p-6 text-left transition hover:border-orange-300 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-950 dark:hover:border-orange-400 dark:hover:bg-slate-900">
+                      <div className="flex items-center justify-between gap-4">
+                        <span className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                          {item.question}
+                        </span>
+                        <span className={`inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 text-xl text-slate-700 transition dark:border-slate-700 dark:text-slate-200 ${isOpen ? "bg-primary text-white border-primary" : "bg-white"}`}>
+                          {isOpen ? "−" : "+"}
+                        </span>
+                      </div>
+                      {isOpen && (
+                        <p className="mt-4 text-sm leading-7 text-slate-600 dark:text-slate-300">
+                          {item.answer}
+                        </p>
+                      )}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
