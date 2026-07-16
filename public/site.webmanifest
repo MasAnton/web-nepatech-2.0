@@ -1,0 +1,16 @@
+{
+  "name": "PT. Nepatech Global Solusindo",
+  "short_name": "Nepatech",
+  "description": "Kalibrasi, maintenance, dan supply peralatan laboratorium.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/img/titleLogoNTGS.png",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ]
+}

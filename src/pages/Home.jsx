@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ContactForm from "../components/ContactForm";
+import Seo from "../components/Seo";
 
 const galleryLinks = [
   { slug: "furnace", name: "Suhu", title: "Furnace" },
@@ -115,7 +116,8 @@ function Home() {
 
   useEffect(() => {
     setIsMounted(true);
-    setTimeout(() => setPageVisible(true), 50);
+    const fadeTimer = window.setTimeout(() => setPageVisible(true), 50);
+    return () => window.clearTimeout(fadeTimer);
   }, []);
 
   useEffect(() => {
@@ -134,7 +136,7 @@ function Home() {
           }
         });
       },
-      { threshold: 0.2 },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.05 },
     );
 
     revealTargets.forEach((el) => observer.observe(el));
@@ -183,10 +185,27 @@ function Home() {
     document.documentElement.classList.toggle("dark", darkMode);
   }, [darkMode]);
 
+  useEffect(() => {
+    const closeMenu = (event) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+    const closeMenuOnDesktop = () => {
+      if (window.innerWidth >= 1024) setMenuOpen(false);
+    };
+
+    window.addEventListener("keydown", closeMenu);
+    window.addEventListener("resize", closeMenuOnDesktop);
+    return () => {
+      window.removeEventListener("keydown", closeMenu);
+      window.removeEventListener("resize", closeMenuOnDesktop);
+    };
+  }, []);
+
   return (
     <div
       className={`${darkMode ? "dark bg-slate-950 text-slate-100" : "bg-white text-slate-900"} page-fade ${pageVisible ? "page-visible" : ""} min-h-screen transition-colors duration-500`}>
-      <div className="fixed bottom-5 right-5 z-20">
+      <Seo />
+      <div className="fixed bottom-4 right-4 z-40 sm:bottom-5 sm:right-5">
         <a
           href="https://api.whatsapp.com/send?phone=6281267084525"
           target="_blank"
@@ -200,13 +219,13 @@ function Home() {
       </div>
 
       <header className="fixed inset-x-0 top-0 z-50 w-full bg-white/90 shadow-lg backdrop-blur-xl border-b border-slate-200 dark:bg-slate-950/90 dark:border-slate-800">
-        <div className="container">
-          <div className="relative flex flex-wrap items-center justify-between gap-4 px-4 py-4 lg:py-0">
+        <div className="container relative">
+          <div className="flex items-center justify-between gap-3 px-4 py-3 lg:py-0">
             <div>
               <a href="#home" className="block text-lg font-bold text-primary">
                 <img
                   src="/img/logoNGS.png"
-                  className="w-[120px] py-2"
+                  className="w-[100px] py-2 sm:w-[120px]"
                   alt="PT. Nepatech Global Solusindo"
                 />
               </a>
@@ -216,24 +235,25 @@ function Home() {
               <button
                 type="button"
                 onClick={toggleDarkMode}
-                className="inline-flex items-center rounded-full border border-slate-300 bg-white/90 px-4 py-2 text-sm font-semibold text-slate-900 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/90 dark:text-slate-100 dark:hover:bg-slate-800"
+                className="inline-flex items-center whitespace-nowrap rounded-full border border-slate-300 bg-white/90 px-3 py-2 text-xs font-semibold text-slate-900 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/90 dark:text-slate-100 dark:hover:bg-slate-800 sm:px-4 sm:text-sm"
                 aria-label="Toggle dark mode">
                 {darkMode ? "Light Mode" : "Dark Mode"}
               </button>
               <button
                 type="button"
-                className="inline-flex items-center rounded-lg border border-slate-300 bg-white/90 p-2 text-slate-900 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/90 dark:text-slate-100 dark:hover:bg-slate-800 lg:hidden"
+                className="inline-flex h-11 w-11 shrink-0 flex-col items-center justify-center rounded-lg border border-slate-300 bg-white/90 text-slate-900 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/90 dark:text-slate-100 dark:hover:bg-slate-800 lg:hidden"
                 onClick={() => setMenuOpen((prev) => !prev)}
-                aria-label="Toggle navigation menu">
-                <span className="sr-only">Open main menu</span>
-                <div
-                  className={`hamburger-line ${menuOpen ? "rotate-45 translate-y-1" : ""}`}
+                aria-label={menuOpen ? "Tutup menu navigasi" : "Buka menu navigasi"}
+                aria-expanded={menuOpen}
+                aria-controls="mobile-navigation">
+                <span
+                  className={`hamburger-line ${menuOpen ? "translate-y-[7px] rotate-45" : ""}`}
                 />
-                <div
+                <span
                   className={`hamburger-line ${menuOpen ? "opacity-0" : ""}`}
                 />
-                <div
-                  className={`hamburger-line ${menuOpen ? "-rotate-45 -translate-y-1" : ""}`}
+                <span
+                  className={`hamburger-line ${menuOpen ? "-translate-y-[7px] -rotate-45" : ""}`}
                 />
               </button>
             </div>
@@ -245,6 +265,7 @@ function Home() {
                   ["Tentang Kami", "#about"],
                   ["Galeri Kerja", "#portfolio"],
                   ["Pelanggan", "#clients"],
+                  ["FAQ", "#faq"],
                   ["Kontak", "#contact"],
                 ].map(([label, href]) => {
                   const id = href.replace("#", "");
@@ -264,45 +285,48 @@ function Home() {
           </div>
 
           {menuOpen && (
-            <div className="rounded-b-xl border border-slate-200 border-t-0 bg-white/95 p-4 shadow-lg backdrop-blur-lg lg:hidden">
-              <ul className="space-y-3">
+            <nav
+              id="mobile-navigation"
+              className="absolute inset-x-4 top-full overflow-hidden rounded-b-2xl border border-t-0 border-slate-200 bg-white/95 p-3 shadow-xl backdrop-blur-xl dark:border-slate-700 dark:bg-slate-950/95 lg:hidden">
+              <ul className="space-y-1">
                 {[
                   ["Beranda", "#home"],
                   ["Tentang Kami", "#about"],
                   ["Galeri Kerja", "#portfolio"],
                   ["Pelanggan", "#clients"],
+                  ["FAQ", "#faq"],
                   ["Kontak", "#contact"],
                 ].map(([label, href]) => (
                   <li key={label}>
                     <a
                       href={href}
-                      className="block rounded-xl px-4 py-3 text-base font-medium text-slate-900 transition hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800"
+                      className={`block rounded-xl px-4 py-3 text-base font-medium transition ${activeSection === href.slice(1) ? "bg-slate-100 text-primary dark:bg-slate-800 dark:text-orange-300" : "text-slate-900 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800"}`}
                       onClick={() => setMenuOpen(false)}>
                       {label}
                     </a>
                   </li>
                 ))}
               </ul>
-            </div>
+            </nav>
           )}
         </div>
       </header>
 
       <main id="home">
-        <section data-reveal className="reveal-section relative mb-20 pb-10 pt-36">
+        <section data-reveal className="reveal-section relative overflow-hidden pb-16 pt-28 sm:pt-32 lg:pb-24 lg:pt-40">
           <div className="hero-glow" />
           <div className="container">
-            <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+            <div className="grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-12">
               <div className="w-full px-4">
                 <div className="section-card overflow-hidden">
                   <div className="mb-6 inline-flex items-center rounded-full bg-primary/10 px-4 py-2 text-sm font-semibold text-primary shadow-sm shadow-primary/10 dark:bg-orange-500/10 dark:text-orange-200">
                     <span className="mr-2 inline-flex h-2 w-2 rounded-full bg-primary" />
                     PT. Nepatech Global Solusindo
                   </div>
-                  <h1 className="text-4xl font-black text-slate-900 sm:text-5xl lg:text-6xl dark:text-slate-100">
+                  <h1 className="text-3xl font-black leading-tight tracking-tight text-slate-900 sm:text-5xl lg:text-6xl dark:text-slate-100">
                     Build better lab services for modern operations
                   </h1>
-                  <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl dark:text-slate-300">
+                  <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:mt-6 sm:text-xl sm:leading-8 dark:text-slate-300">
                     Maintenance, kalibrasi, dan suplay laboratorium untuk batu
                     bara dan industri analitik. Kami hadir dengan kemampuan
                     teknis yang terakreditasi dan solusi yang siap pakai.
@@ -330,10 +354,10 @@ function Home() {
                       loading="lazy"
                       src={heroSlides[activeSlide].src}
                       alt={heroSlides[activeSlide].alt}
-                      className="h-[520px] w-full object-cover transition duration-700 ease-in-out"
+                      className="h-[340px] w-full object-cover transition duration-700 ease-in-out sm:h-[460px] lg:h-[520px]"
                     />
                   ) : (
-                    <div className="h-[520px] w-full bg-slate-100 dark:bg-slate-900" />
+                    <div className="h-[340px] w-full bg-slate-100 sm:h-[460px] lg:h-[520px] dark:bg-slate-900" />
                   )}
                   <div className="absolute inset-x-0 bottom-6 px-4">
                     <div className="mx-auto flex max-w-xl flex-wrap items-center justify-between gap-3 rounded-full bg-slate-950/70 px-4 py-3 text-white backdrop-blur sm:px-6">
@@ -385,9 +409,9 @@ function Home() {
           </div>
         </section>
 
-        <section id="about" data-reveal className="reveal-section pb-32 pt-16">
+        <section id="about" data-reveal className="reveal-section py-16 lg:py-24">
           <div className="container">
-            <div className="section-card grid gap-10 px-4 py-10 lg:grid-cols-[1.1fr_0.9fr]">
+            <div className="section-card grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
               <div>
                 <span className="mb-3 inline-flex rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold text-primary">
                   Solusi Kalibrasi & Maintenance
@@ -447,13 +471,13 @@ function Home() {
           </div>
         </section>
 
-        <section id="portfolio" data-reveal className="reveal-section pb-16 pt-36">
+        <section id="portfolio" data-reveal className="reveal-section py-16 lg:py-28">
           <div className="container">
-            <div className="mb-16 px-4 text-center">
+            <div className="mb-10 px-4 text-center sm:mb-14">
               <span className="inline-flex rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold uppercase tracking-[0.2em] text-orange-600">
                 Galeri Kerja
               </span>
-              <h2 className="mt-5 text-4xl font-bold text-slate-900 dark:text-slate-100 sm:text-5xl lg:text-6xl">
+              <h2 className="mt-5 text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100 sm:text-5xl lg:text-6xl">
                 Tampilkan dokumentasi terbaik dari setiap proyek kami.
               </h2>
               <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-slate-600 dark:text-slate-300 sm:text-lg">
@@ -467,7 +491,7 @@ function Home() {
                   key={item.slug}
                   to={`/gallery/${item.slug}`}
                   data-reveal
-                  className="reveal-card group overflow-hidden rounded-[28px] border border-slate-200 bg-white p-8 text-left transition hover:-translate-y-1 hover:shadow-xl dark:border-slate-700 dark:bg-slate-950">
+                  className="reveal-card group overflow-hidden rounded-[28px] border border-slate-200 bg-white p-6 text-left transition duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-xl hover:shadow-orange-950/5 sm:p-8 dark:border-slate-700 dark:bg-slate-950 dark:hover:border-orange-500/40">
                   <p className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">
                     {item.name}
                   </p>
@@ -486,10 +510,10 @@ function Home() {
         <section
           id="clients"
           data-reveal
-          className="reveal-section bg-slate-200 pb-32 pt-36"
+          className="reveal-section bg-slate-200 py-20 lg:py-28"
           style={{ backgroundColor: "rgb(241,245,249)", color: "rgb(15,23,42)" }}>
           <div className="container">
-            <div className="mb-16 w-full px-4 text-center">
+            <div className="mb-10 w-full px-4 text-center sm:mb-14">
               <h4 className="mb-2 text-lg font-semibold text-primary">
                 Perusahaan
               </h4>
@@ -514,13 +538,13 @@ function Home() {
           </div>
         </section>
 
-        <section id="faq" data-reveal className="reveal-section bg-white pb-32 pt-36 dark:bg-slate-900">
+        <section id="faq" data-reveal className="reveal-section bg-white py-20 dark:bg-slate-900 lg:py-28">
           <div className="container">
             <div className="mb-12 px-4 text-center">
               <span className="inline-flex rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold uppercase tracking-[0.2em] text-orange-600">
                 FAQ
               </span>
-              <h2 className="mt-5 text-4xl font-bold text-slate-900 dark:text-slate-100 sm:text-5xl lg:text-6xl">
+              <h2 className="mt-5 text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100 sm:text-5xl lg:text-6xl">
                 Pertanyaan yang sering diajukan
               </h2>
               <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-slate-600 dark:text-slate-300 sm:text-lg">
@@ -536,7 +560,7 @@ function Home() {
                       key={item.question}
                       type="button"
                       onClick={() => setOpenFaqIndex(isOpen ? null : index)}
-                      className="w-full rounded-[28px] border border-slate-200 bg-slate-50 p-6 text-left transition hover:border-orange-300 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-950 dark:hover:border-orange-400 dark:hover:bg-slate-900">
+                      className="w-full rounded-2xl border border-slate-200 bg-slate-50 p-5 text-left transition sm:rounded-[28px] sm:p-6 hover:border-orange-300 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-950 dark:hover:border-orange-400 dark:hover:bg-slate-900">
                       <div className="flex items-center justify-between gap-4">
                         <span className="text-lg font-semibold text-slate-900 dark:text-slate-100">
                           {item.question}
@@ -557,12 +581,54 @@ function Home() {
             </div>
           </div>
         </section>
+
+        <section
+          id="location"
+          data-reveal
+          className="reveal-section bg-slate-50 py-20 dark:bg-slate-950 lg:py-28">
+          <div className="container px-4">
+            <div className="grid overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-[0_30px_70px_-35px_rgba(15,23,42,0.35)] dark:border-slate-700 dark:bg-slate-900 lg:grid-cols-[0.85fr_1.15fr]">
+              <div className="p-7 sm:p-10 lg:p-12">
+                <span className="inline-flex rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold uppercase tracking-[0.2em] text-orange-600">
+                  Lokasi Kami
+                </span>
+                <h2 className="mt-6 text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100 sm:text-4xl">
+                  Kunjungi kantor Nepatech
+                </h2>
+                <p className="mt-5 leading-7 text-slate-600 dark:text-slate-300">
+                  Ruko Garden Hous, Jl. Grand Wisata No.75 Blok BG 1,
+                  Lambangjaya, Tambun Selatan, Kabupaten Bekasi, Jawa Barat
+                  17510.
+                </p>
+                <a
+                  href="https://maps.app.goo.gl/YWmghbVbgQzRdMFm7"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-3 font-semibold text-white transition hover:bg-orange-500">
+                  Buka di Google Maps
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+
+              <div className="min-h-[360px] bg-slate-200 lg:min-h-[460px]">
+                <iframe
+                  title="Lokasi PT. Nepatech Global Solusindo"
+                  src="https://www.google.com/maps?q=Ruko%20Garden%20Hous%20Jl.%20Grand%20Wisata%20No.75%20Blok%20BG%201%20Bekasi%2017510&output=embed"
+                  className="h-full min-h-[360px] w-full border-0 lg:min-h-[460px]"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
       <ContactForm />
 
-      <footer className="bg-slate-950 pb-12 pt-24 text-slate-300">
-        <div className="container">
+      <footer className="bg-slate-950 pb-10 pt-16 text-slate-300 sm:pt-20">
+        <div className="container px-4">
           <div className="grid gap-10 lg:grid-cols-3">
             <div className="rounded-[32px] border border-slate-800 bg-slate-900/80 p-8 shadow-lg shadow-slate-900/20">
               <h3 className="mb-4 text-3xl font-bold text-white">
@@ -574,6 +640,13 @@ function Home() {
                 Lambangjaya, Kec. Tambun Sel., Kabupaten Bekasi, Jawa Barat
                 17510
               </p>
+              <a
+                href="https://maps.app.goo.gl/YWmghbVbgQzRdMFm7"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-5 inline-flex text-sm font-semibold text-orange-400 transition hover:text-orange-300">
+                Lihat di Google Maps ↗
+              </a>
             </div>
             <div className="rounded-[32px] border border-slate-800 bg-slate-900/80 p-8 shadow-lg shadow-slate-900/20">
               <h3 className="mb-5 text-xl font-semibold text-white">

@@ -1,5 +1,6 @@
 import { Link, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Seo from "../components/Seo";
 
 const galleryData = {
   furnace: {
@@ -39,6 +40,7 @@ const galleryData = {
 function GalleryPage() {
   const { slug } = useParams();
   const current = galleryData[slug] ?? galleryData.furnace;
+  const [pageVisible, setPageVisible] = useState(false);
 
   useEffect(() => {
     const html = document.documentElement;
@@ -56,15 +58,46 @@ function GalleryPage() {
     };
   }, []);
 
+  useEffect(() => {
+    const fadeTimer = window.setTimeout(() => setPageVisible(true), 50);
+    return () => window.clearTimeout(fadeTimer);
+  }, []);
+
+  useEffect(() => {
+    const revealTargets = document.querySelectorAll("[data-reveal]");
+    if (!("IntersectionObserver" in window)) {
+      revealTargets.forEach((el) => el.classList.add("reveal-visible"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("reveal-visible");
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.05 },
+    );
+
+    revealTargets.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div
-      className="min-h-screen bg-slate-100 dark:bg-slate-100 text-slate-800 dark:text-slate-800"
-      style={{ backgroundColor: "rgb(241,245,249)", color: "rgb(15,23,42)" }}
-    >
+      className={`page-fade min-h-screen bg-slate-100 dark:bg-slate-100 text-slate-800 dark:text-slate-800 ${pageVisible ? "page-visible" : ""}`}
+      style={{ backgroundColor: "rgb(241,245,249)", color: "rgb(15,23,42)" }}>
+      <Seo
+        title={`Galeri ${current.title}`}
+        description={`Dokumentasi pekerjaan ${current.title} dari PT. Nepatech Global Solusindo.`}
+        image={current.images[0].src}
+      />
       <header
         className="bg-white dark:bg-white py-8 text-slate-800 dark:text-slate-800"
-        style={{ backgroundColor: "#ffffff", color: "rgb(15,23,42)" }}
-      >
+        style={{ backgroundColor: "#ffffff", color: "rgb(15,23,42)" }}>
         <div className="container px-4">
           <Link to="/" className="text-sm text-primary hover:text-orange-400">
             ← Kembali ke Beranda
@@ -77,7 +110,10 @@ function GalleryPage() {
       <main className="container px-4 py-12">
         <div className="flex flex-wrap justify-center">
           {current.images.map((image) => (
-            <div key={image.src} className="w-full p-2 sm:w-1/2 lg:w-1/3">
+            <div
+              key={image.src}
+              data-reveal
+              className="reveal-card w-full p-2 sm:w-1/2 lg:w-1/3">
               <div className="overflow-hidden rounded-md shadow-md">
                 <img
                   src={image.src}

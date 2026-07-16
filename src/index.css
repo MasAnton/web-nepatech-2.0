@@ -37,7 +37,7 @@ select {
 }
 
 .section-card {
-  @apply rounded-[32px] border border-slate-200 bg-white/85 p-8 shadow-[0_30px_60px_-30px_rgba(15,23,42,0.35)] backdrop-blur text-slate-900;
+  @apply rounded-3xl border border-slate-200 bg-white/85 p-6 text-slate-900 shadow-[0_30px_60px_-30px_rgba(15,23,42,0.35)] backdrop-blur sm:rounded-[32px] sm:p-8;
 }
 
 .dark .section-card {
@@ -45,19 +45,7 @@ select {
 }
 
 .hamburger-line {
-  @apply my-1 block h-[3px] w-[26px] rounded-full bg-slate-900 transition-transform duration-300 ease-in-out;
-}
-
-.hamburger-active > span:nth-child(1) {
-  transform: rotate(45deg) translateY(8px);
-}
-
-.hamburger-active > span:nth-child(2) {
-  @apply opacity-0;
-}
-
-.hamburger-active > span:nth-child(3) {
-  transform: rotate(-45deg) translateY(-8px);
+  @apply my-0.5 block h-[2px] w-6 rounded-full bg-slate-900 transition-all duration-300 ease-in-out dark:bg-slate-100;
 }
 
 .hero-glow {
@@ -69,11 +57,6 @@ select {
 
 .card-group > *:not(:last-child) {
   margin-bottom: 1rem;
-}
-
-/* Hide images until JS mounts to avoid large image flash on first paint */
-html:not(.js-mounted) img {
-  visibility: hidden;
 }
 
 .reveal-section,
@@ -95,6 +78,15 @@ html:not(.js-mounted) img {
 
 .page-fade.page-visible {
   opacity: 1;
+}
+
+::selection {
+  background: rgba(240, 131, 0, 0.25);
+}
+
+:focus-visible {
+  outline: 3px solid rgba(240, 131, 0, 0.45);
+  outline-offset: 3px;
 }
 
 .nav-active {
