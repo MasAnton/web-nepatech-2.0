@@ -8,51 +8,51 @@ const galleryLinks = [
     slug: "furnace",
     name: "Suhu",
     title: "Furnace",
-    image: "/img/galery/Furnace/1.jpg",
+    imageBase: "/img/galery/Furnace/1",
   },
   {
     slug: "kalorimeter",
     name: "Instrument",
     title: "Kalorimeter",
-    image: "/img/galery/Kalorimeter/1.jpg",
+    imageBase: "/img/galery/Kalorimeter/1",
   },
   {
     slug: "laboratory-mill",
     name: "Laboratory Mill",
     title: "Laboratory Mill",
-    image: "/img/galery/LabMill/1.jpg",
+    imageBase: "/img/galery/LabMill/1",
   },
   {
     slug: "timbangan",
     name: "Massa",
     title: "Timbangan",
-    image: "/img/galery/Massa/1.jpg",
+    imageBase: "/img/galery/Massa/1",
   },
 ];
 
 const clientLogos = [
-  { src: "/img/PNG/atq.png", alt: "ATQ" },
-  { src: "/img/PNG/Aetra.png", alt: "Aetra" },
-  { src: "/img/PNG/Antam.png", alt: "Antam" },
-  { src: "/img/PNG/BP.png", alt: "BP" },
-  { src: "/img/PNG/BSA.png", alt: "BSA" },
-  { src: "/img/PNG/CGR.png", alt: "CGR" },
-  { src: "/img/PNG/Geomin.png", alt: "Geomin" },
-  { src: "/img/PNG/Geoservices.png", alt: "Geoservices" },
-  { src: "/img/PNG/IBIS.png", alt: "IBIS" },
-  { src: "/img/PNG/IP.png", alt: "IP" },
-  { src: "/img/PNG/Krakatau.png", alt: "Krakatau" },
-  { src: "/img/PNG/LBE.png", alt: "LBE" },
-  { src: "/img/PNG/MA.png", alt: "MA" },
-  { src: "/img/PNG/MSK.png", alt: "MSK" },
-  { src: "/img/PNG/Nusantara Power.png", alt: "Nusantara Power" },
-  { src: "/img/PNG/PJB.png", alt: "PJB" },
-  { src: "/img/PNG/PLN.png", alt: "PLN" },
-  { src: "/img/PNG/SCCI.png", alt: "SCCI" },
-  { src: "/img/PNG/Sucofindo.png", alt: "Sucofindo" },
-  { src: "/img/PNG/Surveyor Indonesia.png", alt: "Surveyor Indonesia" },
-  { src: "/img/PNG/Tek-MIRA.png", alt: "Tek-MIRA" },
-  { src: "/img/PNG/TOP.png", alt: "TOP" },
+  { src: "/img/PNG/atq.webp", alt: "ATQ" },
+  { src: "/img/PNG/Aetra.webp", alt: "Aetra" },
+  { src: "/img/PNG/Antam.webp", alt: "Antam" },
+  { src: "/img/PNG/BP.webp", alt: "BP" },
+  { src: "/img/PNG/BSA.webp", alt: "BSA" },
+  { src: "/img/PNG/CGR.webp", alt: "CGR" },
+  { src: "/img/PNG/Geomin.webp", alt: "Geomin" },
+  { src: "/img/PNG/Geoservices.webp", alt: "Geoservices" },
+  { src: "/img/PNG/IBIS.webp", alt: "IBIS" },
+  { src: "/img/PNG/IP.webp", alt: "IP" },
+  { src: "/img/PNG/Krakatau.webp", alt: "Krakatau" },
+  { src: "/img/PNG/LBE.webp", alt: "LBE" },
+  { src: "/img/PNG/MA.webp", alt: "MA" },
+  { src: "/img/PNG/MSK.webp", alt: "MSK" },
+  { src: "/img/PNG/Nusantara Power.webp", alt: "Nusantara Power" },
+  { src: "/img/PNG/PJB.webp", alt: "PJB" },
+  { src: "/img/PNG/PLN.webp", alt: "PLN" },
+  { src: "/img/PNG/SCCI.webp", alt: "SCCI" },
+  { src: "/img/PNG/Sucofindo.webp", alt: "Sucofindo" },
+  { src: "/img/PNG/Surveyor Indonesia.webp", alt: "Surveyor Indonesia" },
+  { src: "/img/PNG/Tek-MIRA.webp", alt: "Tek-MIRA" },
+  { src: "/img/PNG/TOP.webp", alt: "TOP" },
 ];
 
 const heroSlides = [
@@ -541,7 +541,9 @@ function Home() {
                   className="reveal-card group overflow-hidden rounded-[28px] border border-slate-200 bg-white text-left transition duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-xl hover:shadow-orange-950/5 dark:border-slate-700 dark:bg-slate-950 dark:hover:border-orange-500/40">
                   <div className="relative aspect-[4/3] overflow-hidden bg-slate-200">
                     <img
-                      src={item.image}
+                      src={`${item.imageBase}-480.webp`}
+                      srcSet={`${item.imageBase}-480.webp 480w, ${item.imageBase}-1280.webp 1280w`}
+                      sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
                       alt={`Dokumentasi ${item.title}`}
                       loading="lazy"
                       className="h-full w-full object-cover transition duration-500 group-hover:scale-105"

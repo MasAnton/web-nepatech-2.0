@@ -2,38 +2,38 @@ import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Seo from "../components/Seo";
 
+const createGalleryImages = (folder, label, count) =>
+  Array.from({ length: count }, (_, index) => {
+    const number = index + 1;
+    const basePath = `/img/galery/${folder}/${number}`;
+    return {
+      src: `${basePath}-480.webp`,
+      fullSrc: `${basePath}-1280.webp`,
+      srcSet: `${basePath}-480.webp 480w, ${basePath}-1280.webp 1280w`,
+      alt: `${label} ${number}`,
+    };
+  });
+
 const galleryData = {
   furnace: {
     title: "Furnace",
     heading: "Suhu",
-    images: Array.from({ length: 11 }, (_, index) => ({
-      src: `/img/galery/Furnace/${index + 1}.jpg`,
-      alt: `Furnace ${index + 1}`,
-    })),
+    images: createGalleryImages("Furnace", "Furnace", 11),
   },
   kalorimeter: {
     title: "Kalorimeter",
     heading: "Instrument",
-    images: Array.from({ length: 10 }, (_, index) => ({
-      src: `/img/galery/Kalorimeter/${index + 1}.jpg`,
-      alt: `Kalorimeter ${index + 1}`,
-    })),
+    images: createGalleryImages("Kalorimeter", "Kalorimeter", 10),
   },
   "laboratory-mill": {
     title: "Laboratory Mill",
     heading: "Laboratory Mill",
-    images: Array.from({ length: 12 }, (_, index) => ({
-      src: `/img/galery/LabMill/${index + 1}.jpg`,
-      alt: `Laboratory Mill ${index + 1}`,
-    })),
+    images: createGalleryImages("LabMill", "Laboratory Mill", 12),
   },
   timbangan: {
     title: "Timbangan",
     heading: "Massa",
-    images: Array.from({ length: 8 }, (_, index) => ({
-      src: `/img/galery/Massa/${index + 1}.jpg`,
-      alt: `Timbangan ${index + 1}`,
-    })),
+    images: createGalleryImages("Massa", "Timbangan", 8),
   },
 };
 
@@ -118,7 +118,7 @@ function GalleryPage() {
       <Seo
         title={`Galeri ${current.title}`}
         description={`Dokumentasi pekerjaan ${current.title} dari PT. Nepatech Global Solusindo.`}
-        image={current.images[0].src}
+        image={current.images[0].fullSrc}
       />
       <header
         className="border-b border-slate-200 bg-white py-10 text-slate-800 dark:bg-white dark:text-slate-800 sm:py-14"
@@ -154,6 +154,8 @@ function GalleryPage() {
               <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-slate-200">
                 <img
                   src={image.src}
+                  srcSet={image.srcSet}
+                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   alt={image.alt}
                   loading="lazy"
                   className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
@@ -198,7 +200,7 @@ function GalleryPage() {
             className="flex max-h-full max-w-6xl flex-col items-center"
             onClick={(event) => event.stopPropagation()}>
             <img
-              src={current.images[selectedIndex].src}
+              src={current.images[selectedIndex].fullSrc}
               alt={current.images[selectedIndex].alt}
               className="max-h-[80vh] max-w-full rounded-xl object-contain shadow-2xl"
             />
