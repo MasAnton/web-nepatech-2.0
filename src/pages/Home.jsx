@@ -71,6 +71,7 @@ function Home() {
   const [darkMode, setDarkMode] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
+  const [pageVisible, setPageVisible] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -81,6 +82,30 @@ function Home() {
 
   useEffect(() => {
     setIsMounted(true);
+    setTimeout(() => setPageVisible(true), 50);
+  }, []);
+
+  useEffect(() => {
+    const revealTargets = document.querySelectorAll("[data-reveal]");
+    if (!("IntersectionObserver" in window)) {
+      revealTargets.forEach((el) => el.classList.add("reveal-visible"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("reveal-visible");
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 },
+    );
+
+    revealTargets.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -93,7 +118,7 @@ function Home() {
 
   return (
     <div
-      className={`${darkMode ? "dark bg-slate-950 text-slate-100" : "bg-white text-slate-900"} min-h-screen transition-colors duration-500`}>
+      className={`${darkMode ? "dark bg-slate-950 text-slate-100" : "bg-white text-slate-900"} page-fade ${pageVisible ? "page-visible" : ""} min-h-screen transition-colors duration-500`}>
       <div className="fixed bottom-5 right-5 z-20">
         <a
           href="https://api.whatsapp.com/send?phone=6281267084525"
@@ -107,7 +132,7 @@ function Home() {
         </a>
       </div>
 
-      <header className="absolute left-0 top-0 z-10 w-full bg-transparent">
+      <header className="fixed inset-x-0 top-0 z-50 w-full bg-white/90 shadow-lg backdrop-blur-xl border-b border-slate-200 dark:bg-slate-950/90 dark:border-slate-800">
         <div className="container">
           <div className="relative flex flex-wrap items-center justify-between gap-4 px-4 py-4 lg:py-0">
             <div>
@@ -175,6 +200,7 @@ function Home() {
                   ["Tentang Kami", "#about"],
                   ["Galeri Kerja", "#portfolio"],
                   ["Pelanggan", "#clients"],
+                  ["Kontak", "#contact"],
                 ].map(([label, href]) => (
                   <li key={label}>
                     <a
@@ -192,7 +218,7 @@ function Home() {
       </header>
 
       <main id="home">
-        <section className="relative mb-20 pb-10 pt-36">
+        <section data-reveal className="reveal-section relative mb-20 pb-10 pt-36">
           <div className="hero-glow" />
           <div className="container">
             <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
@@ -288,7 +314,7 @@ function Home() {
           </div>
         </section>
 
-        <section id="about" className="pb-32 pt-16">
+        <section id="about" data-reveal className="reveal-section pb-32 pt-16">
           <div className="container">
             <div className="section-card grid gap-10 px-4 py-10 lg:grid-cols-[1.1fr_0.9fr]">
               <div>
@@ -350,7 +376,7 @@ function Home() {
           </div>
         </section>
 
-        <section id="portfolio" className="pb-16 pt-36">
+        <section id="portfolio" data-reveal className="reveal-section pb-16 pt-36">
           <div className="container">
             <div className="mb-16 px-4 text-center">
               <span className="inline-flex rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold uppercase tracking-[0.2em] text-orange-600">
@@ -369,7 +395,8 @@ function Home() {
                 <Link
                   key={item.slug}
                   to={`/gallery/${item.slug}`}
-                  className="group overflow-hidden rounded-[28px] border border-slate-200 bg-white p-8 text-left transition hover:-translate-y-1 hover:shadow-xl dark:border-slate-700 dark:bg-slate-950">
+                  data-reveal
+                  className="reveal-card group overflow-hidden rounded-[28px] border border-slate-200 bg-white p-8 text-left transition hover:-translate-y-1 hover:shadow-xl dark:border-slate-700 dark:bg-slate-950">
                   <p className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">
                     {item.name}
                   </p>
@@ -387,7 +414,8 @@ function Home() {
 
         <section
           id="clients"
-          className="bg-slate-200 pb-32 pt-36"
+          data-reveal
+          className="reveal-section bg-slate-200 pb-32 pt-36"
           style={{ backgroundColor: "rgb(241,245,249)", color: "rgb(15,23,42)" }}>
           <div className="container">
             <div className="mb-16 w-full px-4 text-center">

@@ -75,3 +75,24 @@ select {
 html:not(.js-mounted) img {
   visibility: hidden;
 }
+
+.reveal-section,
+.reveal-card {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.75s ease-out, transform 0.75s ease-out;
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-fade {
+  opacity: 0;
+  transition: opacity 0.6s ease-out;
+}
+
+.page-fade.page-visible {
+  opacity: 1;
+}
