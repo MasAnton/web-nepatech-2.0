@@ -4,14 +4,30 @@ import ContactForm from "../components/ContactForm";
 import Seo from "../components/Seo";
 
 const galleryLinks = [
-  { slug: "furnace", name: "Suhu", title: "Furnace" },
-  { slug: "kalorimeter", name: "Instrument", title: "Kalorimeter" },
+  {
+    slug: "furnace",
+    name: "Suhu",
+    title: "Furnace",
+    image: "/img/galery/Furnace/1.jpg",
+  },
+  {
+    slug: "kalorimeter",
+    name: "Instrument",
+    title: "Kalorimeter",
+    image: "/img/galery/Kalorimeter/1.jpg",
+  },
   {
     slug: "laboratory-mill",
     name: "Laboratory Mill",
     title: "Laboratory Mill",
+    image: "/img/galery/LabMill/1.jpg",
   },
-  { slug: "timbangan", name: "Massa", title: "Timbangan" },
+  {
+    slug: "timbangan",
+    name: "Massa",
+    title: "Timbangan",
+    image: "/img/galery/Massa/1.jpg",
+  },
 ];
 
 const clientLogos = [
@@ -39,32 +55,60 @@ const clientLogos = [
   { src: "/img/PNG/TOP.png", alt: "TOP" },
 ];
 
-const galleryImages = Array.from({ length: 11 }, (_, index) => ({
-  src: `/img/galery/Furnace/${index + 1}.jpg`,
-  alt: `Furnace ${index + 1}`,
-}));
-
 const heroSlides = [
   {
     src: "/img/carousel/hero/1.png",
-    alt: "Slide 1",
-    label: "Maintenance & Calibration",
+    alt: "Akreditasi KAN LK-377 IDN",
+    label: "Laboratorium terakreditasi",
   },
   {
     src: "/img/carousel/hero/2.png",
-    alt: "Slide 2",
-    label: "Laboratory Reliability",
+    alt: "Logo PT. Nepatech Global Solusindo",
+    label: "Solusi teknis dari Nepatech",
   },
   {
     src: "/img/carousel/hero/3.png",
-    alt: "Slide 3",
-    label: "Advanced Equipment",
+    alt: "Identitas PT. Nepatech Global Solusindo",
+    label: "Partner operasional tepercaya",
   },
   {
     src: "/img/carousel/hero/4.png",
-    alt: "Slide 4",
-    label: "Field Performance",
+    alt: "Sertifikasi ISO 45001",
+    label: "Berstandar ISO 45001",
   },
+];
+
+const serviceItems = [
+  {
+    number: "01",
+    title: "Kalibrasi",
+    description: "Pengukuran akurat dengan standar dan dokumentasi yang jelas.",
+  },
+  {
+    number: "02",
+    title: "Maintenance",
+    description: "Perawatan preventif dan perbaikan untuk menjaga performa alat.",
+  },
+  {
+    number: "03",
+    title: "Laboratorium",
+    description: "Dukungan teknis untuk kebutuhan operasional laboratorium.",
+  },
+  {
+    number: "04",
+    title: "Suku Cadang",
+    description: "Pengadaan komponen yang sesuai dengan spesifikasi peralatan.",
+  },
+];
+
+const navLinks = [
+  ["Beranda", "#home"],
+  ["Tentang Kami", "#about"],
+  ["Galeri Kerja", "#portfolio"],
+  ["Pelanggan", "#clients"],
+  ["FAQ", "#faq"],
+  ["Lokasi", "#location"],
+  ["Kontak", "#contact"],
 ];
 
 const faqItems = [
@@ -270,22 +314,19 @@ function Home() {
 
             <nav className="hidden lg:block lg:order-2">
               <ul className="flex">
-                {[
-                  ["Beranda", "#home"],
-                  ["Tentang Kami", "#about"],
-                  ["Galeri Kerja", "#portfolio"],
-                  ["Pelanggan", "#clients"],
-                  ["FAQ", "#faq"],
-                  ["Lokasi", "#location"],
-                  ["Kontak", "#contact"],
-                ].map(([label, href]) => {
+                {navLinks.map(([label, href]) => {
                   const id = href.replace("#", "");
                   const isActive = activeSection === id;
+                  const isContact = id === "contact";
                   return (
                     <li key={label} className="group">
                       <a
                         href={href}
-                        className={`mx-3 flex py-2 text-sm transition xl:mx-5 xl:text-base ${isActive ? "border-b-4 border-b-primary text-primary font-semibold" : "text-slate-900 group-hover:border-b-4 group-hover:border-b-primary dark:text-slate-100"}`}>
+                        className={
+                          isContact
+                            ? "ml-3 inline-flex rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-orange-500 xl:ml-5 xl:text-base"
+                            : `mx-3 flex py-2 text-sm transition xl:mx-5 xl:text-base ${isActive ? "border-b-4 border-b-primary font-semibold text-primary" : "text-slate-900 group-hover:border-b-4 group-hover:border-b-primary dark:text-slate-100"}`
+                        }>
                         {label}
                       </a>
                     </li>
@@ -300,19 +341,11 @@ function Home() {
               id="mobile-navigation"
               className="absolute inset-x-4 top-full overflow-hidden rounded-b-2xl border border-t-0 border-slate-200 bg-white/95 p-3 shadow-xl backdrop-blur-xl dark:border-slate-700 dark:bg-slate-950/95 lg:hidden">
               <ul className="space-y-1">
-                {[
-                  ["Beranda", "#home"],
-                  ["Tentang Kami", "#about"],
-                  ["Galeri Kerja", "#portfolio"],
-                  ["Pelanggan", "#clients"],
-                  ["FAQ", "#faq"],
-                  ["Lokasi", "#location"],
-                  ["Kontak", "#contact"],
-                ].map(([label, href]) => (
+                {navLinks.map(([label, href]) => (
                   <li key={label}>
                     <a
                       href={href}
-                      className={`block rounded-xl px-4 py-3 text-base font-medium transition ${activeSection === href.slice(1) ? "bg-slate-100 text-primary dark:bg-slate-800 dark:text-orange-300" : "text-slate-900 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800"}`}
+                      className={`block rounded-xl px-4 py-3 text-base font-medium transition ${href === "#contact" ? "bg-primary text-center font-semibold text-white hover:bg-orange-500" : activeSection === href.slice(1) ? "bg-slate-100 text-primary dark:bg-slate-800 dark:text-orange-300" : "text-slate-900 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800"}`}
                       onClick={() => setMenuOpen(false)}>
                       {label}
                     </a>
@@ -336,10 +369,10 @@ function Home() {
                     PT. Nepatech Global Solusindo
                   </div>
                   <h1 className="text-3xl font-black leading-tight tracking-tight text-slate-900 sm:text-5xl lg:text-6xl dark:text-slate-100">
-                    Build better lab services for modern operations
+                    Solusi laboratorium andal untuk operasional modern
                   </h1>
                   <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:mt-6 sm:text-xl sm:leading-8 dark:text-slate-300">
-                    Maintenance, kalibrasi, dan suplay laboratorium untuk batu
+                    Maintenance, kalibrasi, dan supply laboratorium untuk batu
                     bara dan industri analitik. Kami hadir dengan kemampuan
                     teknis yang terakreditasi dan solusi yang siap pakai.
                   </p>
@@ -360,16 +393,18 @@ function Home() {
                 </div>
               </div>
               <div className="w-full px-4">
-                <div className="relative overflow-hidden rounded-[28px] border border-slate-200 bg-slate-100 shadow-xl shadow-slate-900/5 dark:border-slate-700 dark:bg-slate-900">
+                <div className="relative overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-xl shadow-slate-900/5 dark:border-slate-700">
                   {isMounted ? (
                     <img
-                      loading="lazy"
+                      key={heroSlides[activeSlide].src}
+                      loading="eager"
+                      fetchPriority="high"
                       src={heroSlides[activeSlide].src}
                       alt={heroSlides[activeSlide].alt}
-                      className="h-[340px] w-full object-cover transition duration-700 ease-in-out sm:h-[460px] lg:h-[520px]"
+                      className="hero-slide h-[340px] w-full object-contain p-8 pb-28 sm:h-[460px] sm:p-12 sm:pb-32 lg:h-[520px]"
                     />
                   ) : (
-                    <div className="h-[340px] w-full bg-slate-100 sm:h-[460px] lg:h-[520px] dark:bg-slate-900" />
+                    <div className="h-[340px] w-full bg-white sm:h-[460px] lg:h-[520px]" />
                   )}
                   <div className="absolute inset-x-0 bottom-6 px-4">
                     <div className="mx-auto flex max-w-xl flex-wrap items-center justify-between gap-3 rounded-full bg-slate-950/70 px-4 py-3 text-white backdrop-blur sm:px-6">
@@ -388,8 +423,9 @@ function Home() {
                                 heroSlides.length,
                             )
                           }
-                          className="rounded-full bg-white/10 px-3 py-2 text-lg transition hover:bg-white/20">
-                          ‹
+                          className="rounded-full bg-white/10 px-3 py-2 text-lg transition hover:bg-white/20"
+                          aria-label="Slide sebelumnya">
+                          <span aria-hidden="true">‹</span>
                         </button>
                         <button
                           type="button"
@@ -398,8 +434,9 @@ function Home() {
                               (current) => (current + 1) % heroSlides.length,
                             )
                           }
-                          className="rounded-full bg-white/10 px-3 py-2 text-lg transition hover:bg-white/20">
-                          ›
+                          className="rounded-full bg-white/10 px-3 py-2 text-lg transition hover:bg-white/20"
+                          aria-label="Slide berikutnya">
+                          <span aria-hidden="true">›</span>
                         </button>
                       </div>
                     </div>
@@ -438,20 +475,18 @@ function Home() {
                   rutin.
                 </p>
                 <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                  {[
-                    "Kalibrasi",
-                    "Maintenance",
-                    "Laboratorium",
-                    "Suku Cadang",
-                  ].map((item) => (
+                  {serviceItems.map((item) => (
                     <div
-                      key={item}
-                      className="rounded-3xl border border-slate-200 bg-slate-50 px-5 py-6 shadow-sm dark:border-slate-700 dark:bg-slate-950">
-                      <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                        {item}
+                      key={item.title}
+                      className="group rounded-3xl border border-slate-200 bg-slate-50 px-5 py-6 transition duration-300 hover:-translate-y-1 hover:border-orange-300 hover:bg-white hover:shadow-lg dark:border-slate-700 dark:bg-slate-950 dark:hover:border-orange-500/50 dark:hover:bg-slate-900">
+                      <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-orange-100 text-xs font-bold text-primary transition group-hover:bg-primary group-hover:text-white dark:bg-orange-500/15">
+                        {item.number}
+                      </span>
+                      <h3 className="mt-4 text-lg font-semibold text-slate-900 dark:text-slate-100">
+                        {item.title}
                       </h3>
-                      <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-                        Solusi profesional untuk kebutuhan operasional Anda.
+                      <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
+                        {item.description}
                       </p>
                     </div>
                   ))}
@@ -497,22 +532,36 @@ function Home() {
                 pemasangan peralatan laboratorium di lapangan.
               </p>
             </div>
-            <div className="grid gap-6 px-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-6 px-4 sm:grid-cols-2 xl:grid-cols-4">
               {galleryLinks.map((item) => (
                 <Link
                   key={item.slug}
                   to={`/gallery/${item.slug}`}
                   data-reveal
-                  className="reveal-card group overflow-hidden rounded-[28px] border border-slate-200 bg-white p-6 text-left transition duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-xl hover:shadow-orange-950/5 sm:p-8 dark:border-slate-700 dark:bg-slate-950 dark:hover:border-orange-500/40">
-                  <p className="text-sm font-semibold uppercase tracking-[0.24em] text-primary">
-                    {item.name}
-                  </p>
-                  <h3 className="mt-4 text-2xl font-bold text-slate-900 dark:text-slate-100">
-                    {item.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-7 text-slate-500 dark:text-slate-400">
-                    Lihat galeri dokumentasi lengkap untuk kategori alat ini.
-                  </p>
+                  className="reveal-card group overflow-hidden rounded-[28px] border border-slate-200 bg-white text-left transition duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-xl hover:shadow-orange-950/5 dark:border-slate-700 dark:bg-slate-950 dark:hover:border-orange-500/40">
+                  <div className="relative aspect-[4/3] overflow-hidden bg-slate-200">
+                    <img
+                      src={item.image}
+                      alt={`Dokumentasi ${item.title}`}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/45 via-transparent to-transparent" />
+                    <span className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-xl text-slate-900 shadow-sm backdrop-blur transition group-hover:bg-primary group-hover:text-white">
+                      <span aria-hidden="true">↗</span>
+                    </span>
+                  </div>
+                  <div className="p-6">
+                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">
+                      {item.name}
+                    </p>
+                    <h3 className="mt-3 text-2xl font-bold text-slate-900 dark:text-slate-100">
+                      {item.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-6 text-slate-500 dark:text-slate-400">
+                      Lihat dokumentasi pekerjaan selengkapnya.
+                    </p>
+                  </div>
                 </Link>
               ))}
             </div>
@@ -534,16 +583,25 @@ function Home() {
                 style={{ color: "rgb(35,25,22)" }}>
                 Yang Pernah Bekerjasama
               </h2>
+              <p className="mx-auto mt-5 max-w-2xl leading-7 text-slate-600">
+                Dipercaya oleh perusahaan energi, pertambangan, laboratorium,
+                dan industri di berbagai wilayah Indonesia.
+              </p>
             </div>
             <div className="w-full px-4">
-              <div className="flex flex-wrap items-center justify-center">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-6">
                 {clientLogos.map((logo) => (
-                  <a
+                  <div
                     key={logo.alt}
-                    href="#"
-                    className="mx-4 max-w-[60px] py-4 md:max-w-[100px] lg:mx-6 lg:max-w-[120px] xl:mx-8">
-                    <img loading="lazy" src={logo.src} alt={logo.alt} />
-                  </a>
+                    title={logo.alt}
+                    className="group flex h-24 items-center justify-center rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-md sm:h-28">
+                    <img
+                      loading="lazy"
+                      src={logo.src}
+                      alt={logo.alt}
+                      className="max-h-14 max-w-full object-contain grayscale opacity-60 transition duration-300 group-hover:grayscale-0 group-hover:opacity-100"
+                    />
+                  </div>
                 ))}
               </div>
             </div>
