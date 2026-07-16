@@ -72,6 +72,7 @@ function Home() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
   const [pageVisible, setPageVisible] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -106,6 +107,30 @@ function Home() {
 
     revealTargets.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const sections = ["home", "about", "portfolio", "clients", "contact"];
+    const observers = [];
+
+    sections.forEach((id) => {
+      const target = document.getElementById(id);
+      if (!target) return;
+
+      const sectionObserver = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setActiveSection(id);
+          }
+        },
+        { rootMargin: "-40% 0px -55% 0px", threshold: 0.2 },
+      );
+
+      sectionObserver.observe(target);
+      observers.push(sectionObserver);
+    });
+
+    return () => observers.forEach((observer) => observer.disconnect());
   }, []);
 
   useEffect(() => {
@@ -179,15 +204,19 @@ function Home() {
                   ["Galeri Kerja", "#portfolio"],
                   ["Pelanggan", "#clients"],
                   ["Kontak", "#contact"],
-                ].map(([label, href]) => (
-                  <li key={label} className="group">
-                    <a
-                      href={href}
-                      className="mx-5 flex py-2 text-base text-slate-900 transition group-hover:border-b-4 group-hover:border-b-primary dark:text-slate-100">
-                      {label}
-                    </a>
-                  </li>
-                ))}
+                ].map(([label, href]) => {
+                  const id = href.replace("#", "");
+                  const isActive = activeSection === id;
+                  return (
+                    <li key={label} className="group">
+                      <a
+                        href={href}
+                        className={`mx-5 flex py-2 text-base transition ${isActive ? "border-b-4 border-b-primary text-primary font-semibold" : "text-slate-900 group-hover:border-b-4 group-hover:border-b-primary dark:text-slate-100"}`}>
+                        {label}
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             </nav>
           </div>

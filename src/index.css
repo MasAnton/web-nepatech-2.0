@@ -96,3 +96,14 @@ html:not(.js-mounted) img {
 .page-fade.page-visible {
   opacity: 1;
 }
+
+.nav-active {
+  color: #f97316;
+  border-bottom-width: 4px;
+  border-color: #fb923c;
+  font-weight: 600;
+}
+
+.page-fade.page-visible {
+  opacity: 1;
+}
