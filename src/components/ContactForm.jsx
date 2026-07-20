@@ -46,9 +46,9 @@ function ContactForm() {
     <section
       id="contact"
       data-reveal
-      className="reveal-section bg-slate-50 py-20 dark:bg-slate-950 lg:py-28">
+      className="reveal-section scroll-mt-24 bg-slate-50 py-20 dark:bg-slate-950 lg:py-28">
       <div className="container px-4">
-        <div className="mx-auto grid max-w-6xl overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-[0_30px_70px_-35px_rgba(15,23,42,0.35)] dark:border-slate-700 dark:bg-slate-900 lg:grid-cols-[0.8fr_1.2fr]">
+        <div className="mx-auto grid max-w-6xl overflow-hidden rounded-[32px] border border-slate-200 border-t-4 border-t-primary bg-white shadow-[0_30px_70px_-35px_rgba(15,23,42,0.35)] dark:border-slate-700 dark:border-t-primary dark:bg-slate-900 lg:grid-cols-[0.8fr_1.2fr]">
           <div className="bg-slate-950 p-7 text-white sm:p-10 lg:p-12">
             <span className="inline-flex rounded-full bg-orange-500/15 px-4 py-2 text-sm font-semibold text-orange-300">
               Kontak Kami
@@ -64,7 +64,16 @@ function ContactForm() {
               <p className="font-semibold text-white">
                 PT. Nepatech Global Solusindo
               </p>
-              <p className="mt-2">nepatech1gs@gmail.com</p>
+              <a
+                href="mailto:operation@ntgs.co.id"
+                className="mt-2 block transition hover:text-orange-300">
+                operation@ntgs.co.id
+              </a>
+              <a
+                href="tel:+6281267084525"
+                className="mt-1 block transition hover:text-orange-300">
+                +62 812-6708-4525
+              </a>
             </div>
           </div>
 

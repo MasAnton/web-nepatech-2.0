@@ -5,11 +5,14 @@ import sharp from "sharp";
 const logoRoot = path.resolve("public/img/PNG");
 const entries = await readdir(logoRoot, { withFileTypes: true });
 const sources = entries
-  .filter((entry) => entry.isFile() && /\.png$/i.test(entry.name))
+  .filter(
+    (entry) =>
+      entry.isFile() && /\.(?:png|jpe?g|gif|svg)$/i.test(entry.name),
+  )
   .map((entry) => path.join(logoRoot, entry.name));
 
 if (sources.length === 0) {
-  console.log("No PNG client logos found. Nothing to optimize.");
+  console.log("No new client logo sources found. Nothing to optimize.");
   process.exit(0);
 }
 
@@ -17,11 +20,12 @@ let inputBytes = 0;
 let outputBytes = 0;
 
 for (const source of sources) {
-  const output = source.replace(/\.png$/i, ".webp");
+  const output = source.replace(/\.(?:png|jpe?g|gif|svg)$/i, ".webp");
   inputBytes += (await stat(source)).size;
 
   await sharp(source)
     .rotate()
+    .trim({ threshold: 10 })
     .resize({ width: 320, withoutEnlargement: true })
     .webp({ nearLossless: true, quality: 90, effort: 6 })
     .toFile(output);

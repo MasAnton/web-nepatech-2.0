@@ -1,41 +1,9 @@
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Seo from "../components/Seo";
+import galleryManifest from "../data/gallery-manifest.json";
 
-const createGalleryImages = (folder, label, count) =>
-  Array.from({ length: count }, (_, index) => {
-    const number = index + 1;
-    const basePath = `/img/galery/${folder}/${number}`;
-    return {
-      src: `${basePath}-480.webp`,
-      fullSrc: `${basePath}-1280.webp`,
-      srcSet: `${basePath}-480.webp 480w, ${basePath}-1280.webp 1280w`,
-      alt: `${label} ${number}`,
-    };
-  });
-
-const galleryData = {
-  furnace: {
-    title: "Furnace",
-    heading: "Suhu",
-    images: createGalleryImages("Furnace", "Furnace", 11),
-  },
-  kalorimeter: {
-    title: "Kalorimeter",
-    heading: "Instrument",
-    images: createGalleryImages("Kalorimeter", "Kalorimeter", 10),
-  },
-  "laboratory-mill": {
-    title: "Laboratory Mill",
-    heading: "Laboratory Mill",
-    images: createGalleryImages("LabMill", "Laboratory Mill", 12),
-  },
-  timbangan: {
-    title: "Timbangan",
-    heading: "Massa",
-    images: createGalleryImages("Massa", "Timbangan", 8),
-  },
-};
+const galleryData = galleryManifest.categories;
 
 function GalleryPage() {
   const { slug } = useParams();
@@ -125,7 +93,7 @@ function GalleryPage() {
         style={{ backgroundColor: "#ffffff", color: "rgb(15,23,42)" }}>
         <div className="container px-4">
           <Link
-            to="/"
+            to="/#portfolio"
             className="inline-flex items-center gap-2 rounded-full bg-orange-50 px-4 py-2 text-sm font-semibold text-primary transition hover:bg-orange-100 hover:text-orange-600">
             <span aria-hidden="true">←</span> Kembali ke Beranda
           </Link>

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 const siteName = "PT. Nepatech Global Solusindo";
 const defaultDescription =
-  "Jasa kalibrasi, maintenance, dan supply peralatan laboratorium untuk industri batu bara dan analitik di Indonesia.";
+  "Laboratorium kalibrasi terakreditasi KAN LK-377-IDN untuk ruang lingkup tertentu, serta layanan konsultansi, pelatihan, maintenance, dan supply.";
 
 function setMeta(attribute, key, content) {
   let element = document.head.querySelector(`meta[${attribute}="${key}"]`);
