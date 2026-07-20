@@ -1,5 +1,5 @@
-import { lazy, Suspense, useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 
@@ -9,6 +9,18 @@ const ServicePage = lazy(() => import("./pages/ServicePage"));
 const INTRO_SESSION_KEY = "nepatech-intro-shown";
 const INTRO_HOLD_MS = 1640;
 const INTRO_TOTAL_MS = 2000;
+const ROUTE_TRANSITION_HOLD_MS = 900;
+const ROUTE_TRANSITION_TOTAL_MS = 1260;
+const INNER_PAGE_PATHS = new Set([
+  "/layanan-kalibrasi",
+  "/ruang-lingkup",
+  "/konsultasi-pelatihan",
+  "/galeri",
+  "/kontak",
+]);
+
+const isInnerPagePath = (pathname) =>
+  INNER_PAGE_PATHS.has(pathname) || pathname.startsWith("/gallery/");
 
 const shouldShowIntro = () => {
   if (typeof window === "undefined" || window.location.pathname !== "/") {
@@ -41,10 +53,46 @@ function LazyRoute({ children }) {
 }
 
 function App() {
+  const { pathname } = useLocation();
+  const previousPathRef = useRef(pathname);
   const [introStage, setIntroStage] = useState(() =>
     shouldShowIntro() ? "visible" : "done",
   );
-  const introVisible = introStage !== "done";
+  const [routeTransitionStage, setRouteTransitionStage] = useState("done");
+  const overlayVisible =
+    introStage !== "done" || routeTransitionStage !== "done";
+  const overlayLeaving =
+    introStage === "leaving" || routeTransitionStage === "leaving";
+
+  useLayoutEffect(() => {
+    const previousPath = previousPathRef.current;
+    previousPathRef.current = pathname;
+
+    const isHomeInnerPageTransition =
+      (previousPath === "/" && isInnerPagePath(pathname)) ||
+      (isInnerPagePath(previousPath) && pathname === "/");
+    const prefersReducedMotion =
+      window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
+
+    if (!isHomeInnerPageTransition || prefersReducedMotion) return undefined;
+
+    document.documentElement.classList.add("site-intro-active");
+    setRouteTransitionStage("visible");
+
+    const leaveTimer = window.setTimeout(() => {
+      setRouteTransitionStage("leaving");
+    }, ROUTE_TRANSITION_HOLD_MS);
+    const finishTimer = window.setTimeout(() => {
+      document.documentElement.classList.remove("site-intro-active");
+      setRouteTransitionStage("done");
+    }, ROUTE_TRANSITION_TOTAL_MS);
+
+    return () => {
+      window.clearTimeout(leaveTimer);
+      window.clearTimeout(finishTimer);
+      document.documentElement.classList.remove("site-intro-active");
+    };
+  }, [pathname]);
 
   useEffect(() => {
     if (introStage === "done") return undefined;
@@ -74,11 +122,11 @@ function App() {
 
   return (
     <>
-      {introVisible && (
+      {overlayVisible && (
         <div
           role="status"
           aria-live="polite"
-          className={`site-intro${introStage === "leaving" ? " is-leaving" : ""}`}>
+          className={`site-intro${overlayLeaving ? " is-leaving" : ""}`}>
           <div className="site-intro__logo-wrap">
             <img
               src="/img/logoNGS_dark.png?v=2"
@@ -94,8 +142,8 @@ function App() {
       )}
 
       <div
-        aria-hidden={introVisible ? "true" : undefined}
-        inert={introVisible ? "" : undefined}>
+        aria-hidden={overlayVisible ? "true" : undefined}
+        inert={overlayVisible ? "" : undefined}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
