@@ -2,8 +2,4 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/ntgw5855/public_html/
-    - /bin/cp index.html $DEPLOYPATH
-    - /bin/cp/src input.css $DEPLOYPATH
-    - /bin/cp -R dist $DEPLOYPATH
-    - /bin/cp -R galeri_pages $DEPLOYPATH
-    - /bin/cp -R src $DEPLOYPATH
+    - /bin/cp -R dist/. $DEPLOYPATH

@@ -78,8 +78,19 @@ const clientLogos = [
   },
   {
     src: "/img/PNG/gema-kreasi-perdana.webp",
-    alt: "PT Gema Kreasi Perdana",
-    caption: "Gema Kreasi Perdana",
+    alt: "PT Gema Kreasi Perdana (GKP)",
+    caption: "Gema Kreasi Perdana (GKP)",
+  },
+  {
+    src: "/img/PNG/mandiri-coal.webp",
+    alt: "Mandiri Coal - PT Mandiri Intiperkasa",
+    caption: "Mandiri Coal",
+  },
+  {
+    src: "/img/PNG/BPP.webp",
+    alt: "PT Bara Prima Pratama",
+    caption: "Bara Prima Pratama",
+    portrait: true,
   },
   {
     src: "/img/certifications/indocement.webp",
@@ -95,6 +106,40 @@ const clientLogos = [
   {
     src: "/img/PNG/hk-pati.webp",
     alt: "PT H-One Kogi Prima Auto Technologies Indonesia",
+  },
+  {
+    src: "/img/PNG/techno-consult-indonesia.webp",
+    alt: "PT Techno Consult Indonesia",
+    caption: "Techno Consult Indonesia",
+    portrait: true,
+  },
+  {
+    src: "/img/PNG/leon-testing-consultancy.webp",
+    alt: "PT Leon Testing and Consultancy",
+    caption: "Leon Testing & Consultancy",
+  },
+  {
+    src: "/img/PNG/ugm.webp",
+    alt: "Universitas Gadjah Mada",
+    caption: "Universitas Gadjah Mada",
+  },
+  {
+    src: "/img/PNG/unsoed.webp",
+    alt: "Universitas Jenderal Soedirman",
+    caption: "Universitas Jenderal Soedirman",
+    portrait: true,
+  },
+  {
+    src: "/img/PNG/itb.webp",
+    alt: "Institut Teknologi Bandung",
+    caption: "Institut Teknologi Bandung",
+    portrait: true,
+  },
+  {
+    src: "/img/PNG/universitas-indonesia.webp",
+    alt: "Universitas Indonesia",
+    caption: "Universitas Indonesia",
+    portrait: true,
   },
 ];
 
@@ -173,12 +218,14 @@ const heroSlides = [
     src: "/img/certifications/ntau.webp",
     alt: "Logo PT. Nepatech Akurasindo Utama",
     label: "PT. Nepatech Akurasindo Utama",
+    compactLogo: true,
   },
   {
     id: "cv-nepa",
     src: "/img/carousel/hero/3.png",
     alt: "Logo CV. Nepa",
     label: "CV. Nepa",
+    compactLogo: true,
   },
 ];
 
@@ -291,23 +338,29 @@ const faqItems = [
   },
 ];
 
+const showLoadedImage = (event) => {
+  const image = event.currentTarget;
+  image.classList.add("is-loaded");
+  image.parentElement?.classList.add("media-loaded");
+};
+
 function CredentialHeroSlide({ slide }) {
   const hasMultipleLogos = slide.logos.length > 1;
 
   return (
     <div
-      className="hero-slide flex h-[340px] w-full flex-col items-center justify-center bg-gradient-to-br from-white via-slate-50 to-orange-50 px-5 pb-28 pt-5 text-center sm:h-[460px] sm:px-10 sm:pb-32 sm:pt-8 lg:h-[520px]"
+      className="hero-slide flex h-[210px] w-full flex-col items-center justify-center bg-gradient-to-br from-white via-slate-50 to-orange-50 px-3 py-3 text-center sm:h-[300px] sm:px-10 sm:py-8 md:h-[360px] lg:h-[400px]"
       role="group"
       aria-roledescription="slide"
       aria-label={slide.label}>
       <span className="inline-flex rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-orange-700 sm:text-xs">
         {slide.eyebrow}
       </span>
-      <h2 className="mt-2 text-xl font-black tracking-tight text-slate-900 sm:mt-3 sm:text-3xl">
+      <h2 className="mt-2 text-xl font-black tracking-tight text-slate-900 sm:mt-3 sm:text-3xl lg:text-4xl">
         {slide.title}
       </h2>
       {slide.description && (
-        <p className="mt-1 max-w-lg text-[11px] font-medium leading-4 text-slate-600 sm:mt-2 sm:text-sm sm:leading-5">
+        <p className="mt-1 max-w-2xl text-[11px] font-medium leading-4 text-slate-600 sm:mt-2 sm:text-sm sm:leading-5 lg:text-base lg:leading-6">
           {slide.description}
         </p>
       )}
@@ -315,7 +368,7 @@ function CredentialHeroSlide({ slide }) {
       <div
         className={
           hasMultipleLogos
-            ? "mt-3 grid w-full max-w-lg grid-cols-3 gap-2 sm:mt-5 sm:gap-3"
+            ? "mt-3 grid w-full max-w-3xl grid-cols-3 gap-2 sm:mt-5 sm:gap-4"
             : "mt-3 flex justify-center sm:mt-5"
         }>
         {slide.logos.map((logo) => (
@@ -323,21 +376,24 @@ function CredentialHeroSlide({ slide }) {
             key={logo.src}
             className={`flex items-center justify-center rounded-2xl border border-slate-200 bg-white shadow-sm ${
               hasMultipleLogos
-                ? "min-h-16 flex-col gap-1 p-2 sm:min-h-24 sm:gap-2 sm:p-3"
-                : "h-16 w-36 p-2 sm:h-24 sm:w-52 sm:p-3"
+                ? "min-h-20 flex-col gap-1 p-2 sm:min-h-28 sm:gap-2 sm:p-4 lg:min-h-32 lg:p-5"
+                : "h-16 w-40 p-2 sm:h-36 sm:w-80 sm:p-4 lg:h-40 lg:w-96"
             }`}>
             <img
               src={logo.src}
               alt={logo.alt}
-              loading="lazy"
+              loading="eager"
+              decoding="async"
+              onLoad={showLoadedImage}
+              onError={showLoadedImage}
               className={
                 hasMultipleLogos
-                  ? "h-8 max-w-full object-contain sm:h-12"
-                  : "h-full w-full object-contain"
+                  ? "smooth-media h-10 max-w-full object-contain sm:h-16 lg:h-20"
+                  : "smooth-media h-full w-full object-contain"
               }
             />
             {logo.name && (
-              <span className="text-[8px] font-bold leading-tight text-slate-700 sm:text-[10px]">
+              <span className="text-[8px] font-bold leading-tight text-slate-700 sm:text-[10px] lg:text-xs">
                 {logo.name}
               </span>
             )}
@@ -346,11 +402,11 @@ function CredentialHeroSlide({ slide }) {
       </div>
 
       {slide.details && (
-        <div className="mt-2 grid w-full max-w-lg grid-cols-1 gap-1 sm:mt-4 sm:grid-cols-3 sm:gap-2">
+        <div className="mt-2 grid w-full max-w-3xl grid-cols-3 gap-1 sm:mt-4 sm:gap-3">
           {slide.details.map((detail) => (
             <div
               key={detail.title}
-              className="flex items-center justify-between gap-2 rounded-xl bg-slate-900 px-3 py-1.5 text-left text-white sm:block sm:px-3 sm:py-2 sm:text-center">
+              className="block rounded-xl bg-slate-900 px-2 py-2 text-center text-white sm:px-3">
               <p className="text-[9px] font-bold sm:text-xs">{detail.title}</p>
               <p className="break-all text-[8px] text-slate-300 sm:mt-1 sm:text-[9px]">
                 No. {detail.value}
@@ -377,7 +433,10 @@ function Home() {
     );
   });
   const [activeSlide, setActiveSlide] = useState(0);
-  const [carouselPaused, setCarouselPaused] = useState(false);
+  const [carouselPaused, setCarouselPaused] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
+  });
   const [activeSection, setActiveSection] = useState(() => {
     if (typeof window === "undefined") return "home";
     const hash = decodeURIComponent(window.location.hash.slice(1));
@@ -385,21 +444,53 @@ function Home() {
     return navLinks.some(([, href]) => href === `#${hash}`) ? hash : "home";
   });
   const [openFaqIndex, setOpenFaqIndex] = useState(0);
+  const [showAllClients, setShowAllClients] = useState(false);
   const currentHeroSlide = heroSlides[activeSlide];
 
   useEffect(() => {
-    if (
-      carouselPaused ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) {
-      return undefined;
-    }
+    if (carouselPaused) return undefined;
 
-    const interval = setInterval(() => {
+    const timeout = window.setTimeout(() => {
       setActiveSlide((current) => (current + 1) % heroSlides.length);
     }, 5000);
-    return () => clearInterval(interval);
-  }, [carouselPaused]);
+    return () => window.clearTimeout(timeout);
+  }, [activeSlide, carouselPaused]);
+
+  useEffect(() => {
+    const imageSources = heroSlides.flatMap((slide) => [
+      ...(slide.src ? [slide.src] : []),
+      ...(slide.logos?.map((logo) => logo.src) ?? []),
+    ]);
+    let cancelled = false;
+
+    const preloadCarouselImages = () => {
+      if (cancelled) return;
+      imageSources.forEach((src) => {
+        const image = new Image();
+        image.decoding = "async";
+        image.src = src;
+      });
+    };
+
+    const idleCallback = window.requestIdleCallback?.(
+      preloadCarouselImages,
+      { timeout: 1200 },
+    );
+    const fallbackTimer =
+      idleCallback === undefined
+        ? window.setTimeout(preloadCarouselImages, 150)
+        : undefined;
+
+    return () => {
+      cancelled = true;
+      if (idleCallback !== undefined) {
+        window.cancelIdleCallback?.(idleCallback);
+      }
+      if (fallbackTimer !== undefined) {
+        window.clearTimeout(fallbackTimer);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const targetId = decodeURIComponent(window.location.hash.slice(1));
@@ -504,6 +595,26 @@ function Home() {
     });
   };
 
+  const handleSectionNavigation = (event, href) => {
+    const targetId = href.replace("#", "");
+    const target = document.getElementById(targetId);
+    if (!target) return;
+
+    event.preventDefault();
+    setMenuOpen(false);
+    setActiveSection(targetId === "calibration-scope" ? "about" : targetId);
+
+    const prefersReducedMotion =
+      window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
+    target.scrollIntoView({
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+      block: "start",
+    });
+
+    const nextUrl = `${window.location.pathname}${window.location.search}${href}`;
+    window.history.replaceState(window.history.state, "", nextUrl);
+  };
+
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
   }, [darkMode]);
@@ -528,14 +639,14 @@ function Home() {
     <div
       className={`${darkMode ? "dark bg-slate-950 text-slate-100" : "bg-white text-slate-900"} min-h-screen transition-colors duration-500`}>
       <Seo />
-      <div className="fixed bottom-4 right-4 z-40 sm:bottom-5 sm:right-5">
+      <div className="fixed bottom-3 right-3 z-40 sm:bottom-5 sm:right-5">
         <a
           href="https://api.whatsapp.com/send?phone=6281267084525"
           target="_blank"
           rel="noreferrer">
           <img
             src="/img/logoWA.png"
-            className="w-[50px] transition duration-500 hover:w-[55px] md:w-[70px] hover:md:w-[75px] lg:w-[80px] hover:lg:w-[85px]"
+            className="w-[44px] transition-transform duration-300 hover:scale-110 sm:w-[50px] md:w-[70px] lg:w-[80px]"
             alt="WhatsApp"
           />
         </a>
@@ -543,30 +654,33 @@ function Home() {
 
       <header
         data-site-header
-        className="fixed inset-x-0 top-0 z-50 w-full border-b border-slate-200 bg-white/90 shadow-lg backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/90">
+        className="fixed inset-x-0 top-0 z-50 w-full border-b border-slate-200 bg-white/95 shadow-lg backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/95">
         <div className="container relative">
-          <div className="flex items-center justify-between gap-3 px-4 py-3 lg:py-0">
+          <div className="flex items-center justify-between gap-2 px-0 py-2 sm:gap-3 sm:px-4 sm:py-3 lg:py-0">
             <div>
               <a
                 href="#home"
-                className="inline-flex rounded-xl p-1.5 transition-opacity duration-300 hover:opacity-90">
+                onClick={(event) =>
+                  handleSectionNavigation(event, "#home")
+                }
+                className="inline-flex rounded-lg p-1 transition-opacity duration-300 hover:opacity-90 sm:rounded-xl sm:p-1.5">
                 <img
                   src={
                     darkMode
                       ? "/img/logoNGS_dark.png?v=2"
                       : "/img/logoNGS.png"
                   }
-                  className="w-[100px] sm:w-[120px]"
+                  className="w-[82px] sm:w-[120px]"
                   alt="PT. Nepatech Global Solusindo"
                 />
               </a>
             </div>
 
-            <div className="flex items-center gap-3 lg:order-3">
+            <div className="flex items-center gap-2 sm:gap-3 lg:order-3">
               <button
                 type="button"
                 onClick={toggleDarkMode}
-                className="inline-flex items-center whitespace-nowrap rounded-full border border-slate-300 bg-white/90 px-3 py-2 text-xs font-semibold text-slate-900 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/90 dark:text-slate-100 dark:hover:bg-slate-800 sm:px-4 sm:text-sm"
+                className="inline-flex items-center whitespace-nowrap rounded-full border border-slate-300 bg-white/90 px-2.5 py-1.5 text-[11px] font-semibold text-slate-900 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/90 dark:text-slate-100 dark:hover:bg-slate-800 sm:px-4 sm:py-2 sm:text-sm"
                 aria-label={
                   darkMode ? "Aktifkan mode terang" : "Aktifkan mode gelap"
                 }>
@@ -574,7 +688,7 @@ function Home() {
               </button>
               <button
                 type="button"
-                className="inline-flex h-11 w-11 shrink-0 flex-col items-center justify-center rounded-lg border border-slate-300 bg-white/90 text-slate-900 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/90 dark:text-slate-100 dark:hover:bg-slate-800 lg:hidden"
+                className="inline-flex h-9 w-9 shrink-0 flex-col items-center justify-center rounded-lg border border-slate-300 bg-white/90 text-slate-900 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/90 dark:text-slate-100 dark:hover:bg-slate-800 sm:h-11 sm:w-11 lg:hidden"
                 onClick={() => setMenuOpen((prev) => !prev)}
                 aria-label={
                   menuOpen ? "Tutup menu navigasi" : "Buka menu navigasi"
@@ -605,6 +719,9 @@ function Home() {
                     <li key={label} className="group">
                        <a
                          href={href}
+                         onClick={(event) =>
+                           handleSectionNavigation(event, href)
+                         }
                          aria-current={isActive ? "location" : undefined}
                          className={
                           isContact
@@ -624,7 +741,7 @@ function Home() {
             <nav
               id="mobile-navigation"
               aria-label="Navigasi seluler"
-              className="mobile-menu-enter absolute inset-x-4 top-full max-h-[calc(100vh-5rem)] overflow-y-auto rounded-b-2xl border border-t-0 border-slate-200 bg-white/95 p-3 shadow-xl backdrop-blur-xl dark:border-slate-700 dark:bg-slate-950/95 lg:hidden">
+              className="mobile-menu-enter absolute inset-x-0 top-full max-h-[calc(100vh-4rem)] overflow-y-auto rounded-b-2xl border border-t-0 border-slate-200 bg-white/95 p-2 shadow-xl backdrop-blur-xl dark:border-slate-700 dark:bg-slate-950/95 sm:inset-x-4 sm:max-h-[calc(100vh-5rem)] sm:p-3 lg:hidden">
               <ul className="space-y-1">
                 {navLinks.map(([label, href]) => (
                   <li key={label}>
@@ -635,8 +752,10 @@ function Home() {
                           ? "location"
                           : undefined
                       }
-                      className={`block rounded-xl px-4 py-3 text-base font-medium transition ${href === "#contact" ? "bg-primary text-center font-semibold text-white hover:bg-orange-500" : activeSection === href.slice(1) ? "border-l-4 border-primary bg-slate-100 text-orange-700 dark:bg-slate-800 dark:text-orange-300" : "border-l-4 border-transparent text-slate-900 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800"}`}
-                      onClick={() => setMenuOpen(false)}>
+                      className={`block rounded-lg px-3 py-2 text-sm font-medium transition sm:rounded-xl sm:px-4 sm:py-3 sm:text-base ${href === "#contact" ? "bg-primary text-center font-semibold text-white hover:bg-orange-500" : activeSection === href.slice(1) ? "border-l-4 border-primary bg-slate-100 text-orange-700 dark:bg-slate-800 dark:text-orange-300" : "border-l-4 border-transparent text-slate-900 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800"}`}
+                      onClick={(event) =>
+                        handleSectionNavigation(event, href)
+                      }>
                       {label}
                     </a>
                   </li>
@@ -650,121 +769,175 @@ function Home() {
       <main>
         <section
           id="home"
-          className="hero-surface relative scroll-mt-24 overflow-hidden pb-16 pt-28 sm:pt-32 lg:pb-24 lg:pt-40">
+          className="hero-surface home-hero-surface relative scroll-mt-20 overflow-hidden pb-8 pt-20 sm:scroll-mt-24 sm:pb-16 sm:pt-32 lg:pb-20 lg:pt-36">
           <div className="hero-glow" />
           <div className="container">
-            <div className="hero-enter grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-12">
-              <div className="w-full px-4">
-                <div className="section-card overflow-hidden">
-                  <div className="mb-6 inline-flex items-center rounded-full bg-primary/10 px-4 py-2 text-sm font-semibold text-orange-700 shadow-sm shadow-primary/10 dark:bg-orange-500/10 dark:text-orange-200">
-                    <span className="mr-2 inline-flex h-2 w-2 rounded-full bg-primary" />
-                    PT. Nepatech Global Solusindo
-                  </div>
-                  <h1 className="text-3xl font-black leading-tight tracking-tight text-slate-900 sm:text-5xl lg:text-6xl dark:text-slate-100">
-                    Solusi laboratorium andal untuk operasional modern
-                  </h1>
-                  <p className="mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:mt-6 sm:text-xl sm:leading-8 dark:text-slate-300">
-                    Kalibrasi dalam ruang lingkup KAN LK-377-IDN, didukung
-                    maintenance, supply, konsultansi akreditasi, dan pelatihan
-                    untuk kebutuhan laboratorium industri.
-                  </p>
-                  <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-                    <a
-                      href="#contact"
-                      className="inline-flex items-center justify-center rounded-full bg-primary px-8 py-4 text-base font-semibold text-white transition duration-300 ease-in-out hover:bg-orange-500">
-                      Diskusikan Kebutuhan
-                    </a>
-                    <a
-                      href="#calibration-scope"
-                      className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-8 py-4 text-base font-semibold text-slate-900 transition duration-300 ease-in-out hover:border-primary hover:text-orange-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:text-orange-300">
-                      Lihat Ruang Lingkup
-                    </a>
-                  </div>
+            <div className="hero-enter px-0 sm:px-4">
+              <div className="text-center">
+                <div className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold text-orange-700 shadow-sm shadow-primary/10 dark:bg-orange-500/10 dark:text-orange-200 sm:px-4 sm:py-2 sm:text-sm">
+                  <span className="mr-2 inline-flex h-2 w-2 rounded-full bg-primary" />
+                  PT. Nepatech Global Solusindo
+                </div>
+                <h1 className="mx-auto mt-4 max-w-[1320px] text-balance text-[28px] font-black leading-[1.08] tracking-[-0.035em] text-slate-900 dark:text-slate-100 sm:mt-6 sm:text-5xl sm:leading-[1.04] md:text-6xl lg:text-[80px] lg:leading-[0.98] xl:text-[88px] 2xl:text-[96px]">
+                  Solusi laboratorium andal untuk operasional modern
+                </h1>
+                <p className="mx-auto mt-3 max-w-4xl text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-lg sm:leading-8 lg:text-xl lg:leading-9">
+                  Kalibrasi dalam ruang lingkup KAN LK-377-IDN, didukung
+                  maintenance, supply, konsultansi akreditasi, dan pelatihan
+                  untuk kebutuhan laboratorium industri.
+                </p>
+                <div className="mt-5 flex flex-col justify-center gap-2 sm:mt-8 sm:flex-row sm:gap-3">
+                  <a
+                    href="#contact"
+                    className="inline-flex items-center justify-center rounded-full bg-primary px-5 py-2.5 text-center text-[13px] font-semibold text-white transition duration-300 hover:bg-orange-500 sm:px-8 sm:py-4 sm:text-base">
+                    Diskusikan Kebutuhan
+                  </a>
+                  <a
+                    href="#calibration-scope"
+                    className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white/80 px-5 py-2.5 text-center text-[13px] font-semibold text-slate-900 transition duration-300 hover:border-primary hover:text-orange-700 dark:border-slate-700 dark:bg-slate-900/80 dark:text-white dark:hover:text-orange-300 sm:px-8 sm:py-4 sm:text-base">
+                    Lihat Ruang Lingkup
+                  </a>
                 </div>
               </div>
-              <div className="w-full px-4">
-                <div className="relative overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-xl shadow-slate-900/5 dark:border-slate-700">
+
+              <div className="mx-auto mt-6 max-w-6xl sm:mt-10 xl:max-w-[1240px]">
+                <div
+                  role="region"
+                  aria-roledescription="carousel"
+                  aria-label="Akreditasi dan profil perusahaan"
+                  aria-live="off"
+                  className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/5 dark:border-slate-700 sm:rounded-[28px]">
                   {currentHeroSlide.type === "credential" ? (
                     <CredentialHeroSlide
                       key={currentHeroSlide.id}
                       slide={currentHeroSlide}
                     />
                   ) : (
-                    <img
+                    <div
                       key={currentHeroSlide.id}
-                      loading="eager"
-                      fetchPriority="high"
-                      src={currentHeroSlide.src}
-                      alt={currentHeroSlide.alt}
-                      className="hero-slide h-[340px] w-full object-contain p-8 pb-28 sm:h-[460px] sm:p-12 sm:pb-32 lg:h-[520px]"
-                    />
+                      className="hero-slide flex h-[210px] w-full items-center justify-center overflow-hidden p-3 sm:h-[300px] sm:p-5 md:h-[360px] lg:h-[400px]">
+                      <img
+                        loading="eager"
+                        fetchPriority="high"
+                        decoding="async"
+                        src={currentHeroSlide.src}
+                        alt={currentHeroSlide.alt}
+                        onLoad={showLoadedImage}
+                        onError={showLoadedImage}
+                        className={`hero-logo-media max-h-full w-full object-contain${
+                          currentHeroSlide.compactLogo
+                            ? " hero-logo-media--compact"
+                            : ""
+                        }`}
+                      />
+                    </div>
                   )}
-                  <div className="absolute inset-x-0 bottom-6 px-4">
-                    <div className="mx-auto flex max-w-xl flex-nowrap items-center justify-between gap-3 rounded-full bg-slate-950/70 px-4 py-3 text-white backdrop-blur sm:px-6">
+                  <div className="border-t border-slate-200 bg-white px-3 py-2.5 dark:border-slate-700 dark:bg-slate-950 sm:px-5 sm:py-3">
+                    <div className="mx-auto flex max-w-xl flex-nowrap items-center justify-between gap-3">
                       <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-semibold sm:text-base">
+                        <p className="truncate text-xs font-semibold text-slate-700 dark:text-slate-200 sm:text-sm">
                           {currentHeroSlide.label}
                         </p>
                       </div>
-                      <div className="flex shrink-0 items-center gap-3">
+                      <div className="flex shrink-0 items-center gap-2">
                         <button
                           type="button"
                           onClick={() => {
-                            setCarouselPaused(true);
                             setActiveSlide(
                               (current) =>
                                 (current - 1 + heroSlides.length) %
                                 heroSlides.length,
                             );
                           }}
-                          className="rounded-full bg-white/10 px-3 py-2 text-lg transition hover:bg-white/20"
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 sm:h-9 sm:w-9"
                           aria-label="Slide sebelumnya">
-                          <span aria-hidden="true">‹</span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setCarouselPaused(true);
-                            setActiveSlide(
-                              (current) => (current + 1) % heroSlides.length,
-                            );
-                          }}
-                          className="rounded-full bg-white/10 px-3 py-2 text-lg transition hover:bg-white/20"
-                          aria-label="Slide berikutnya">
-                          <span aria-hidden="true">›</span>
+                          <svg
+                            aria-hidden="true"
+                            viewBox="0 0 20 20"
+                            className="h-4 w-4 fill-none stroke-current"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round">
+                            <path d="m12.5 15-5-5 5-5" />
+                          </svg>
                         </button>
                         <button
                           type="button"
                           onClick={() => setCarouselPaused((current) => !current)}
-                          className="rounded-full bg-white/10 px-3 py-2 text-sm transition hover:bg-white/20"
+                          className={`inline-flex h-8 w-8 items-center justify-center rounded-full transition sm:h-9 sm:w-9 ${carouselPaused ? "bg-orange-100 text-orange-700 hover:bg-orange-200 dark:bg-orange-500/15 dark:text-orange-300 dark:hover:bg-orange-500/25" : "bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"}`}
                           aria-label={
                             carouselPaused
                               ? "Putar carousel otomatis"
                               : "Jeda carousel otomatis"
                           }
                           aria-pressed={carouselPaused}>
-                          <span aria-hidden="true">
-                            {carouselPaused ? "▶" : "Ⅱ"}
-                          </span>
+                          {carouselPaused ? (
+                            <svg
+                              aria-hidden="true"
+                              viewBox="0 0 20 20"
+                              className="h-3.5 w-3.5 fill-current">
+                              <path d="M6.5 4.75a1 1 0 0 1 1.53-.85l7 5.25a1 1 0 0 1 0 1.7l-7 5.25a1 1 0 0 1-1.53-.85V4.75Z" />
+                            </svg>
+                          ) : (
+                            <svg
+                              aria-hidden="true"
+                              viewBox="0 0 20 20"
+                              className="h-3.5 w-3.5 fill-current">
+                              <rect x="5" y="4" width="3.5" height="12" rx="1" />
+                              <rect x="11.5" y="4" width="3.5" height="12" rx="1" />
+                            </svg>
+                          )}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setActiveSlide(
+                              (current) => (current + 1) % heroSlides.length,
+                            );
+                          }}
+                          className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 sm:h-9 sm:w-9"
+                          aria-label="Slide berikutnya">
+                          <svg
+                            aria-hidden="true"
+                            viewBox="0 0 20 20"
+                            className="h-4 w-4 fill-none stroke-current"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round">
+                            <path d="m7.5 5 5 5-5 5" />
+                          </svg>
                         </button>
                       </div>
                     </div>
-                    <div className="mt-4 flex justify-center gap-1.5 sm:gap-2">
+                    <div className="mt-2.5 flex justify-center gap-1.5 sm:gap-2">
                       {heroSlides.map((slide, index) => (
                         <button
                           key={slide.id}
                           type="button"
                           onClick={() => {
                             setActiveSlide(index);
-                            setCarouselPaused(true);
                           }}
-                          className={`h-2.5 w-7 rounded-full transition sm:w-10 ${activeSlide === index ? "bg-primary" : "bg-slate-300 hover:bg-slate-400"}`}
+                          className={`h-1.5 w-4 rounded-full transition sm:w-7 ${activeSlide === index ? "bg-primary" : "bg-slate-300 hover:bg-slate-400 dark:bg-slate-700 dark:hover:bg-slate-600"}`}
                           aria-label={`Tampilkan ${slide.label}`}
                           aria-pressed={activeSlide === index}
                         />
                       ))}
                     </div>
                   </div>
+                </div>
+
+                <div className="mt-2.5 grid grid-cols-[1fr_auto] items-center gap-2 rounded-xl border border-slate-800 bg-slate-950 px-3 py-2.5 text-left text-white shadow-lg shadow-slate-950/10 sm:mt-4 sm:grid-cols-[auto_auto_1fr] sm:gap-5 sm:rounded-2xl sm:px-6 sm:py-4">
+                  <div className="flex items-center gap-2 text-sm font-semibold sm:text-base">
+                    <span className="inline-flex h-2 w-2 rounded-full bg-primary" />
+                    KAN LK-377-IDN
+                  </div>
+                  <p className="text-xs text-slate-300 sm:border-l sm:border-slate-700 sm:pl-5 sm:text-sm">
+                    SNI ISO/IEC 17025:2017
+                  </p>
+                  <p className="hidden text-xs leading-5 text-slate-400 sm:block sm:text-right sm:text-sm sm:leading-6">
+                    Kesesuaian alat, metode, dan rentang ukur dikonfirmasi
+                    sebelum pekerjaan dimulai.
+                  </p>
                 </div>
               </div>
             </div>
@@ -773,57 +946,61 @@ function Home() {
 
         <section
           id="about"
-          data-reveal
-          className="reveal-section scroll-mt-24 bg-white/70 py-16 dark:bg-slate-950 lg:py-24">
-          <div className="container">
-            <div className="section-card grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
+          className="light-ambient-surface scroll-mt-20 bg-white/70 py-8 dark:bg-slate-950 sm:scroll-mt-24 sm:py-16 lg:py-24">
+          <div data-reveal className="reveal-content container">
+            <div className="section-card grid gap-6 sm:gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
               <div>
-                <span className="mb-3 inline-flex rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold text-orange-700 dark:bg-orange-500/10 dark:text-orange-200">
+                <span className="mb-2 inline-flex rounded-full bg-orange-100 px-2.5 py-1 text-[11px] font-semibold text-orange-700 dark:bg-orange-500/10 dark:text-orange-200 sm:mb-3 sm:px-4 sm:py-2 sm:text-sm">
                   Solusi Laboratorium Terintegrasi
                 </span>
-                <h2 className="mt-4 text-3xl font-bold text-slate-900 dark:text-slate-100 sm:text-4xl lg:text-5xl">
+                <h2 className="mt-2 text-[22px] font-bold leading-tight text-slate-900 dark:text-slate-100 sm:mt-4 sm:text-4xl lg:text-5xl">
                   Dukungan teknis dan sistem mutu dalam satu mitra.
                 </h2>
-                <p className="mt-6 max-w-xl text-base leading-8 text-slate-600 dark:text-slate-300 sm:text-lg">
+                <p className="mt-3 max-w-xl text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-lg sm:leading-8">
                   Kami membantu kebutuhan laboratorium mulai dari kalibrasi dan
                   perawatan alat hingga pendampingan akreditasi, pelatihan, dan
                   penyusunan dokumen mutu.
                 </p>
-                <div className="mt-8 grid gap-4 sm:grid-cols-2">
+                <div className="mt-5 grid grid-cols-2 gap-2 sm:mt-8 sm:gap-4">
                   {serviceItems.map((item) => (
                     <div
                       key={item.title}
-                      className="group rounded-3xl border border-slate-200 bg-slate-50 px-5 py-6 transition duration-300 hover:-translate-y-1 hover:border-orange-300 hover:bg-white hover:shadow-lg dark:border-slate-700 dark:bg-slate-950 dark:hover:border-orange-500/50 dark:hover:bg-slate-900">
-                      <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-orange-100 text-xs font-bold text-orange-700 transition group-hover:bg-primary group-hover:text-white dark:bg-orange-500/15 dark:text-orange-300">
+                      className="group rounded-xl border border-slate-200 bg-slate-50 px-3 py-3.5 transition duration-300 hover:-translate-y-1 hover:border-orange-300 hover:bg-white hover:shadow-lg dark:border-slate-700 dark:bg-slate-950 dark:hover:border-orange-500/50 dark:hover:bg-slate-900 sm:rounded-3xl sm:px-5 sm:py-6">
+                      <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-orange-100 text-[11px] font-bold text-orange-700 transition group-hover:bg-primary group-hover:text-white dark:bg-orange-500/15 dark:text-orange-300 sm:h-9 sm:w-9 sm:text-xs">
                         {item.number}
                       </span>
-                      <h3 className="mt-4 text-lg font-semibold text-slate-900 dark:text-slate-100">
+                      <h3 className="mt-2 text-sm font-semibold text-slate-900 dark:text-slate-100 sm:mt-4 sm:text-lg">
                         {item.title}
                       </h3>
-                      <p className="mt-2 text-sm leading-6 text-slate-500 dark:text-slate-400">
+                      <p className="mt-1.5 hidden text-[13px] leading-5 text-slate-500 dark:text-slate-400 sm:mt-2 sm:block sm:text-sm sm:leading-6">
                         {item.description}
                       </p>
                     </div>
                   ))}
                 </div>
+                <Link
+                  to="/layanan-kalibrasi"
+                  className="mt-5 inline-flex min-h-11 items-center justify-center rounded-full border border-slate-300 bg-white px-5 py-2.5 text-[13px] font-semibold text-slate-900 transition hover:border-primary hover:text-orange-700 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:hover:border-primary dark:hover:text-orange-300 sm:mt-7 sm:px-6 sm:text-sm">
+                  Pelajari layanan kalibrasi
+                </Link>
               </div>
               <div className="flex items-center justify-center">
-                <div className="rounded-[32px] border border-slate-200 bg-slate-950/5 p-6 shadow-lg">
-                  <div className="mb-6 rounded-3xl bg-white p-6 shadow-sm dark:bg-slate-900">
-                    <h3 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
+                <div className="rounded-2xl border border-slate-200 bg-slate-950/5 p-3 shadow-lg sm:rounded-[32px] sm:p-6">
+                  <div className="mb-3 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-900 sm:mb-6 sm:rounded-3xl sm:p-6">
+                    <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100 sm:text-xl">
                       Tentang Kami
                     </h3>
-                    <p className="mt-4 text-base leading-7 text-slate-600 dark:text-slate-300">
+                    <p className="mt-2 text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-4 sm:text-base sm:leading-7">
                       Laboratorium kalibrasi kami terakreditasi KAN dengan nomor
                       LK-377-IDN sesuai SNI ISO/IEC 17025:2017 untuk ruang
                       lingkup yang ditetapkan.
                     </p>
                   </div>
-                  <div className="navy-accent-card rounded-3xl border border-slate-800 border-l-4 border-l-primary bg-slate-950 px-6 py-5 text-white shadow-xl dark:bg-slate-900">
-                    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-orange-300">
+                  <div className="navy-accent-card rounded-xl border border-slate-800 border-l-4 border-l-primary bg-slate-950 px-4 py-3 text-white shadow-xl dark:bg-slate-900 sm:rounded-3xl sm:px-6 sm:py-5">
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-300 sm:text-sm">
                       Dipercaya Lintas Industri
                     </p>
-                    <p className="mt-3 text-3xl font-bold">
+                    <p className="mt-2 text-xl font-bold sm:mt-3 sm:text-3xl">
                       Energi, tambang, surveyor, dan manufaktur
                     </p>
                   </div>
@@ -836,65 +1013,64 @@ function Home() {
         <section
           id="calibration-scope"
           aria-labelledby="calibration-scope-title"
-          data-reveal
-          className="capabilities-surface reveal-section relative scroll-mt-24 overflow-hidden py-16 lg:py-24">
-          <div className="container px-4">
-            <div className="mx-auto mb-10 max-w-3xl text-center sm:mb-14">
-              <span className="inline-flex rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold uppercase tracking-[0.2em] text-orange-700 dark:bg-orange-500/10 dark:text-orange-200">
+          className="capabilities-surface relative scroll-mt-20 overflow-hidden py-8 sm:scroll-mt-24 sm:py-16 lg:py-24">
+          <div data-reveal className="reveal-content container px-0 sm:px-4">
+            <div className="mx-auto mb-6 max-w-3xl text-center sm:mb-14">
+              <span className="inline-flex rounded-full bg-orange-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-700 dark:bg-orange-500/10 dark:text-orange-200 sm:px-4 sm:py-2 sm:text-sm sm:tracking-[0.2em]">
                 Kapabilitas
               </span>
               <h2
                 id="calibration-scope-title"
-                className="mt-5 text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100 sm:text-5xl">
+                className="mt-3 text-[22px] font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-100 sm:mt-5 sm:text-4xl md:text-5xl">
                 Layanan yang relevan dengan kebutuhan laboratorium Anda.
               </h2>
-              <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-slate-600 dark:text-slate-300 sm:text-lg">
+              <p className="mx-auto mt-3 max-w-2xl text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-lg sm:leading-8">
                 Dari pekerjaan teknis hingga pengembangan sistem mutu, setiap
                 kebutuhan dibahas lebih dulu agar ruang lingkupnya tepat.
               </p>
             </div>
 
-            <div className="grid gap-6 lg:grid-cols-2">
+            <div className="grid gap-3 sm:gap-6 lg:grid-cols-2">
               <article className="section-card relative border-t-4 border-t-slate-900 dark:border-t-primary">
-                <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-5">
                   <div>
-                    <p className="text-sm font-bold uppercase tracking-[0.2em] text-orange-700 dark:text-orange-300">
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-700 dark:text-orange-300 sm:text-sm">
                       Divisi Kalibrasi
                     </p>
-                    <h3 className="mt-3 text-2xl font-bold text-slate-900 dark:text-slate-100 sm:text-3xl">
+                    <h3 className="mt-2 text-lg font-bold text-slate-900 dark:text-slate-100 sm:mt-3 sm:text-3xl">
                       Ringkasan ruang lingkup
                     </h3>
                   </div>
-                  <div className="shrink-0 rounded-2xl border border-slate-900 bg-slate-950 px-4 py-3 text-sm font-semibold text-white dark:border-orange-500/40 dark:bg-orange-500/10 dark:text-orange-200">
+                  <div className="shrink-0 self-start rounded-xl border border-slate-900 bg-slate-950 px-3 py-2 text-xs font-semibold text-white dark:border-orange-500/40 dark:bg-orange-500/10 dark:text-orange-200 sm:rounded-2xl sm:px-4 sm:py-3 sm:text-sm">
                     KAN LK-377-IDN
                   </div>
                 </div>
 
-                <p className="mt-5 leading-7 text-slate-600 dark:text-slate-300">
+                <p className="mt-3 text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-base sm:leading-7">
                   Laboratorium kalibrasi terakreditasi sesuai SNI ISO/IEC
                   17025:2017 untuk alat dan rentang ukur yang tercantum dalam
                   ruang lingkup resmi.
                 </p>
 
-                <div className="mt-7 grid gap-4 sm:grid-cols-2">
+                <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-7 sm:gap-4">
                   {calibrationScopes.map((scope) => (
                     <div
                       key={scope.title}
-                      className="rounded-2xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-700 dark:bg-slate-950">
+                      className="rounded-xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-950 sm:rounded-2xl sm:p-5">
                       <span className="text-xs font-bold text-orange-700 dark:text-orange-300">
                         {scope.number}
                       </span>
-                      <h4 className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">
+                      <h4 className="mt-1.5 text-sm font-semibold text-slate-900 dark:text-slate-100 sm:mt-2 sm:text-lg">
                         {scope.title}
                       </h4>
-                      <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400">
+                      <p className="mt-1.5 hidden text-xs leading-5 text-slate-600 dark:text-slate-400 sm:mt-2 sm:block sm:text-sm sm:leading-6">
                         {scope.description}
                       </p>
                     </div>
                   ))}
                 </div>
 
-                <p className="mt-6 rounded-2xl bg-slate-100 px-5 py-4 text-sm leading-6 text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                <p className="mt-4 rounded-xl bg-slate-100 px-3 py-2.5 text-xs leading-5 text-slate-600 dark:bg-slate-800 dark:text-slate-300 sm:mt-6 sm:rounded-2xl sm:px-5 sm:py-4 sm:text-sm sm:leading-6">
                   Kesesuaian jenis alat, metode, dan rentang ukur akan
                   dikonfirmasi oleh tim sebelum pekerjaan dimulai.
                 </p>
@@ -903,67 +1079,79 @@ function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Lihat dokumen ruang lingkup kalibrasi di Google Drive, buka di tab baru"
-                  className="mt-5 flex w-full items-center justify-between gap-4 rounded-2xl border border-primary bg-primary px-5 py-4 text-sm font-semibold text-white shadow-sm transition hover:border-orange-500 hover:bg-orange-500 dark:border-primary dark:bg-primary dark:text-white dark:hover:border-orange-500 dark:hover:bg-orange-500">
+                  className="mt-4 flex w-full items-center justify-between gap-3 rounded-xl border border-primary bg-primary px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:border-orange-500 hover:bg-orange-500 dark:border-primary dark:bg-primary dark:text-white dark:hover:border-orange-500 dark:hover:bg-orange-500 sm:mt-5 sm:gap-4 sm:rounded-2xl sm:px-5 sm:py-4 sm:text-sm">
                   <span>Lihat Dokumen Ruang Lingkup</span>
                   <span
                     aria-hidden="true"
-                    className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/20 text-base text-white">
+                    className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/20 text-sm text-white sm:h-9 sm:w-9 sm:text-base">
                     ↗
                   </span>
                 </a>
+                <Link
+                  to="/ruang-lingkup"
+                  className="mt-2.5 flex min-h-11 w-full items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs font-semibold text-slate-900 transition hover:border-primary hover:text-orange-700 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:hover:border-primary dark:hover:text-orange-300 sm:rounded-2xl sm:text-sm">
+                  Baca ringkasan ruang lingkup
+                </Link>
               </article>
 
               <article className="section-card relative border-t-4 border-t-primary">
-                <p className="text-sm font-bold uppercase tracking-[0.2em] text-orange-700 dark:text-orange-300">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-700 dark:text-orange-300 sm:text-sm">
                   Konsultansi & Pelatihan
                 </p>
-                <h3 className="mt-3 text-2xl font-bold text-slate-900 dark:text-slate-100 sm:text-3xl">
+                <h3 className="mt-2 text-lg font-bold text-slate-900 dark:text-slate-100 sm:mt-3 sm:text-3xl">
                   Pendampingan dari persiapan sampai proses akhir.
                 </h3>
 
-                <ol className="mt-7 space-y-3">
+                <ol className="mt-5 space-y-2 sm:mt-7 sm:space-y-3">
                   {accreditationSteps.map((step, index) => (
                     <li
                       key={step}
-                      className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-700 dark:bg-slate-950">
-                      <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-900 text-sm font-bold text-white dark:bg-orange-600">
+                      className="flex items-center gap-2.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 dark:border-slate-700 dark:bg-slate-950 sm:gap-4 sm:rounded-2xl sm:px-4 sm:py-3">
+                      <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-900 text-xs font-bold text-white dark:bg-orange-600 sm:h-9 sm:w-9 sm:text-sm">
                         {index + 1}
                       </span>
-                      <span className="text-sm font-medium leading-6 text-slate-700 dark:text-slate-200">
+                      <span className="text-[13px] font-medium leading-5 text-slate-700 dark:text-slate-200 sm:text-sm sm:leading-6">
                         {step}
                       </span>
                     </li>
                   ))}
                 </ol>
 
-                <div className="mt-7">
-                  <h4 className="text-sm font-bold uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
+                <div className="mt-5 sm:mt-7">
+                  <h4 className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500 dark:text-slate-400 sm:text-sm sm:tracking-[0.18em]">
                     Topik Pelatihan
                   </h4>
-                  <ul className="mt-4 flex flex-wrap gap-2">
+                  <ul className="mt-3 flex flex-wrap gap-1.5 sm:mt-4 sm:gap-2">
                     {trainingTopics.map((topic) => (
                       <li
                         key={topic}
-                        className="rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
+                        className="rounded-full border border-slate-200 bg-white px-2.5 py-1.5 text-[11px] font-semibold text-slate-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 sm:px-3 sm:py-2 sm:text-xs">
                         {topic}
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="mt-7 rounded-2xl border-l-4 border-l-primary bg-slate-900 p-5 text-white dark:bg-slate-800">
-                  <p className="font-semibold">Penyusunan Dokumen Mutu</p>
-                  <p className="mt-2 text-sm leading-6 text-slate-300">
+                <div className="mt-5 rounded-xl border-l-4 border-l-primary bg-slate-900 p-4 text-white dark:bg-slate-800 sm:mt-7 sm:rounded-2xl sm:p-5">
+                  <p className="text-sm font-semibold sm:text-base">Penyusunan Dokumen Mutu</p>
+                  <p className="mt-1.5 text-xs leading-5 text-slate-300 sm:mt-2 sm:text-sm sm:leading-6">
                     Panduan Mutu, SOP, Instruksi Kerja, dan formulir sistem
                     manajemen maupun pengujian.
                   </p>
                 </div>
 
-                <a
-                  href="#contact"
-                  className="mt-7 inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 font-semibold text-white transition hover:bg-orange-500">
-                  Konsultasikan Kebutuhan
-                </a>
+                <div className="mt-5 flex flex-col gap-2.5 sm:mt-7 sm:flex-row">
+                  <a
+                    href="#contact"
+                    className="inline-flex min-h-11 items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-orange-500 sm:px-6 sm:py-3 sm:text-base">
+                    Konsultasikan Kebutuhan
+                  </a>
+                  <Link
+                    to="/konsultasi-pelatihan"
+                    className="inline-flex min-h-11 items-center justify-center rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-900 transition hover:border-primary hover:text-orange-700 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:hover:border-primary dark:hover:text-orange-300 sm:px-6 sm:py-3 sm:text-base">
+                    Pelajari program
+                  </Link>
+                </div>
               </article>
             </div>
           </div>
@@ -971,123 +1159,165 @@ function Home() {
 
         <section
           id="portfolio"
-          data-reveal
-          className="reveal-section scroll-mt-24 bg-white py-16 dark:bg-slate-900 lg:py-28">
+          className="light-ambient-surface light-ambient-surface--reverse scroll-mt-20 bg-white py-8 dark:bg-slate-900 sm:scroll-mt-24 sm:py-16 lg:py-28">
           <div className="container">
-            <div className="mb-10 px-4 text-center sm:mb-14">
-              <span className="inline-flex rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold uppercase tracking-[0.2em] text-orange-700 dark:bg-orange-500/10 dark:text-orange-200">
+            <div
+              data-reveal
+              className="reveal-content mb-6 px-0 text-center sm:mb-14 sm:px-4">
+              <span className="inline-flex rounded-full bg-orange-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-700 dark:bg-orange-500/10 dark:text-orange-200 sm:px-4 sm:py-2 sm:text-sm sm:tracking-[0.2em]">
                 Galeri Kerja
               </span>
-              <h2 className="mt-5 text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100 sm:text-5xl lg:text-6xl">
+              <h2 className="mt-3 text-[22px] font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-100 sm:mt-5 sm:text-4xl md:text-5xl lg:text-6xl">
                 Tampilkan dokumentasi terbaik dari setiap proyek kami.
               </h2>
-              <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-slate-600 dark:text-slate-300 sm:text-lg">
+              <p className="mx-auto mt-3 max-w-2xl text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-lg sm:leading-8">
                 Jelajahi foto-foto terbaru dari kalibrasi, maintenance, dan
                 pemasangan peralatan laboratorium di lapangan.
               </p>
             </div>
-            <div className="grid gap-6 px-4 sm:grid-cols-2 xl:grid-cols-4">
-              {galleryLinks.map((item) => (
+            <div className="grid grid-cols-2 gap-3 px-0 sm:gap-6 sm:px-4 xl:grid-cols-4">
+              {galleryLinks.map((item, index) => (
                 <Link
                   key={item.slug}
                   to={`/gallery/${item.slug}`}
                   data-reveal
-                  className="reveal-card group overflow-hidden rounded-[28px] border border-slate-200 bg-white text-left transition duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-xl hover:shadow-orange-950/5 dark:border-slate-700 dark:bg-slate-950 dark:hover:border-orange-500/40">
-                  <div className="relative aspect-[4/3] overflow-hidden bg-slate-200">
+                  style={{ transitionDelay: `${index * 70}ms` }}
+                  className="reveal-card group min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-xl hover:shadow-orange-950/5 dark:border-slate-700 dark:bg-slate-950 dark:hover:border-orange-500/40 sm:rounded-[28px]">
+                  <div className="lazy-media-frame relative aspect-[4/3] overflow-hidden bg-slate-200">
                     <img
                       src={item.image}
                       srcSet={item.srcSet}
-                      sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
+                      sizes="(min-width: 1280px) 25vw, 50vw"
                       alt={`Dokumentasi ${item.title}`}
                       loading="lazy"
-                      className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                      decoding="async"
+                      onLoad={showLoadedImage}
+                      onError={showLoadedImage}
+                      className="smooth-media media-zoom h-full w-full object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/45 via-transparent to-transparent" />
-                    <span className="absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-xl text-slate-900 shadow-sm backdrop-blur transition group-hover:bg-primary group-hover:text-white">
+                    <span className="absolute right-2 top-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-base text-slate-900 shadow-sm backdrop-blur transition group-hover:bg-primary group-hover:text-white sm:right-4 sm:top-4 sm:h-10 sm:w-10 sm:text-xl">
                       <span aria-hidden="true">↗</span>
                     </span>
                   </div>
-                  <div className="p-6">
-                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-orange-700">
+                  <div className="p-3 sm:p-6">
+                    <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-orange-700 sm:text-xs sm:tracking-[0.24em]">
                       {item.name}
                     </p>
-                    <h3 className="mt-3 text-2xl font-bold text-slate-900 dark:text-slate-100">
+                    <h3 className="mt-2 text-sm font-bold leading-snug text-slate-900 dark:text-slate-100 sm:mt-3 sm:text-2xl">
                       {item.title}
                     </h3>
-                    <p className="mt-3 text-sm leading-6 text-slate-500 dark:text-slate-400">
+                    <p className="mt-3 hidden text-sm leading-6 text-slate-500 dark:text-slate-400 sm:block">
                       Lihat dokumentasi pekerjaan selengkapnya.
                     </p>
                   </div>
                 </Link>
               ))}
             </div>
+            <div className="mt-6 text-center sm:mt-10">
+              <Link
+                to="/galeri"
+                className="inline-flex min-h-11 items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:bg-orange-500 sm:px-7 sm:text-base">
+                Lihat semua foto & filter galeri
+              </Link>
+            </div>
           </div>
         </section>
 
         <section
           id="clients"
-          data-reveal
-          className="reveal-section scroll-mt-24 bg-slate-50 py-20 text-slate-900 dark:bg-slate-900 dark:text-slate-100 lg:py-28">
-          <div className="container">
-            <div className="mb-10 w-full px-4 text-center sm:mb-14">
-              <p className="mb-2 text-lg font-semibold text-orange-700 dark:text-orange-300">
+          className="light-grid-surface scroll-mt-20 bg-slate-50 py-8 text-slate-900 dark:bg-slate-900 dark:text-slate-100 sm:scroll-mt-24 sm:py-20 lg:py-28">
+          <div data-reveal className="reveal-content container">
+            <div className="mb-6 w-full px-0 text-center sm:mb-14 sm:px-4">
+              <p className="mb-1.5 text-xs font-semibold text-orange-700 dark:text-orange-300 sm:mb-2 sm:text-lg">
                 Perusahaan
               </p>
-              <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100 sm:text-4xl lg:text-5xl">
+              <h2 className="text-[22px] font-bold leading-tight text-slate-900 dark:text-slate-100 sm:text-4xl lg:text-5xl">
                 Yang Pernah Bekerjasama
               </h2>
-              <p className="mx-auto mt-5 max-w-2xl leading-7 text-slate-600 dark:text-slate-300">
+              <p className="mx-auto mt-3 max-w-2xl text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-base sm:leading-7">
                 Dipercaya oleh perusahaan energi, pertambangan, laboratorium,
                 dan industri di berbagai wilayah Indonesia.
               </p>
             </div>
-            <div className="w-full px-4">
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-6">
-                {clientLogos.map((logo) => (
+            <div className="w-full">
+              <div
+                id="client-logo-grid"
+                className="grid grid-cols-3 gap-1.5 sm:gap-3 md:grid-cols-4 lg:grid-cols-6">
+                {clientLogos.map((logo, index) => (
                   <div
                     key={logo.alt}
                     title={logo.alt}
-                    className="group flex h-24 flex-col items-center justify-center gap-1 overflow-hidden rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-md sm:h-28 sm:p-4">
+                    className={`${!showAllClients && index >= 12 ? "hidden sm:flex" : "flex"} group h-16 flex-col items-center justify-center gap-1 overflow-hidden rounded-lg border border-slate-200 bg-white px-1.5 py-1.5 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-md sm:h-28 sm:rounded-2xl sm:p-4`}>
                     <div
-                      className={`flex w-4/5 shrink-0 items-center justify-center ${logo.portrait ? "h-16 sm:h-[72px]" : "h-10 sm:h-12"}`}>
+                      className={`flex w-full shrink-0 items-center justify-center rounded-lg bg-transparent ${
+                        logo.portrait
+                          ? logo.caption
+                            ? "h-9 sm:h-14"
+                            : "h-10 sm:h-[72px]"
+                          : "h-7 sm:h-12"
+                      }`}>
                       <img
                         loading="lazy"
+                        decoding="async"
                         src={logo.src}
                         alt={logo.alt}
-                        className="block h-full w-full object-contain grayscale opacity-75 transition duration-300 group-hover:grayscale-0 group-hover:opacity-100"
+                        className="block h-full w-full object-contain transition duration-300 lg:grayscale lg:opacity-75 lg:group-hover:scale-[1.03] lg:group-hover:grayscale-0 lg:group-hover:opacity-100"
                       />
                     </div>
                     {logo.caption && (
-                      <span className="text-center text-[10px] font-semibold leading-tight text-slate-500 transition group-hover:text-slate-700 sm:text-xs">
+                      <span className="text-center text-[9px] font-semibold leading-tight text-slate-600 transition group-hover:text-slate-700 sm:text-xs">
                         {logo.caption}
                       </span>
                     )}
                   </div>
                 ))}
               </div>
+              <button
+                type="button"
+                aria-expanded={showAllClients}
+                aria-controls="client-logo-grid"
+                onClick={() => {
+                  if (showAllClients) {
+                    setShowAllClients(false);
+                    window.requestAnimationFrame(() => {
+                      document.getElementById("clients")?.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start",
+                      });
+                    });
+                    return;
+                  }
+
+                  setShowAllClients(true);
+                }}
+                className="mx-auto mt-5 inline-flex min-h-11 items-center justify-center rounded-full border border-slate-300 bg-white px-5 py-2.5 text-[13px] font-semibold text-slate-800 shadow-sm transition hover:border-primary hover:text-orange-700 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:hover:border-primary dark:hover:text-orange-300 sm:hidden">
+                {showAllClients
+                  ? "Tampilkan lebih sedikit"
+                  : `Lihat semua ${clientLogos.length} pelanggan`}
+              </button>
             </div>
           </div>
         </section>
 
         <section
           id="faq"
-          data-reveal
-          className="reveal-section scroll-mt-24 bg-white py-20 dark:bg-slate-900 lg:py-28">
-          <div className="container">
-            <div className="mb-12 px-4 text-center">
-              <span className="inline-flex rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold uppercase tracking-[0.2em] text-orange-700 dark:bg-orange-500/10 dark:text-orange-200">
+          className="light-ambient-surface scroll-mt-20 bg-white py-8 dark:bg-slate-900 sm:scroll-mt-24 sm:py-20 lg:py-28">
+          <div data-reveal className="reveal-content container">
+            <div className="mb-6 px-0 text-center sm:mb-12 sm:px-4">
+              <span className="inline-flex rounded-full bg-orange-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-700 dark:bg-orange-500/10 dark:text-orange-200 sm:px-4 sm:py-2 sm:text-sm sm:tracking-[0.2em]">
                 FAQ
               </span>
-              <h2 className="mt-5 text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100 sm:text-5xl lg:text-6xl">
+              <h2 className="mt-3 text-[22px] font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-100 sm:mt-5 sm:text-4xl md:text-5xl lg:text-6xl">
                 Pertanyaan yang sering diajukan
               </h2>
-              <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-slate-600 dark:text-slate-300 sm:text-lg">
+              <p className="mx-auto mt-3 max-w-2xl text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-lg sm:leading-8">
                 Semua jawaban singkat tentang layanan, proses, dan cara kerja
                 kami.
               </p>
             </div>
-            <div className="mx-auto max-w-4xl px-4">
-              <div className="space-y-4">
+            <div className="mx-auto max-w-4xl px-0 sm:px-4">
+              <div className="space-y-2.5 sm:space-y-4">
                 {faqItems.map((item, index) => {
                   const isOpen = index === openFaqIndex;
                   const questionId = `faq-question-${index}`;
@@ -1095,21 +1325,21 @@ function Home() {
                   return (
                     <div
                       key={item.question}
-                      className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 transition sm:rounded-[28px] hover:border-orange-300 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-950 dark:hover:border-orange-400 dark:hover:bg-slate-900">
+                      className="overflow-hidden rounded-xl border border-slate-200 bg-slate-50 transition sm:rounded-[28px] hover:border-orange-300 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-950 dark:hover:border-orange-400 dark:hover:bg-slate-900">
                       <button
                         type="button"
                         onClick={() => setOpenFaqIndex(isOpen ? null : index)}
                         aria-expanded={isOpen}
                         aria-controls={answerId}
-                        className="flex w-full items-center justify-between gap-4 p-5 text-left sm:p-6">
+                        className="flex w-full items-center justify-between gap-3 p-3 text-left sm:gap-4 sm:p-6">
                         <span
                           id={questionId}
-                          className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                          className="text-sm font-semibold leading-5 text-slate-900 dark:text-slate-100 sm:text-lg">
                           {item.question}
                         </span>
                         <span
                           aria-hidden="true"
-                          className={`inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-300 text-xl text-slate-700 transition dark:border-slate-700 dark:text-slate-200 ${isOpen ? "border-primary bg-primary text-white" : "bg-white dark:bg-slate-900"}`}>
+                          className={`inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-slate-300 text-base text-slate-700 transition dark:border-slate-700 dark:text-slate-200 sm:h-10 sm:w-10 sm:text-xl ${isOpen ? "border-primary bg-primary text-white" : "bg-white dark:bg-slate-900"}`}>
                           {isOpen ? "−" : "+"}
                         </span>
                       </button>
@@ -1118,8 +1348,8 @@ function Home() {
                           id={answerId}
                           role="region"
                           aria-labelledby={questionId}
-                          className="px-5 pb-5 sm:px-6 sm:pb-6">
-                          <p className="text-sm leading-7 text-slate-600 dark:text-slate-300">
+                          className="px-3 pb-3 sm:px-6 sm:pb-6">
+                          <p className="text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:text-sm sm:leading-7">
                             {item.answer}
                           </p>
                         </div>
@@ -1134,18 +1364,17 @@ function Home() {
 
         <section
           id="location"
-          data-reveal
-          className="reveal-section scroll-mt-24 bg-slate-50 py-20 dark:bg-slate-950 lg:py-28">
-          <div className="container px-4">
-            <div className="grid overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-[0_30px_70px_-35px_rgba(15,23,42,0.35)] dark:border-slate-700 dark:bg-slate-900 lg:grid-cols-[0.85fr_1.15fr]">
-              <div className="p-7 sm:p-10 lg:p-12">
-                <span className="inline-flex rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold uppercase tracking-[0.2em] text-orange-700 dark:bg-orange-500/10 dark:text-orange-200">
+          className="light-grid-surface scroll-mt-20 bg-slate-50 py-8 dark:bg-slate-950 sm:scroll-mt-24 sm:py-20 lg:py-28">
+          <div data-reveal className="reveal-content container px-0 sm:px-4">
+            <div className="grid overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_30px_70px_-35px_rgba(15,23,42,0.35)] dark:border-slate-700 dark:bg-slate-900 sm:rounded-[32px] lg:grid-cols-[0.85fr_1.15fr]">
+              <div className="p-4 sm:p-10 lg:p-12">
+                <span className="inline-flex rounded-full bg-orange-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-700 dark:bg-orange-500/10 dark:text-orange-200 sm:px-4 sm:py-2 sm:text-sm sm:tracking-[0.2em]">
                   Lokasi Kami
                 </span>
-                <h2 className="mt-6 text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100 sm:text-4xl">
+                <h2 className="mt-3 text-[22px] font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-100 sm:mt-6 sm:text-4xl">
                   Kunjungi kantor Nepatech
                 </h2>
-                <p className="mt-5 leading-7 text-slate-600 dark:text-slate-300">
+                <p className="mt-3 text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-base sm:leading-7">
                   Grand Wisata, Cluster Garden Hous BG01 No. 75, Lambangjaya,
                   Tambun Selatan, Kabupaten Bekasi, Jawa Barat.
                 </p>
@@ -1153,17 +1382,17 @@ function Home() {
                   href="https://maps.app.goo.gl/YWmghbVbgQzRdMFm7"
                   target="_blank"
                   rel="noreferrer"
-                  className="mt-8 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-3 font-semibold text-white transition hover:bg-orange-500">
+                  className="mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-2.5 text-[13px] font-semibold text-white transition hover:bg-orange-500 sm:mt-8 sm:px-7 sm:py-3 sm:text-base">
                   Buka di Google Maps
                   <span aria-hidden="true">↗</span>
                 </a>
               </div>
 
-              <div className="min-h-[360px] bg-slate-200 lg:min-h-[460px]">
+              <div className="min-h-[220px] bg-slate-200 sm:min-h-[360px] lg:min-h-[460px]">
                 <iframe
                   title="Lokasi PT. Nepatech Global Solusindo"
                   src="https://www.google.com/maps?q=Grand%20Wisata%20Cluster%20Garden%20Hous%20BG01%20No.%2075%20Lambangjaya%20Tambun%20Selatan%20Bekasi&output=embed"
-                  className="h-full min-h-[360px] w-full border-0 lg:min-h-[460px]"
+                  className="h-full min-h-[220px] w-full border-0 sm:min-h-[360px] lg:min-h-[460px]"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   allowFullScreen
@@ -1176,16 +1405,16 @@ function Home() {
         <ContactForm />
       </main>
 
-      <footer className="bg-slate-950 pb-10 pt-16 text-slate-300 sm:pt-20">
-        <div className="container px-4">
-          <div className="grid gap-10 lg:grid-cols-3">
-            <div className="rounded-[32px] border border-slate-800 bg-slate-900/80 p-8 shadow-lg shadow-slate-900/20">
-              <h3 className="mb-4 text-3xl font-bold text-white">
+      <footer className="bg-slate-950 pb-6 pt-8 text-slate-300 sm:pb-10 sm:pt-20">
+        <div className="container px-0 sm:px-4">
+          <div className="grid gap-4 sm:gap-10 lg:grid-cols-3">
+            <div className="rounded-xl border border-slate-800 bg-slate-900/80 p-4 shadow-lg shadow-slate-900/20 sm:rounded-[32px] sm:p-8">
+              <h3 className="mb-3 text-xl font-bold text-white sm:mb-4 sm:text-3xl">
                 Hubungi Kami
               </h3>
               <a
                 href="mailto:operation@ntgs.co.id"
-                className="block text-base text-slate-300 transition hover:text-orange-300">
+                className="block text-sm text-slate-300 transition hover:text-orange-300 sm:text-base">
                 operation@ntgs.co.id
               </a>
               <a
@@ -1195,7 +1424,7 @@ function Home() {
               </a>
               <a
                 href="tel:+6281267084525"
-                className="mt-3 block text-base font-semibold text-white transition hover:text-orange-300">
+                className="mt-3 block text-sm font-semibold text-white transition hover:text-orange-300 sm:text-base">
                 +62 812-6708-4525
               </a>
               <p className="mt-4 text-sm leading-7 text-slate-400">
@@ -1210,66 +1439,66 @@ function Home() {
                 Lihat di Google Maps ↗
               </a>
             </div>
-            <div className="rounded-[32px] border border-slate-800 bg-slate-900/80 p-8 shadow-lg shadow-slate-900/20">
-              <h3 className="mb-5 text-xl font-semibold text-white">
+            <div className="rounded-xl border border-slate-800 bg-slate-900/80 p-4 shadow-lg shadow-slate-900/20 sm:rounded-[32px] sm:p-8">
+              <h3 className="mb-4 text-lg font-semibold text-white sm:mb-5 sm:text-xl">
                 Galeri Kerja
               </h3>
-              <ul className="space-y-3 text-slate-300">
+              <ul className="space-y-2.5 text-slate-300 sm:space-y-3">
                 {galleryLinks.map((item) => (
                   <li key={item.slug}>
                     <Link
                       to={`/gallery/${item.slug}`}
-                      className="inline-block text-base transition hover:text-orange-400">
+                      className="inline-block text-sm transition hover:text-orange-400 sm:text-base">
                       {item.name}
                     </Link>
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="rounded-[32px] border border-slate-800 bg-slate-900/80 p-8 shadow-lg shadow-slate-900/20">
-              <h3 className="mb-5 text-xl font-semibold text-white">Tautan</h3>
-              <ul className="space-y-3 text-slate-300">
+            <div className="rounded-xl border border-slate-800 bg-slate-900/80 p-4 shadow-lg shadow-slate-900/20 sm:rounded-[32px] sm:p-8">
+              <h3 className="mb-4 text-lg font-semibold text-white sm:mb-5 sm:text-xl">Tautan</h3>
+              <ul className="space-y-2.5 text-slate-300 sm:space-y-3">
                 <li>
                   <a
                     href="#home"
-                    className="inline-block text-base transition hover:text-orange-400">
+                    className="inline-block text-sm transition hover:text-orange-400 sm:text-base">
                     Beranda
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="#about"
-                    className="inline-block text-base transition hover:text-orange-400">
-                    Tentang Kami
-                  </a>
+                  <Link
+                    to="/layanan-kalibrasi"
+                    className="inline-block text-sm transition hover:text-orange-400 sm:text-base">
+                    Layanan Kalibrasi
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#calibration-scope"
-                    className="inline-block text-base transition hover:text-orange-400">
-                    Kapabilitas
-                  </a>
+                  <Link
+                    to="/ruang-lingkup"
+                    className="inline-block text-sm transition hover:text-orange-400 sm:text-base">
+                    Ruang Lingkup
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#portfolio"
-                    className="inline-block text-base transition hover:text-orange-400">
+                  <Link
+                    to="/konsultasi-pelatihan"
+                    className="inline-block text-sm transition hover:text-orange-400 sm:text-base">
+                    Konsultansi & Pelatihan
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/galeri"
+                    className="inline-block text-sm transition hover:text-orange-400 sm:text-base">
                     Galeri Kerja
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a
-                    href="#clients"
-                    className="inline-block text-base transition hover:text-orange-400">
-                    Pelanggan
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#contact"
-                    className="inline-block text-base transition hover:text-orange-400">
+                  <Link
+                    to="/kontak"
+                    className="inline-block text-sm transition hover:text-orange-400 sm:text-base">
                     Kontak
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
