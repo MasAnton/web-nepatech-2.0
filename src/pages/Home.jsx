@@ -3,26 +3,49 @@ import { Link } from "react-router-dom";
 import ContactForm from "../components/ContactForm";
 import Seo from "../components/Seo";
 const clientLogos = [
-  { src: "/img/PNG/atq.webp", alt: "ATQ" },
-  { src: "/img/PNG/Aetra.webp", alt: "Aetra" },
+  {
+    src: "/img/PNG/Surveyor Indonesia.webp",
+    alt: "PT Surveyor Indonesia",
+  },
+  { src: "/img/PNG/Geoservices.webp", alt: "Geoservices", scale: 1.2 },
+  { src: "/img/PNG/Sucofindo.webp", alt: "PT Sucofindo" },
+  {
+    src: "/img/PNG/atq.png",
+    alt: "ATQ Surveyor - PT Asiatrust Technovima Qualiti",
+    scale: 1.15,
+  },
+  { src: "/img/PNG/CGR.webp", alt: "CGR", scale: 1.25 },
+  {
+    src: "/img/PNG/MA.webp",
+    alt: "PT Mitrabara Adiperdana Tbk",
+  },
+  {
+    src: "/img/PNG/bureau-veritas-corporate.webp",
+    alt: "PT Bureau Veritas Indonesia",
+    portrait: true,
+  },
+  {
+    src: "/img/PNG/cotecna-negative.webp",
+    alt: "PT Cotecna Inspection Indonesia",
+  },
+  { src: "/img/PNG/indexim.webp", alt: "PT Indexim Coalindo" },
+  { src: "/img/PNG/MSK.webp", alt: "MSK" },
+  { src: "/img/PNG/Nusantara Power.webp", alt: "PLN Nusantara Power" },
+  { src: "/img/PNG/IP.webp", alt: "PLN Indonesia Power" },
+  { src: "/img/PNG/Aetra.webp", alt: "Aetra", scale: 1.2 },
   { src: "/img/PNG/Antam.webp", alt: "Antam" },
   { src: "/img/PNG/BP.webp", alt: "BP" },
   { src: "/img/PNG/BSA.webp", alt: "BSA" },
-  { src: "/img/PNG/CGR.webp", alt: "CGR" },
   { src: "/img/PNG/Geomin.webp", alt: "Geomin" },
-  { src: "/img/PNG/Geoservices.webp", alt: "Geoservices" },
-  { src: "/img/PNG/IBIS.webp", alt: "IBIS" },
-  { src: "/img/PNG/IP.webp", alt: "IP" },
+  { src: "/img/PNG/IBIS.webp", alt: "IBIS", scale: 1.2 },
   { src: "/img/PNG/Krakatau.webp", alt: "Krakatau" },
-  { src: "/img/PNG/LBE.webp", alt: "LBE" },
-  { src: "/img/PNG/MA.webp", alt: "MA" },
-  { src: "/img/PNG/MSK.webp", alt: "MSK" },
-  { src: "/img/PNG/Nusantara Power.webp", alt: "Nusantara Power" },
-  { src: "/img/PNG/PJB.webp", alt: "PJB" },
+  {
+    src: "/img/PNG/LBE.webp",
+    alt: "PT Lestari Banten Energi",
+    scale: 1.25,
+  },
   { src: "/img/PNG/PLN.webp", alt: "PLN" },
-  { src: "/img/PNG/SCCI.webp", alt: "SCCI" },
-  { src: "/img/PNG/Sucofindo.webp", alt: "Sucofindo" },
-  { src: "/img/PNG/Surveyor Indonesia.webp", alt: "Surveyor Indonesia" },
+  { src: "/img/PNG/SCCI.webp", alt: "SCCI", scale: 0.82 },
   { src: "/img/PNG/Tek-MIRA.webp", alt: "Tek-MIRA" },
   { src: "/img/PNG/TOP.webp", alt: "TOP" },
   {
@@ -41,28 +64,20 @@ const clientLogos = [
     alt: "PT Anindya Wiraputra Konsult",
   },
   {
-    src: "/img/PNG/bureau-veritas-corporate.webp",
-    alt: "PT Bureau Veritas Indonesia",
-    portrait: true,
-  },
-  {
-    src: "/img/PNG/cotecna-negative.webp",
-    alt: "PT Cotecna Inspection Indonesia",
-  },
-  {
     src: "/img/PNG/tribhakti-optimized.webp",
     alt: "PT Tribhakti Inspektama",
   },
   {
     src: "/img/PNG/zai.webp",
     alt: "PT Zafina Analitika Inspektama",
+    scale: 1.25,
   },
   { src: "/img/PNG/sgs.webp", alt: "PT SGS Indonesia" },
-  { src: "/img/PNG/indexim.webp", alt: "PT Indexim Coalindo" },
   { src: "/img/PNG/bukit-asam.webp", alt: "PT Bukit Asam Tbk" },
   {
     src: "/img/PNG/mgm-coal.webp",
     alt: "PT Marunda Grahamineral",
+    scale: 1.35,
   },
   {
     src: "/img/PNG/gema-kreasi-perdana.webp",
@@ -83,11 +98,13 @@ const clientLogos = [
   {
     src: "/img/certifications/indocement.webp",
     alt: "PT Indocement Tunggal Prakarsa Tbk",
+    scale: 1.2,
   },
   { src: "/img/PNG/semen-grobogan.webp", alt: "PT Semen Grobogan" },
   {
     src: "/img/PNG/emas-murni-abadi.webp",
     alt: "PT Emas Murni Abadi",
+    scale: 1.3,
   },
   { src: "/img/PNG/kahatex.webp", alt: "PT Kahatex" },
   { src: "/img/PNG/pipit-group.webp", alt: "Pipit Group" },
@@ -1194,6 +1211,11 @@ function Home() {
                     title={logo.alt}
                     className={`${!showAllClients && index >= 12 ? "hidden sm:flex" : "flex"} group h-16 flex-col items-center justify-center gap-1 overflow-hidden rounded-lg border border-slate-200 bg-white px-1.5 py-1.5 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-md sm:h-28 sm:rounded-2xl sm:p-4`}>
                     <div
+                      style={
+                        logo.scale
+                          ? { transform: `scale(${logo.scale})` }
+                          : undefined
+                      }
                       className={`flex w-full shrink-0 items-center justify-center rounded-lg bg-transparent ${
                         logo.portrait
                           ? logo.caption
