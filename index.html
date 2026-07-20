@@ -3,6 +3,44 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (() => {
+        const navigationEntries =
+          window.performance?.getEntriesByType?.("navigation") ?? [];
+        const navigationEntry = navigationEntries[0];
+        const legacyNavigation = window.performance?.navigation;
+        const isReload =
+          navigationEntry?.type === "reload" ||
+          legacyNavigation?.type === legacyNavigation?.TYPE_RELOAD;
+        const isHomePath = /^\/(?:index\.html)?$/.test(
+          window.location.pathname,
+        );
+
+        if (!isReload || !isHomePath) return;
+
+        const previousRestoration = window.history.scrollRestoration;
+        window.history.scrollRestoration = "manual";
+
+        if (window.location.hash) {
+          const cleanUrl = `${window.location.pathname}${window.location.search}`;
+          window.history.replaceState(window.history.state, "", cleanUrl);
+        }
+
+        const resetScroll = () => window.scrollTo(0, 0);
+        resetScroll();
+        window.addEventListener(
+          "pageshow",
+          () => {
+            resetScroll();
+            window.requestAnimationFrame(() => {
+              resetScroll();
+              window.history.scrollRestoration = previousRestoration;
+            });
+          },
+          { once: true },
+        );
+      })();
+    </script>
     <meta name="description" content="Laboratorium kalibrasi terakreditasi KAN LK-377-IDN untuk ruang lingkup tertentu, serta layanan konsultansi, pelatihan, maintenance, dan supply." />
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#0f172a" />
@@ -11,37 +49,19 @@
     <meta property="og:site_name" content="PT. Nepatech Global Solusindo" />
     <meta property="og:title" content="PT. Nepatech Global Solusindo" />
     <meta property="og:description" content="Laboratorium kalibrasi terakreditasi KAN LK-377-IDN untuk ruang lingkup tertentu, serta layanan konsultansi, pelatihan, maintenance, dan supply." />
-    <meta property="og:image" content="/img/carousel/hero/1.png" />
+    <meta property="og:image" content="https://ntgs.co.id/img/carousel/hero/2.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="PT. Nepatech Global Solusindo" />
     <meta name="twitter:description" content="Laboratorium kalibrasi terakreditasi KAN LK-377-IDN untuk ruang lingkup tertentu, serta layanan konsultansi, pelatihan, maintenance, dan supply." />
-    <meta name="twitter:image" content="/img/carousel/hero/1.png" />
+    <meta name="twitter:image" content="https://ntgs.co.id/img/carousel/hero/2.png" />
     <title>PT. Nepatech Global Solusindo</title>
     <link rel="icon" type="image/png" href="/img/titleLogoNTGS.png" />
     <link rel="apple-touch-icon" href="/img/titleLogoNTGS.png" />
+    <link rel="preload" as="image" href="/img/logoNGS_dark.png?v=2" fetchpriority="high" />
     <link rel="preload" as="image" href="/img/carousel/hero/2.png" fetchpriority="high" />
     <link rel="manifest" href="/site.webmanifest" />
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "ProfessionalService",
-        "name": "PT. Nepatech Global Solusindo",
-        "description": "Laboratorium kalibrasi terakreditasi KAN LK-377-IDN untuk ruang lingkup tertentu, serta layanan konsultansi, pelatihan, maintenance, dan supply.",
-        "email": "operation@ntgs.co.id",
-        "telephone": "+62-812-6708-4525",
-        "image": "/img/logoNGS.png",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "Grand Wisata, Cluster Garden Hous BG01 No. 75, Lambangjaya",
-          "addressLocality": "Tambun Selatan",
-          "addressRegion": "Jawa Barat",
-          "addressCountry": "ID"
-        },
-        "sameAs": ["https://maps.app.goo.gl/YWmghbVbgQzRdMFm7"]
-      }
-    </script>
-    <script type="module" crossorigin src="/assets/index-CMTS_YEy.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-4ebqp0j6.css">
+    <script type="module" crossorigin src="/assets/index-CrJEzTa8.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-fOYDdG01.css">
   </head>
   <body>
     <div id="root"></div>

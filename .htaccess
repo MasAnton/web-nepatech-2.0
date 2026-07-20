@@ -1,3 +1,19 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  RewriteCond %{HTTPS} !=on [OR]
+  RewriteCond %{HTTP_HOST} !^ntgs\.co\.id$ [NC]
+  RewriteRule ^ https://ntgs.co.id%{REQUEST_URI} [R=301,L]
+
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(?:layanan-kalibrasi|ruang-lingkup|konsultasi-pelatihan|galeri|kontak)/?$ index.html [L]
+
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^gallery/(?:furnace|kalorimeter|laboratory-mill|timbangan)/?$ index.html [L]
+</IfModule>
+
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresByType image/webp "access plus 1 month"
