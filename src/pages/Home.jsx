@@ -709,7 +709,7 @@ function Home() {
                       {isPageLink ? (
                         <Link
                           to={href}
-                          className="site-nav-link mx-3 flex py-2 text-sm text-slate-900 dark:text-slate-100 xl:mx-5 xl:text-base">
+                          className="site-nav-link mx-3 flex py-2 text-sm font-semibold text-slate-900 dark:text-slate-100 xl:mx-5">
                           {label}
                         </Link>
                       ) : (
@@ -721,8 +721,8 @@ function Home() {
                           aria-current={isActive ? "location" : undefined}
                           className={
                             isContact
-                              ? `site-nav-contact ml-3 inline-flex rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-orange-500 xl:ml-5 xl:text-base ${isActive ? "is-active" : ""}`
-                              : `site-nav-link mx-3 flex py-2 text-sm xl:mx-5 xl:text-base ${isActive ? "is-active font-semibold text-orange-700 dark:text-orange-300" : "text-slate-900 dark:text-slate-100"}`
+                              ? `site-nav-contact ml-3 inline-flex rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-orange-500 xl:ml-5 ${isActive ? "is-active" : ""}`
+                              : `site-nav-link mx-3 flex py-2 text-sm font-semibold xl:mx-5 ${isActive ? "is-active text-orange-700 dark:text-orange-300" : "text-slate-900 dark:text-slate-100"}`
                           }>
                           {label}
                         </a>
@@ -742,7 +742,7 @@ function Home() {
               <ul className="space-y-1">
                 {navLinks.map(([label, href]) => {
                   const isPageLink = href.startsWith("/");
-                  const className = `block rounded-lg px-3 py-2 text-sm font-medium transition sm:rounded-xl sm:px-4 sm:py-3 sm:text-base ${href === "#contact" ? "bg-primary text-center font-semibold text-white hover:bg-orange-500" : activeSection === href.slice(1) ? "border-l-4 border-primary bg-slate-100 text-orange-700 dark:bg-slate-800 dark:text-orange-300" : "border-l-4 border-transparent text-slate-900 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800"}`;
+                  const className = `block rounded-lg px-3 py-2 text-sm font-semibold transition sm:rounded-xl sm:px-4 sm:py-3 ${href === "#contact" ? "bg-primary text-center text-white hover:bg-orange-500" : activeSection === href.slice(1) ? "border-l-4 border-primary bg-slate-100 text-orange-700 dark:bg-slate-800 dark:text-orange-300" : "border-l-4 border-transparent text-slate-900 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800"}`;
 
                   return (
                     <li key={label}>
