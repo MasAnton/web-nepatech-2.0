@@ -2,18 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ContactForm from "../components/ContactForm";
 import Seo from "../components/Seo";
-import galleryManifest from "../data/gallery-manifest.json";
-
-const galleryLinks = Object.values(galleryManifest.categories).map(
-  (category) => ({
-    slug: category.slug,
-    name: category.heading,
-    title: category.title,
-    image: category.images[0].src,
-    srcSet: category.images[0].srcSet,
-  }),
-);
-
 const clientLogos = [
   { src: "/img/PNG/atq.webp", alt: "ATQ" },
   { src: "/img/PNG/Aetra.webp", alt: "Aetra" },
@@ -303,7 +291,8 @@ const trainingTopics = [
 const navLinks = [
   ["Beranda", "#home"],
   ["Tentang Kami", "#about"],
-  ["Galeri Kerja", "#portfolio"],
+  ["Layanan", "/layanan-kalibrasi"],
+  ["Galeri Kerja", "/galeri"],
   ["Pelanggan", "#clients"],
   ["FAQ", "#faq"],
   ["Lokasi", "#location"],
@@ -534,7 +523,6 @@ function Home() {
       ["home", "home"],
       ["about", "about"],
       ["calibration-scope", "about"],
-      ["portfolio", "portfolio"],
       ["clients", "clients"],
       ["faq", "faq"],
       ["location", "location"],
@@ -712,24 +700,33 @@ function Home() {
               className="hidden lg:block lg:order-2">
               <ul className="flex">
                 {navLinks.map(([label, href]) => {
+                  const isPageLink = href.startsWith("/");
                   const id = href.replace("#", "");
                   const isActive = activeSection === id;
                   const isContact = id === "contact";
                   return (
                     <li key={label} className="group">
-                       <a
-                         href={href}
-                         onClick={(event) =>
-                           handleSectionNavigation(event, href)
-                         }
-                         aria-current={isActive ? "location" : undefined}
-                         className={
-                          isContact
-                            ? `site-nav-contact ml-3 inline-flex rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-orange-500 xl:ml-5 xl:text-base ${isActive ? "is-active" : ""}`
-                            : `site-nav-link mx-3 flex py-2 text-sm xl:mx-5 xl:text-base ${isActive ? "is-active font-semibold text-orange-700 dark:text-orange-300" : "text-slate-900 dark:text-slate-100"}`
-                        }>
-                        {label}
-                      </a>
+                      {isPageLink ? (
+                        <Link
+                          to={href}
+                          className="site-nav-link mx-3 flex py-2 text-sm text-slate-900 dark:text-slate-100 xl:mx-5 xl:text-base">
+                          {label}
+                        </Link>
+                      ) : (
+                        <a
+                          href={href}
+                          onClick={(event) =>
+                            handleSectionNavigation(event, href)
+                          }
+                          aria-current={isActive ? "location" : undefined}
+                          className={
+                            isContact
+                              ? `site-nav-contact ml-3 inline-flex rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-orange-500 xl:ml-5 xl:text-base ${isActive ? "is-active" : ""}`
+                              : `site-nav-link mx-3 flex py-2 text-sm xl:mx-5 xl:text-base ${isActive ? "is-active font-semibold text-orange-700 dark:text-orange-300" : "text-slate-900 dark:text-slate-100"}`
+                          }>
+                          {label}
+                        </a>
+                      )}
                     </li>
                   );
                 })}
@@ -743,23 +740,37 @@ function Home() {
               aria-label="Navigasi seluler"
               className="mobile-menu-enter absolute inset-x-0 top-full max-h-[calc(100vh-4rem)] overflow-y-auto rounded-b-2xl border border-t-0 border-slate-200 bg-white/95 p-2 shadow-xl backdrop-blur-xl dark:border-slate-700 dark:bg-slate-950/95 sm:inset-x-4 sm:max-h-[calc(100vh-5rem)] sm:p-3 lg:hidden">
               <ul className="space-y-1">
-                {navLinks.map(([label, href]) => (
-                  <li key={label}>
-                    <a
-                      href={href}
-                      aria-current={
-                        activeSection === href.slice(1)
-                          ? "location"
-                          : undefined
-                      }
-                      className={`block rounded-lg px-3 py-2 text-sm font-medium transition sm:rounded-xl sm:px-4 sm:py-3 sm:text-base ${href === "#contact" ? "bg-primary text-center font-semibold text-white hover:bg-orange-500" : activeSection === href.slice(1) ? "border-l-4 border-primary bg-slate-100 text-orange-700 dark:bg-slate-800 dark:text-orange-300" : "border-l-4 border-transparent text-slate-900 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800"}`}
-                      onClick={(event) =>
-                        handleSectionNavigation(event, href)
-                      }>
-                      {label}
-                    </a>
-                  </li>
-                ))}
+                {navLinks.map(([label, href]) => {
+                  const isPageLink = href.startsWith("/");
+                  const className = `block rounded-lg px-3 py-2 text-sm font-medium transition sm:rounded-xl sm:px-4 sm:py-3 sm:text-base ${href === "#contact" ? "bg-primary text-center font-semibold text-white hover:bg-orange-500" : activeSection === href.slice(1) ? "border-l-4 border-primary bg-slate-100 text-orange-700 dark:bg-slate-800 dark:text-orange-300" : "border-l-4 border-transparent text-slate-900 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800"}`;
+
+                  return (
+                    <li key={label}>
+                      {isPageLink ? (
+                        <Link
+                          to={href}
+                          className={className}
+                          onClick={() => setMenuOpen(false)}>
+                          {label}
+                        </Link>
+                      ) : (
+                        <a
+                          href={href}
+                          aria-current={
+                            activeSection === href.slice(1)
+                              ? "location"
+                              : undefined
+                          }
+                          className={className}
+                          onClick={(event) =>
+                            handleSectionNavigation(event, href)
+                          }>
+                          {label}
+                        </a>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </nav>
           )}
@@ -1158,73 +1169,6 @@ function Home() {
         </section>
 
         <section
-          id="portfolio"
-          className="light-ambient-surface light-ambient-surface--reverse scroll-mt-20 bg-white py-8 dark:bg-slate-900 sm:scroll-mt-24 sm:py-16 lg:py-28">
-          <div className="container">
-            <div
-              data-reveal
-              className="reveal-content mb-6 px-0 text-center sm:mb-14 sm:px-4">
-              <span className="inline-flex rounded-full bg-orange-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-700 dark:bg-orange-500/10 dark:text-orange-200 sm:px-4 sm:py-2 sm:text-sm sm:tracking-[0.2em]">
-                Galeri Kerja
-              </span>
-              <h2 className="mt-3 text-[22px] font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-100 sm:mt-5 sm:text-4xl md:text-5xl lg:text-6xl">
-                Tampilkan dokumentasi terbaik dari setiap proyek kami.
-              </h2>
-              <p className="mx-auto mt-3 max-w-2xl text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-lg sm:leading-8">
-                Jelajahi foto-foto terbaru dari kalibrasi, maintenance, dan
-                pemasangan peralatan laboratorium di lapangan.
-              </p>
-            </div>
-            <div className="grid grid-cols-2 gap-3 px-0 sm:gap-6 sm:px-4 xl:grid-cols-4">
-              {galleryLinks.map((item, index) => (
-                <Link
-                  key={item.slug}
-                  to={`/gallery/${item.slug}`}
-                  data-reveal
-                  style={{ transitionDelay: `${index * 70}ms` }}
-                  className="reveal-card group min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-white text-left transition duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-xl hover:shadow-orange-950/5 dark:border-slate-700 dark:bg-slate-950 dark:hover:border-orange-500/40 sm:rounded-[28px]">
-                  <div className="lazy-media-frame relative aspect-[4/3] overflow-hidden bg-slate-200">
-                    <img
-                      src={item.image}
-                      srcSet={item.srcSet}
-                      sizes="(min-width: 1280px) 25vw, 50vw"
-                      alt={`Dokumentasi ${item.title}`}
-                      loading="lazy"
-                      decoding="async"
-                      onLoad={showLoadedImage}
-                      onError={showLoadedImage}
-                      className="smooth-media media-zoom h-full w-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/45 via-transparent to-transparent" />
-                    <span className="absolute right-2 top-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-base text-slate-900 shadow-sm backdrop-blur transition group-hover:bg-primary group-hover:text-white sm:right-4 sm:top-4 sm:h-10 sm:w-10 sm:text-xl">
-                      <span aria-hidden="true">↗</span>
-                    </span>
-                  </div>
-                  <div className="p-3 sm:p-6">
-                    <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-orange-700 sm:text-xs sm:tracking-[0.24em]">
-                      {item.name}
-                    </p>
-                    <h3 className="mt-2 text-sm font-bold leading-snug text-slate-900 dark:text-slate-100 sm:mt-3 sm:text-2xl">
-                      {item.title}
-                    </h3>
-                    <p className="mt-3 hidden text-sm leading-6 text-slate-500 dark:text-slate-400 sm:block">
-                      Lihat dokumentasi pekerjaan selengkapnya.
-                    </p>
-                  </div>
-                </Link>
-              ))}
-            </div>
-            <div className="mt-6 text-center sm:mt-10">
-              <Link
-                to="/galeri"
-                className="inline-flex min-h-11 items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:bg-orange-500 sm:px-7 sm:text-base">
-                Lihat semua foto & filter galeri
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        <section
           id="clients"
           className="light-grid-surface scroll-mt-20 bg-slate-50 py-8 text-slate-900 dark:bg-slate-900 dark:text-slate-100 sm:scroll-mt-24 sm:py-20 lg:py-28">
           <div data-reveal className="reveal-content container">
@@ -1443,17 +1387,15 @@ function Home() {
               <h3 className="mb-4 text-lg font-semibold text-white sm:mb-5 sm:text-xl">
                 Galeri Kerja
               </h3>
-              <ul className="space-y-2.5 text-slate-300 sm:space-y-3">
-                {galleryLinks.map((item) => (
-                  <li key={item.slug}>
-                    <Link
-                      to={`/gallery/${item.slug}`}
-                      className="inline-block text-sm transition hover:text-orange-400 sm:text-base">
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+              <p className="text-sm leading-6 text-slate-400 sm:text-base">
+                Lihat dokumentasi kalibrasi, maintenance, dan pemasangan
+                peralatan pada halaman galeri khusus.
+              </p>
+              <Link
+                to="/galeri"
+                className="mt-4 inline-flex text-sm font-semibold text-orange-400 transition hover:text-orange-300 sm:text-base">
+                Buka Galeri Kerja →
+              </Link>
             </div>
             <div className="rounded-xl border border-slate-800 bg-slate-900/80 p-4 shadow-lg shadow-slate-900/20 sm:rounded-[32px] sm:p-8">
               <h3 className="mb-4 text-lg font-semibold text-white sm:mb-5 sm:text-xl">Tautan</h3>

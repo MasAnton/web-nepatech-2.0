@@ -335,6 +335,12 @@ function ServicePage({ pageKey }) {
       <main>
         <section className="hero-surface overflow-hidden py-10 sm:py-16 lg:py-20">
           <div className="hero-enter container">
+            <Link
+              to="/"
+              className="mb-5 inline-flex min-h-10 items-center rounded-full border border-slate-300 bg-white/80 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-primary hover:text-orange-700 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:border-primary dark:hover:text-orange-300 sm:mb-7">
+              <span aria-hidden="true" className="mr-2">←</span>
+              Kembali ke Beranda
+            </Link>
             <nav aria-label="Breadcrumb" className="text-xs font-semibold sm:text-sm">
               <ol className="flex flex-wrap items-center gap-2 text-slate-500 dark:text-slate-400">
                 <li>

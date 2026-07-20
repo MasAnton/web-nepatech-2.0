@@ -154,7 +154,7 @@ function GalleryPage() {
         <section className="hero-surface border-b border-slate-200 py-9 dark:border-slate-800 sm:py-14">
           <div className="hero-enter container">
             <Link
-              to="/#portfolio"
+              to="/"
               className="inline-flex min-h-10 items-center gap-2 rounded-full bg-orange-100 px-4 py-2 text-xs font-semibold text-orange-700 transition hover:bg-orange-200 dark:bg-orange-500/10 dark:text-orange-300 dark:hover:bg-orange-500/20 sm:text-sm">
               <svg
                 aria-hidden="true"
