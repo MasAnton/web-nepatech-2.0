@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ContactForm from "../components/ContactForm";
 import Seo from "../components/Seo";
+
+const heroHeadline = "Solusi laboratorium andal untuk operasional modern";
+const heroHeadlineWords = heroHeadline.split(" ");
+
 const clientLogos = [
   {
     src: "/img/PNG/Surveyor Indonesia.webp",
@@ -441,7 +445,9 @@ function Home() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [carouselPaused, setCarouselPaused] = useState(() => {
     if (typeof window === "undefined") return false;
-    return window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
+    return (
+      window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false
+    );
   });
   const [activeSection, setActiveSection] = useState(() => {
     if (typeof window === "undefined") return "home";
@@ -478,10 +484,9 @@ function Home() {
       });
     };
 
-    const idleCallback = window.requestIdleCallback?.(
-      preloadCarouselImages,
-      { timeout: 1200 },
-    );
+    const idleCallback = window.requestIdleCallback?.(preloadCarouselImages, {
+      timeout: 1200,
+    });
     const fallbackTimer =
       idleCallback === undefined
         ? window.setTimeout(preloadCarouselImages, 150)
@@ -551,7 +556,8 @@ function Home() {
       animationFrame = undefined;
       const headerHeight =
         document.querySelector("[data-site-header]")?.offsetHeight ?? 0;
-      const readingLine = headerHeight + Math.min(window.innerHeight * 0.24, 180);
+      const readingLine =
+        headerHeight + Math.min(window.innerHeight * 0.24, 180);
       let nextSection = "home";
 
       sectionMap.forEach(([sectionId, navId]) => {
@@ -665,15 +671,11 @@ function Home() {
             <div>
               <a
                 href="#home"
-                onClick={(event) =>
-                  handleSectionNavigation(event, "#home")
-                }
+                onClick={(event) => handleSectionNavigation(event, "#home")}
                 className="inline-flex rounded-lg p-1 transition-opacity duration-300 hover:opacity-90 sm:rounded-xl sm:p-1.5">
                 <img
                   src={
-                    darkMode
-                      ? "/img/logoNGS_dark.png?v=2"
-                      : "/img/logoNGS.png"
+                    darkMode ? "/img/logoNGS_dark.png?v=2" : "/img/logoNGS.png"
                   }
                   className="w-[82px] sm:w-[120px]"
                   alt="PT. Nepatech Global Solusindo"
@@ -806,8 +808,22 @@ function Home() {
                   <span className="mr-2 inline-flex h-2 w-2 rounded-full bg-primary" />
                   PT. Nepatech Global Solusindo
                 </div>
-                <h1 className="mx-auto mt-4 max-w-[1320px] text-balance text-[28px] font-black leading-[1.08] tracking-[-0.035em] text-slate-900 dark:text-slate-100 sm:mt-6 sm:text-5xl sm:leading-[1.04] md:text-6xl lg:text-[80px] lg:leading-[0.98] xl:text-[88px] 2xl:text-[96px]">
-                  Solusi laboratorium andal untuk operasional modern
+                <h1
+                  aria-label={heroHeadline}
+                  className="mx-auto mt-4 max-w-[1320px] text-balance text-[28px] font-black leading-[1.08] tracking-[-0.035em] text-slate-900 dark:text-slate-100 sm:mt-6 sm:text-5xl sm:leading-[1.04] md:text-6xl lg:text-[80px] lg:leading-[0.98] xl:text-[88px] 2xl:text-[96px]">
+                  <span aria-hidden="true" className="hero-word-reveal">
+                    {heroHeadlineWords.map((word, index) => (
+                      <span
+                        key={word}
+                        className="hero-word-reveal__mask">
+                        <span
+                          className="hero-word-reveal__word"
+                          style={{ animationDelay: `${50 + index * 75}ms` }}>
+                          {word}
+                        </span>
+                      </span>
+                    ))}
+                  </span>
                 </h1>
                 <p className="mx-auto mt-3 max-w-4xl text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-lg sm:leading-8 lg:text-xl lg:leading-9">
                   Kalibrasi dalam ruang lingkup KAN LK-377-IDN, didukung
@@ -891,7 +907,9 @@ function Home() {
                         </button>
                         <button
                           type="button"
-                          onClick={() => setCarouselPaused((current) => !current)}
+                          onClick={() =>
+                            setCarouselPaused((current) => !current)
+                          }
                           className={`inline-flex h-8 w-8 items-center justify-center rounded-full transition sm:h-9 sm:w-9 ${carouselPaused ? "bg-orange-100 text-orange-700 hover:bg-orange-200 dark:bg-orange-500/15 dark:text-orange-300 dark:hover:bg-orange-500/25" : "bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"}`}
                           aria-label={
                             carouselPaused
@@ -911,8 +929,20 @@ function Home() {
                               aria-hidden="true"
                               viewBox="0 0 20 20"
                               className="h-3.5 w-3.5 fill-current">
-                              <rect x="5" y="4" width="3.5" height="12" rx="1" />
-                              <rect x="11.5" y="4" width="3.5" height="12" rx="1" />
+                              <rect
+                                x="5"
+                                y="4"
+                                width="3.5"
+                                height="12"
+                                rx="1"
+                              />
+                              <rect
+                                x="11.5"
+                                y="4"
+                                width="3.5"
+                                height="12"
+                                rx="1"
+                              />
                             </svg>
                           )}
                         </button>
@@ -1161,7 +1191,9 @@ function Home() {
                 </div>
 
                 <div className="mt-5 rounded-xl border-l-4 border-l-primary bg-slate-900 p-4 text-white dark:bg-slate-800 sm:mt-7 sm:rounded-2xl sm:p-5">
-                  <p className="text-sm font-semibold sm:text-base">Penyusunan Dokumen Mutu</p>
+                  <p className="text-sm font-semibold sm:text-base">
+                    Penyusunan Dokumen Mutu
+                  </p>
                   <p className="mt-1.5 text-xs leading-5 text-slate-300 sm:mt-2 sm:text-sm sm:leading-6">
                     Panduan Mutu, SOP, Instruksi Kerja, dan formulir sistem
                     manajemen maupun pengujian.
@@ -1389,9 +1421,9 @@ function Home() {
                 nepatech1gs@gmail.com
               </a>
               <a
-                href="tel:+6281267084525"
+                href="tel:02138716118"
                 className="mt-3 block text-sm font-semibold text-white transition hover:text-orange-300 sm:text-base">
-                +62 812-6708-4525
+                Hotline : 02138716118
               </a>
               <p className="mt-4 text-sm leading-7 text-slate-400">
                 Grand Wisata, Cluster Garden Hous BG01 No. 75, Lambangjaya,
@@ -1420,7 +1452,9 @@ function Home() {
               </Link>
             </div>
             <div className="rounded-xl border border-slate-800 bg-slate-900/80 p-4 shadow-lg shadow-slate-900/20 sm:rounded-[32px] sm:p-8">
-              <h3 className="mb-4 text-lg font-semibold text-white sm:mb-5 sm:text-xl">Tautan</h3>
+              <h3 className="mb-4 text-lg font-semibold text-white sm:mb-5 sm:text-xl">
+                Tautan
+              </h3>
               <ul className="space-y-2.5 text-slate-300 sm:space-y-3">
                 <li>
                   <a

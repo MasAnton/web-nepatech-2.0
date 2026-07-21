@@ -75,41 +75,78 @@ function ContactForm({ embedded = false }) {
                 operation@ntgs.co.id
               </a>
               <a
-                href="tel:+6281267084525"
+                href="mailto:nepatech1gs@gmail.com"
+                className="mt-2 block transition hover:text-orange-300">
+                nepatech1gs@gmail.com
+              </a>
+              <a
+                href="tel:02138716118"
                 className="mt-1 block transition hover:text-orange-300">
-                +62 812-6708-4525
+                Hotline : 02138716118
               </a>
             </div>
           </div>
 
           <form onSubmit={handleSubmit} className="p-4 sm:p-10 lg:p-12">
             <div className="mb-4 sm:mb-5">
-              <label htmlFor="contact-name" className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
+              <label
+                htmlFor="contact-name"
+                className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
                 Nama
               </label>
-              <input id="contact-name" name="from_name" required autoComplete="name" placeholder="Nama lengkap" className={fieldClass} />
+              <input
+                id="contact-name"
+                name="from_name"
+                required
+                autoComplete="name"
+                placeholder="Nama lengkap"
+                className={fieldClass}
+              />
             </div>
 
             <div className="mb-4 sm:mb-5">
-              <label htmlFor="contact-email" className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
+              <label
+                htmlFor="contact-email"
+                className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
                 Email
               </label>
-              <input id="contact-email" name="email_id" type="email" required autoComplete="email" placeholder="nama@perusahaan.com" className={fieldClass} />
+              <input
+                id="contact-email"
+                name="email_id"
+                type="email"
+                required
+                autoComplete="email"
+                placeholder="nama@perusahaan.com"
+                className={fieldClass}
+              />
             </div>
 
             <div className="mb-4 sm:mb-6">
-              <label htmlFor="contact-message" className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
+              <label
+                htmlFor="contact-message"
+                className="mb-2 block text-sm font-semibold text-slate-700 dark:text-slate-200">
                 Pesan
               </label>
-              <textarea id="contact-message" name="message" required placeholder="Jelaskan kebutuhan Anda..." className={`${fieldClass} h-28 resize-y sm:h-36`} />
+              <textarea
+                id="contact-message"
+                name="message"
+                required
+                placeholder="Jelaskan kebutuhan Anda..."
+                className={`${fieldClass} h-28 resize-y sm:h-36`}
+              />
             </div>
 
             <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-              <button type="submit" disabled={isSubmitting} className="inline-flex min-w-32 items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:bg-orange-500 disabled:cursor-not-allowed disabled:opacity-60 sm:px-7 sm:text-base">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="inline-flex min-w-32 items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:bg-orange-500 disabled:cursor-not-allowed disabled:opacity-60 sm:px-7 sm:text-base">
                 {isSubmitting ? "Mengirim..." : "Kirim Pesan"}
               </button>
               {status && (
-                <p role="status" className={`text-sm font-medium ${status.type === "error" ? "text-red-600 dark:text-red-400" : "text-emerald-600 dark:text-emerald-400"}`}>
+                <p
+                  role="status"
+                  className={`text-sm font-medium ${status.type === "error" ? "text-red-600 dark:text-red-400" : "text-emerald-600 dark:text-emerald-400"}`}>
                   {status.message}
                 </p>
               )}
