@@ -813,9 +813,7 @@ function Home() {
                   className="mx-auto mt-4 max-w-[1320px] text-balance text-[28px] font-black leading-[1.08] tracking-[-0.035em] text-slate-900 dark:text-slate-100 sm:mt-6 sm:text-5xl sm:leading-[1.04] md:text-6xl lg:text-[80px] lg:leading-[0.98] xl:text-[88px] 2xl:text-[96px]">
                   <span aria-hidden="true" className="hero-word-reveal">
                     {heroHeadlineWords.map((word, index) => (
-                      <span
-                        key={word}
-                        className="hero-word-reveal__mask">
+                      <span key={word} className="hero-word-reveal__mask">
                         <span
                           className="hero-word-reveal__word"
                           style={{ animationDelay: `${50 + index * 75}ms` }}>
