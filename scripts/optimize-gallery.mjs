@@ -12,6 +12,7 @@ import sharp from "sharp";
 
 const galleryRoot = path.resolve("public/img/galery");
 const manifestPath = path.resolve("src/data/gallery-manifest.json");
+const previewManifestPath = path.resolve("src/data/gallery-preview.json");
 const sourcePattern = /\.(jpe?g|png)$/i;
 const variants = [
   { width: 480, quality: 74 },
@@ -37,6 +38,12 @@ const naturalSort = new Intl.Collator("id", {
   numeric: true,
   sensitivity: "base",
 });
+const previewSlugs = ["furnace", "laboratory-mill", "timbangan"];
+const lineEnding = process.platform === "win32" ? "\r\n" : "\n";
+
+function serializeJson(value) {
+  return `${JSON.stringify(value, null, 2).replace(/\n/g, lineEnding)}${lineEnding}`;
+}
 
 async function findSources(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
@@ -177,7 +184,20 @@ const categoryEntries = await Promise.all(
   ]),
 );
 const manifest = { categories: Object.fromEntries(categoryEntries) };
-const manifestContents = `${JSON.stringify(manifest, null, 2)}\n`;
+const manifestContents = serializeJson(manifest);
+const previewManifest = {
+  items: previewSlugs.map((slug) => {
+    const category = manifest.categories[slug];
+
+    return {
+      slug: category.slug,
+      title: category.title,
+      heading: category.heading,
+      image: category.images[0],
+    };
+  }),
+};
+const previewManifestContents = serializeJson(previewManifest);
 
 await mkdir(path.dirname(manifestPath), { recursive: true });
 let previousManifest = "";
@@ -192,4 +212,18 @@ if (manifestContents !== previousManifest) {
   console.log(`Updated ${path.relative(process.cwd(), manifestPath)}.`);
 } else {
   console.log("Gallery manifest is already up to date.");
+}
+
+let previousPreviewManifest = "";
+try {
+  previousPreviewManifest = await readFile(previewManifestPath, "utf8");
+} catch (error) {
+  if (error.code !== "ENOENT") throw error;
+}
+
+if (previewManifestContents !== previousPreviewManifest) {
+  await writeFile(previewManifestPath, previewManifestContents, "utf8");
+  console.log(`Updated ${path.relative(process.cwd(), previewManifestPath)}.`);
+} else {
+  console.log("Gallery preview manifest is already up to date.");
 }

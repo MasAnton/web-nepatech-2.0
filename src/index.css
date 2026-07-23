@@ -378,6 +378,15 @@ select {
   animation: none;
 }
 
+.dark .lazy-media-frame {
+  background: linear-gradient(90deg, #1e293b 20%, #334155 38%, #1e293b 56%);
+  background-size: 220% 100%;
+}
+
+.dark .lazy-media-frame.media-loaded {
+  background: #1e293b;
+}
+
 .page-fade {
   opacity: 0;
   transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1);
@@ -428,21 +437,40 @@ html.site-intro-active .hero-word-reveal__word {
   animation: mobile-menu-enter 0.24s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+.mobile-menu-backdrop {
+  animation: mobile-menu-backdrop-in 0.2s ease-out both;
+}
+
 .site-nav-link {
   position: relative;
-  transition: color 0.25s ease;
+  transition:
+    color 0.25s ease,
+    background-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.site-nav-link:hover,
+.site-nav-link:focus-visible {
+  background: rgba(255, 255, 255, 0.88);
+  color: #c45f00;
+}
+
+.dark .site-nav-link:hover,
+.dark .site-nav-link:focus-visible {
+  background: rgba(51, 65, 85, 0.72);
+  color: #fed7aa;
 }
 
 .site-nav-link::after {
   content: "";
   position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 3px;
+  bottom: 3px;
+  left: 50%;
+  width: 14px;
+  height: 2px;
   border-radius: 9999px;
   background: #f08300;
-  transform: scaleX(0);
+  transform: translateX(-50%) scaleX(0);
   transform-origin: center;
   transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -450,7 +478,7 @@ html.site-intro-active .hero-word-reveal__word {
 .site-nav-link:hover::after,
 .site-nav-link:focus-visible::after,
 .site-nav-link.is-active::after {
-  transform: scaleX(1);
+  transform: translateX(-50%) scaleX(1);
 }
 
 .site-nav-contact.is-active {
@@ -513,6 +541,15 @@ html.site-intro-active .hero-word-reveal__word {
   }
 }
 
+@keyframes mobile-menu-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @keyframes lazy-media-shimmer {
   from {
     background-position: 100% 0;
@@ -529,6 +566,7 @@ html.site-intro-active .hero-word-reveal__word {
 
   .page-fade,
   .hero-enter,
+  .mobile-menu-backdrop,
   .mobile-menu-enter,
   .hero-slide {
     opacity: 1 !important;
