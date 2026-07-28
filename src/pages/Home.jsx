@@ -89,6 +89,7 @@ const clientLogos = [
     src: "/img/PNG/gema-kreasi-perdana.webp",
     alt: "PT Gema Kreasi Perdana (GKP)",
     caption: "Gema Kreasi Perdana (GKP)",
+    compactMobile: true,
   },
   {
     src: "/img/PNG/mandiri-coal.webp",
@@ -128,11 +129,13 @@ const clientLogos = [
     src: "/img/PNG/leon-testing-consultancy.webp",
     alt: "PT Leon Testing and Consultancy",
     caption: "Leon Testing & Consultancy",
+    compactMobile: true,
   },
   {
     src: "/img/PNG/ugm.webp",
     alt: "Universitas Gadjah Mada",
     caption: "Universitas Gadjah Mada",
+    compactMobile: true,
   },
   {
     src: "/img/PNG/unsoed.webp",
@@ -193,7 +196,6 @@ const clientGroupDefinitions = [
       "PT Gema Kreasi Perdana (GKP)",
       "Mandiri Coal - PT Mandiri Intiperkasa",
       "PT Bara Prima Pratama",
-      "CGR",
     ],
   },
   {
@@ -219,6 +221,7 @@ const clientGroupDefinitions = [
       "PT SGS Indonesia",
       "PT Techno Consult Indonesia",
       "PT Leon Testing and Consultancy",
+      "CGR",
     ],
   },
   {
@@ -503,7 +506,9 @@ function ClientLogoCard({ logo, hidden = false, filler = false }) {
           logo.scale ? { transform: `scale(${logo.scale})` } : undefined
         }
         className={`flex w-full shrink-0 items-center justify-center rounded-lg bg-transparent ${
-          logo.portrait
+          logo.compactMobile
+            ? "h-6 sm:h-12"
+            : logo.portrait
             ? logo.caption
               ? "h-10 sm:h-14"
               : "h-12 sm:h-[68px]"
@@ -516,7 +521,7 @@ function ClientLogoCard({ logo, hidden = false, filler = false }) {
           decoding="async"
           src={logo.src}
           alt={hidden ? "" : logo.alt}
-          className="block h-full w-full object-contain transition duration-300 lg:grayscale lg:opacity-75 lg:group-hover:scale-[1.03] lg:group-hover:grayscale-0 lg:group-hover:opacity-100"
+          className="block h-full w-full object-contain transition duration-300 lg:group-hover:scale-[1.03]"
         />
       </div>
       {logo.caption && (
@@ -620,12 +625,7 @@ function Home() {
     );
   });
   const [activeSlide, setActiveSlide] = useState(0);
-  const [carouselPaused, setCarouselPaused] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return (
-      window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false
-    );
-  });
+  const [carouselPaused, setCarouselPaused] = useState(false);
   const [activeSection, setActiveSection] = useState(() => {
     if (typeof window === "undefined") return "home";
     const hash = decodeURIComponent(window.location.hash.slice(1));
@@ -633,7 +633,6 @@ function Home() {
     return navLinks.some(([, href]) => href === `#${hash}`) ? hash : "home";
   });
   const [openFaqIndex, setOpenFaqIndex] = useState(0);
-  const [clientMarqueesPaused, setClientMarqueesPaused] = useState(false);
   const currentHeroSlide = heroSlides[activeSlide];
 
   useEffect(() => {
@@ -798,10 +797,8 @@ function Home() {
     setMenuOpen(false);
     setActiveSection(targetId === "calibration-scope" ? "about" : targetId);
 
-    const prefersReducedMotion =
-      window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
     target.scrollIntoView({
-      behavior: prefersReducedMotion ? "auto" : "smooth",
+      behavior: "smooth",
       block: "start",
     });
 
@@ -1644,26 +1641,9 @@ function Home() {
                 manufaktur, serta institusi pendidikan di berbagai wilayah
                 Indonesia.
               </p>
-              <button
-                type="button"
-                aria-controls="client-logo-marquees"
-                onClick={() =>
-                  setClientMarqueesPaused((current) => !current)
-                }
-                className="client-marquee-control mx-auto mt-4 inline-flex min-h-10 items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:border-primary hover:text-orange-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200 dark:hover:border-primary dark:hover:text-orange-300 sm:mt-6 sm:text-sm">
-                <span
-                  aria-hidden="true"
-                  className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-[10px] text-orange-700 dark:bg-orange-500/15 dark:text-orange-300">
-                  {clientMarqueesPaused ? "▶" : "Ⅱ"}
-                </span>
-                {clientMarqueesPaused
-                  ? "Putar animasi logo"
-                  : "Jeda animasi logo"}
-              </button>
             </div>
             <div
               id="client-logo-marquees"
-              data-paused={clientMarqueesPaused}
               className="client-logo-marquees">
               {clientGroups.map((group) => {
                 const laneLogos = fillMarqueeLane(group.logos);

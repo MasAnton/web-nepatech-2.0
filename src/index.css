@@ -550,17 +550,6 @@ html.site-intro-active .hero-word-reveal__word {
   animation-direction: reverse;
 }
 
-.client-marquee:focus-within .client-marquee__track,
-.client-logo-marquees[data-paused="true"] .client-marquee__track {
-  animation-play-state: paused;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .client-marquee:hover .client-marquee__track {
-    animation-play-state: paused;
-  }
-}
-
 @media (min-width: 640px) {
   .client-logo-marquees {
     gap: 1.5rem;
@@ -650,101 +639,6 @@ html.site-intro-active .hero-word-reveal__word {
   }
   to {
     background-position: -100% 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  .page-fade,
-  .hero-enter,
-  .mobile-menu-backdrop,
-  .mobile-menu-enter,
-  .hero-slide {
-    opacity: 1 !important;
-    transform: none !important;
-    animation: none !important;
-    transition: none !important;
-  }
-
-  .hero-word-reveal__mask {
-    overflow: visible;
-  }
-
-  .hero-word-reveal__word {
-    opacity: 1 !important;
-    transform: none !important;
-    animation: none !important;
-    will-change: auto;
-  }
-
-  .reveal-section,
-  .reveal-content,
-  .reveal-card {
-    opacity: 0 !important;
-    transform: none !important;
-    transition: opacity 0.2s linear !important;
-  }
-
-  .reveal-visible {
-    opacity: 1 !important;
-  }
-
-  .smooth-media,
-  .hero-logo-media {
-    opacity: 1 !important;
-    transition: none !important;
-  }
-
-  .smooth-media {
-    transform: none !important;
-  }
-
-  .hero-logo-media {
-    transform: scale(1.18) !important;
-  }
-
-  .hero-logo-media--compact {
-    transform: scale(0.88) !important;
-  }
-
-  .lazy-media-frame {
-    animation: none !important;
-  }
-
-  .site-intro,
-  .site-intro__logo-wrap {
-    animation: none !important;
-    transition: none !important;
-  }
-
-  .client-marquee-control {
-    display: none !important;
-  }
-
-  .client-marquee {
-    overflow-x: auto;
-    padding-bottom: 0.25rem;
-    scroll-snap-type: x proximity;
-    -webkit-mask-image: none;
-    mask-image: none;
-  }
-
-  .client-marquee__track {
-    animation: none !important;
-    transform: none !important;
-    will-change: auto;
-  }
-
-  .client-marquee__clone,
-  .client-marquee__group > [data-filler="true"] {
-    display: none;
-  }
-
-  .client-logo-card {
-    scroll-snap-align: start;
   }
 }
 
