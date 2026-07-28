@@ -4,7 +4,8 @@ import ContactForm from "../components/ContactForm";
 import Seo from "../components/Seo";
 import galleryPreviewData from "../data/gallery-preview.json";
 
-const heroHeadline = "Solusi laboratorium andal untuk operasional modern";
+const heroHeadline =
+  "Kalibrasi dan dukungan laboratorium untuk operasional yang lebih andal";
 const heroHeadlineWords = heroHeadline.split(" ");
 
 const clientLogos = [
@@ -153,6 +154,131 @@ const clientLogos = [
   },
 ];
 
+const clientGroupDefinitions = [
+  {
+    id: "energy",
+    title: "Energi & utilitas",
+    description: "Pembangkit listrik dan layanan utilitas",
+    direction: "forward",
+    duration: 36,
+    members: [
+      "PLN Nusantara Power",
+      "PLN Indonesia Power",
+      "PT Lestari Banten Energi",
+      "PLN",
+      "PT Datang DSSP Power Indonesia",
+      "PT SGPJB",
+      "PT Bhumi Jati Power",
+      "China Shenhua Energy Company Limited",
+      "Cirebon Power",
+      "Aetra",
+    ],
+  },
+  {
+    id: "mining",
+    title: "Pertambangan",
+    description: "Pertambangan dan sumber daya mineral",
+    direction: "reverse",
+    duration: 46,
+    members: [
+      "PT Mitrabara Adiperdana Tbk",
+      "PT Indexim Coalindo",
+      "Antam",
+      "BP",
+      "BSA",
+      "Geomin",
+      "TOP",
+      "PT Bukit Asam Tbk",
+      "PT Marunda Grahamineral",
+      "PT Gema Kreasi Perdana (GKP)",
+      "Mandiri Coal - PT Mandiri Intiperkasa",
+      "PT Bara Prima Pratama",
+      "CGR",
+    ],
+  },
+  {
+    id: "laboratory",
+    title: "Laboratorium, inspeksi & teknis",
+    description: "Surveyor, pengujian, inspeksi, dan layanan teknis",
+    direction: "forward",
+    duration: 54,
+    members: [
+      "PT Surveyor Indonesia",
+      "Geoservices",
+      "PT Sucofindo",
+      "ATQ Surveyor - PT Asiatrust Technovima Qualiti",
+      "PT Bureau Veritas Indonesia",
+      "PT Cotecna Inspection Indonesia",
+      "MSK",
+      "IBIS",
+      "SCCI",
+      "Tek-MIRA",
+      "PT Anindya Wiraputra Konsult",
+      "PT Tribhakti Inspektama",
+      "PT Zafina Analitika Inspektama",
+      "PT SGS Indonesia",
+      "PT Techno Consult Indonesia",
+      "PT Leon Testing and Consultancy",
+    ],
+  },
+  {
+    id: "manufacturing",
+    title: "Manufaktur & industri",
+    description: "Semen, tekstil, logam, dan industri pengolahan",
+    direction: "reverse",
+    duration: 48,
+    members: [
+      "Krakatau",
+      "PT Indocement Tunggal Prakarsa Tbk",
+      "PT Semen Grobogan",
+      "PT Emas Murni Abadi",
+      "PT Kahatex",
+      "Pipit Group",
+      "PT H-One Kogi Prima Auto Technologies Indonesia",
+    ],
+  },
+  {
+    id: "education",
+    title: "Institusi pendidikan",
+    description: "Perguruan tinggi dan institusi pendidikan",
+    direction: "forward",
+    duration: 32,
+    members: [
+      "Universitas Gadjah Mada",
+      "Universitas Jenderal Soedirman",
+      "Institut Teknologi Bandung",
+      "Universitas Indonesia",
+    ],
+  },
+];
+
+const clientLogoByAlt = new Map(
+  clientLogos.map((logo) => [logo.alt, logo]),
+);
+const groupedClientAlts = clientGroupDefinitions.flatMap(
+  (group) => group.members,
+);
+const uniqueGroupedClientAlts = new Set(groupedClientAlts);
+const clientGroupsAreValid =
+  uniqueGroupedClientAlts.size === clientLogos.length &&
+  groupedClientAlts.every((alt) => clientLogoByAlt.has(alt));
+
+if (import.meta.env.DEV && !clientGroupsAreValid) {
+  console.warn("Daftar kategori pelanggan tidak sinkron dengan data logo.");
+}
+
+const clientGroups = clientGroupDefinitions.map(({ members, ...group }) => ({
+  ...group,
+  logos: members
+    .map((alt) => clientLogoByAlt.get(alt))
+    .filter(Boolean),
+}));
+
+const fillMarqueeLane = (logos, minimumItems = 8) => {
+  const repeats = Math.max(1, Math.ceil(minimumItems / logos.length));
+  return Array.from({ length: repeats }, () => logos).flat();
+};
+
 const heroSlides = [
   {
     id: "nepatech-logo",
@@ -248,13 +374,13 @@ const serviceItems = [
   },
   {
     number: "02",
-    title: "Maintenance",
+    title: "Perawatan",
     description:
       "Perawatan preventif dan perbaikan untuk menjaga performa alat.",
   },
   {
     number: "03",
-    title: "Supply & Suku Cadang",
+    title: "Pengadaan peralatan dan suku cadang",
     description:
       "Pengadaan peralatan dan komponen sesuai kebutuhan operasional laboratorium.",
   },
@@ -302,7 +428,7 @@ const galleryPreviews = galleryPreviewData.items.map((item) => ({
 }));
 
 const accreditationSteps = [
-  "Persiapan dan gap analysis",
+  "Persiapan dan analisis kesenjangan",
   "Audit kelayakan dokumen",
   "Pendampingan asesmen lapangan",
   "Tindakan perbaikan dan verifikasi",
@@ -335,12 +461,12 @@ const faqItems = [
   {
     question: "Apa saja layanan yang tersedia?",
     answer:
-      "Kami menyediakan kalibrasi, maintenance, supply peralatan dan suku cadang, konsultansi akreditasi, pelatihan, serta penyusunan dokumen mutu laboratorium.",
+      "Kami menyediakan kalibrasi, perawatan, pengadaan peralatan dan suku cadang, konsultansi akreditasi, pelatihan, serta penyusunan dokumen mutu laboratorium.",
   },
   {
-    question: "Berapa lama waktu pengerjaannya?",
+    question: "Berapa estimasi waktu pengerjaan?",
     answer:
-      "Durasi bergantung pada jenis alat dan ruang lingkup pekerjaan. Umumnya estimasi dikomunikasikan setelah survei awal.",
+      "Durasi bergantung pada jenis alat dan ruang lingkup pekerjaan. Estimasi waktu disampaikan setelah kebutuhan dan kondisi alat ditinjau.",
   },
   {
     question: "Apakah ada garansi untuk layanan?",
@@ -348,12 +474,12 @@ const faqItems = [
       "Ketentuan garansi dan dukungan purna jual menyesuaikan jenis pekerjaan, peralatan, serta ruang lingkup yang disepakati dalam penawaran.",
   },
   {
-    question: "Apakah semua layanan termasuk ruang lingkup terakreditasi?",
+    question: "Apakah seluruh layanan berada dalam ruang lingkup akreditasi?",
     answer:
       "Akreditasi KAN LK-377-IDN berlaku untuk layanan dan rentang ukur yang tercantum dalam ruang lingkup resmi. Tim kami akan mengonfirmasi kesesuaiannya sebelum pekerjaan dimulai.",
   },
   {
-    question: "Bagaimana cara menghubungi tim sales?",
+    question: "Bagaimana cara menghubungi tim Nepatech?",
     answer:
       "Gunakan formulir kontak di bawah, atau langsung hubungi WhatsApp kami lewat tombol di pojok kanan bawah.",
   },
@@ -364,6 +490,43 @@ const showLoadedImage = (event) => {
   image.classList.add("is-loaded");
   image.parentElement?.classList.add("media-loaded");
 };
+
+function ClientLogoCard({ logo, hidden = false, filler = false }) {
+  return (
+    <li
+      aria-hidden={hidden || undefined}
+      data-filler={filler || undefined}
+      title={hidden ? undefined : logo.alt}
+      className="client-logo-card group flex h-[72px] w-[120px] shrink-0 flex-col items-center justify-center gap-1 overflow-hidden rounded-xl border border-slate-200 bg-white px-2 py-2 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-orange-200 hover:shadow-md sm:h-24 sm:w-40 sm:rounded-2xl sm:px-3 sm:py-3 lg:h-[104px] lg:w-44">
+      <div
+        style={
+          logo.scale ? { transform: `scale(${logo.scale})` } : undefined
+        }
+        className={`flex w-full shrink-0 items-center justify-center rounded-lg bg-transparent ${
+          logo.portrait
+            ? logo.caption
+              ? "h-10 sm:h-14"
+              : "h-12 sm:h-[68px]"
+            : "h-8 sm:h-12"
+        }`}>
+        <img
+          width="176"
+          height="104"
+          loading="lazy"
+          decoding="async"
+          src={logo.src}
+          alt={hidden ? "" : logo.alt}
+          className="block h-full w-full object-contain transition duration-300 lg:grayscale lg:opacity-75 lg:group-hover:scale-[1.03] lg:group-hover:grayscale-0 lg:group-hover:opacity-100"
+        />
+      </div>
+      {logo.caption && (
+        <span className="line-clamp-2 text-center text-[10px] font-semibold leading-tight text-slate-600 transition group-hover:text-slate-700 sm:text-xs">
+          {logo.caption}
+        </span>
+      )}
+    </li>
+  );
+}
 
 function CredentialHeroSlide({ slide }) {
   const hasMultipleLogos = slide.logos.length > 1;
@@ -414,7 +577,7 @@ function CredentialHeroSlide({ slide }) {
               }
             />
             {logo.name && (
-              <span className="text-[8px] font-bold leading-tight text-slate-700 sm:text-[10px] lg:text-xs">
+              <span className="text-[10px] font-bold leading-tight text-slate-700 sm:text-[11px] lg:text-xs">
                 {logo.name}
               </span>
             )}
@@ -428,8 +591,8 @@ function CredentialHeroSlide({ slide }) {
             <div
               key={detail.title}
               className="block rounded-xl bg-slate-900 px-2 py-2 text-center text-white sm:px-3">
-              <p className="text-[9px] font-bold sm:text-xs">{detail.title}</p>
-              <p className="break-all text-[8px] text-slate-300 sm:mt-1 sm:text-[9px]">
+              <p className="text-[11px] font-bold sm:text-xs">{detail.title}</p>
+              <p className="break-words text-[10px] leading-4 text-slate-300 sm:mt-1 sm:text-[11px]">
                 No. {detail.value}
               </p>
             </div>
@@ -470,7 +633,7 @@ function Home() {
     return navLinks.some(([, href]) => href === `#${hash}`) ? hash : "home";
   });
   const [openFaqIndex, setOpenFaqIndex] = useState(0);
-  const [showAllClients, setShowAllClients] = useState(false);
+  const [clientMarqueesPaused, setClientMarqueesPaused] = useState(false);
   const currentHeroSlide = heroSlides[activeSlide];
 
   useEffect(() => {
@@ -971,7 +1134,7 @@ function Home() {
                 </div>
                 <h1
                   aria-label={heroHeadline}
-                  className="mx-auto mt-4 max-w-[1320px] text-balance text-[28px] font-black leading-[1.08] tracking-[-0.035em] text-slate-900 dark:text-slate-100 sm:mt-6 sm:text-5xl sm:leading-[1.04] md:text-6xl lg:text-[80px] lg:leading-[0.98] xl:text-[88px] 2xl:text-[96px]">
+                  className="mx-auto mt-4 max-w-[1320px] text-balance text-[32px] font-black leading-[1.06] tracking-[-0.035em] text-slate-900 dark:text-slate-100 sm:mt-6 sm:text-5xl sm:leading-[1.04] md:text-6xl lg:text-[80px] lg:leading-[0.98] xl:text-[88px] 2xl:text-[96px]">
                   <span aria-hidden="true" className="hero-word-reveal">
                     {heroHeadlineWords.map((word, index) => (
                       <span
@@ -986,21 +1149,21 @@ function Home() {
                     ))}
                   </span>
                 </h1>
-                <p className="mx-auto mt-3 max-w-4xl text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-lg sm:leading-8 lg:text-xl lg:leading-9">
-                  Kalibrasi dalam ruang lingkup KAN LK-377-IDN, didukung
-                  maintenance, supply, konsultansi akreditasi, dan pelatihan
-                  untuk kebutuhan laboratorium industri.
+                <p className="mx-auto mt-3 max-w-4xl text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-lg sm:leading-7 lg:text-xl lg:leading-8">
+                  Layanan kalibrasi sesuai ruang lingkup KAN LK-377-IDN,
+                  didukung perawatan alat, pengadaan, konsultansi akreditasi,
+                  dan pelatihan untuk laboratorium industri.
                 </p>
                 <div className="mt-5 flex flex-col justify-center gap-2 sm:mt-8 sm:flex-row sm:gap-3">
                   <a
                     href="#contact"
                     className="inline-flex items-center justify-center rounded-full bg-primary px-5 py-2.5 text-center text-[13px] font-semibold text-white transition duration-300 hover:bg-orange-500 sm:px-8 sm:py-4 sm:text-base">
-                    Diskusikan Kebutuhan
+                    Diskusikan kebutuhan
                   </a>
                   <a
                     href="#calibration-scope"
                     className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white/80 px-5 py-2.5 text-center text-[13px] font-semibold text-slate-900 transition duration-300 hover:border-primary hover:text-orange-700 dark:border-slate-700 dark:bg-slate-900/80 dark:text-white dark:hover:text-orange-300 sm:px-8 sm:py-4 sm:text-base">
-                    Lihat Ruang Lingkup
+                    Lihat ruang lingkup
                   </a>
                 </div>
               </div>
@@ -1169,16 +1332,17 @@ function Home() {
           <div data-reveal className="reveal-content container">
             <div className="grid gap-8 sm:gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16">
               <div>
-                <span className="mb-2 inline-flex rounded-full bg-orange-100 px-2.5 py-1 text-[11px] font-semibold text-orange-700 dark:bg-orange-500/10 dark:text-orange-200 sm:mb-3 sm:px-4 sm:py-2 sm:text-sm">
+                <span className="mb-2 inline-flex rounded-full bg-orange-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-orange-700 dark:bg-orange-500/10 dark:text-orange-200 sm:mb-3 sm:px-4 sm:py-2 sm:text-[13px]">
                   Solusi Laboratorium Terintegrasi
                 </span>
-                <h2 className="mt-2 text-[22px] font-bold leading-tight text-slate-900 dark:text-slate-100 sm:mt-4 sm:text-4xl lg:text-5xl">
-                  Dukungan teknis dan sistem mutu dalam satu mitra.
+                <h2 className="mt-2 text-2xl font-bold leading-tight text-slate-900 dark:text-slate-100 sm:mt-4 sm:text-4xl lg:text-5xl">
+                  Satu mitra untuk kebutuhan teknis dan sistem mutu
+                  laboratorium.
                 </h2>
-                <p className="mt-3 max-w-xl text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-lg sm:leading-8">
-                  Kami membantu kebutuhan laboratorium mulai dari kalibrasi dan
-                  perawatan alat hingga pendampingan akreditasi, pelatihan, dan
-                  penyusunan dokumen mutu.
+                <p className="mt-3 max-w-xl text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-lg sm:leading-7">
+                  Kami mendukung operasional laboratorium melalui layanan
+                  kalibrasi, perawatan alat, pendampingan akreditasi, pelatihan,
+                  dan penyusunan dokumen mutu.
                 </p>
                 <div className="mt-5 grid grid-cols-2 gap-2 sm:mt-8 sm:gap-4">
                   {serviceItems.map((item) => (
@@ -1209,7 +1373,7 @@ function Home() {
                     <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100 sm:text-xl">
                       Tentang Kami
                     </h3>
-                    <p className="mt-2 text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-4 sm:text-base sm:leading-7">
+                    <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-4 sm:text-base sm:leading-7">
                       Laboratorium kalibrasi kami terakreditasi KAN dengan nomor
                       LK-377-IDN sesuai SNI ISO/IEC 17025:2017 untuk ruang
                       lingkup yang ditetapkan.
@@ -1240,10 +1404,10 @@ function Home() {
               </span>
               <h2
                 id="calibration-scope-title"
-                className="mt-3 text-[22px] font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-100 sm:mt-5 sm:text-4xl md:text-5xl">
+                className="mt-3 text-2xl font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-100 sm:mt-5 sm:text-4xl md:text-5xl">
                 Layanan yang relevan dengan kebutuhan laboratorium Anda.
               </h2>
-              <p className="mx-auto mt-3 max-w-2xl text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-lg sm:leading-8">
+              <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-lg sm:leading-7">
                 Dari pekerjaan teknis hingga pengembangan sistem mutu, setiap
                 kebutuhan dibahas lebih dulu agar ruang lingkupnya tepat.
               </p>
@@ -1265,7 +1429,7 @@ function Home() {
                   </div>
                 </div>
 
-                <p className="mt-3 text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-base sm:leading-7">
+                <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-base sm:leading-7">
                   Laboratorium kalibrasi terakreditasi sesuai SNI ISO/IEC
                   17025:2017 untuk alat dan rentang ukur yang tercantum dalam
                   ruang lingkup resmi.
@@ -1303,7 +1467,7 @@ function Home() {
                   rel="noopener noreferrer"
                   aria-label="Lihat dokumen ruang lingkup kalibrasi di Google Drive, buka di tab baru"
                   className="mt-4 flex w-full items-center justify-between gap-3 rounded-xl border border-primary bg-primary px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:border-orange-500 hover:bg-orange-500 dark:border-primary dark:bg-primary dark:text-white dark:hover:border-orange-500 dark:hover:bg-orange-500 sm:mt-5 sm:gap-4 sm:rounded-2xl sm:px-5 sm:py-4 sm:text-sm">
-                  <span>Lihat Dokumen Ruang Lingkup</span>
+                  <span>Lihat dokumen ruang lingkup</span>
                   <span
                     aria-hidden="true"
                     className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/20 text-sm text-white sm:h-9 sm:w-9 sm:text-base">
@@ -1322,7 +1486,8 @@ function Home() {
                   Konsultansi & Pelatihan
                 </p>
                 <h3 className="mt-2 text-lg font-bold text-slate-900 dark:text-slate-100 sm:mt-3 sm:text-3xl">
-                  Pendampingan dari persiapan sampai proses akhir.
+                  Pendampingan dari persiapan hingga penyelesaian proses
+                  akreditasi.
                 </h3>
 
                 <ol className="mt-5 divide-y divide-slate-200 border-y border-slate-200 dark:divide-slate-700 dark:border-slate-700 sm:mt-7">
@@ -1333,7 +1498,7 @@ function Home() {
                       <span className="text-xs font-black tabular-nums text-orange-700 dark:text-orange-300 sm:text-sm">
                         {String(index + 1).padStart(2, "0")}
                       </span>
-                      <span className="text-[13px] font-medium leading-5 text-slate-700 dark:text-slate-200 sm:text-sm sm:leading-6">
+                      <span className="text-sm font-medium leading-6 text-slate-700 dark:text-slate-200">
                         {step}
                       </span>
                     </li>
@@ -1357,10 +1522,10 @@ function Home() {
 
                 <div className="mt-5 rounded-xl border-l-4 border-l-primary bg-slate-900 p-4 text-white dark:bg-slate-800 sm:mt-7 sm:rounded-2xl sm:p-5">
                   <p className="text-sm font-semibold sm:text-base">
-                    Penyusunan Dokumen Mutu
+                    Penyusunan dokumen mutu
                   </p>
                   <p className="mt-1.5 text-xs leading-5 text-slate-300 sm:mt-2 sm:text-sm sm:leading-6">
-                    Panduan Mutu, SOP, Instruksi Kerja, dan formulir sistem
+                    Panduan mutu, SOP, instruksi kerja, dan formulir sistem
                     manajemen maupun pengujian.
                   </p>
                 </div>
@@ -1369,7 +1534,7 @@ function Home() {
                   <a
                     href="#contact"
                     className="inline-flex min-h-11 items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-orange-500 sm:px-6 sm:py-3 sm:text-base">
-                    Konsultasikan Kebutuhan
+                    Konsultasikan kebutuhan
                   </a>
                   <Link
                     to="/konsultasi-pelatihan"
@@ -1393,12 +1558,11 @@ function Home() {
               </span>
               <h2
                 id="gallery-preview-title"
-                className="mt-3 text-[22px] font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-100 sm:mt-5 sm:text-4xl md:text-5xl">
-                Pekerjaan nyata, terdokumentasi dengan rapi.
+                className="mt-3 text-2xl font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-100 sm:mt-5 sm:text-4xl md:text-5xl">
+                Dokumentasi pekerjaan tim kami di lapangan.
               </h2>
-              <p className="mt-3 text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-base sm:leading-7">
-                Lihat beberapa dokumentasi tim kami saat menangani peralatan
-                laboratorium di lapangan.
+              <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-base sm:leading-7">
+                Lihat tim kami menangani berbagai peralatan laboratorium.
               </p>
             </div>
 
@@ -1469,78 +1633,98 @@ function Home() {
           className="light-grid-surface scroll-mt-20 bg-slate-50 py-8 text-slate-900 dark:bg-slate-900 dark:text-slate-100 sm:scroll-mt-24 sm:py-20 lg:py-28">
           <div data-reveal className="reveal-content container">
             <div className="mb-6 w-full px-0 text-center sm:mb-14 sm:px-4">
-              <p className="mb-1.5 text-xs font-semibold text-orange-700 dark:text-orange-300 sm:mb-2 sm:text-lg">
-                Mitra & Institusi
-              </p>
-              <h2 className="text-[22px] font-bold leading-tight text-slate-900 dark:text-slate-100 sm:text-4xl lg:text-5xl">
-                Mitra dan Pelanggan
+              <span className="inline-flex rounded-full bg-orange-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-orange-700 dark:bg-orange-500/10 dark:text-orange-200 sm:px-4 sm:py-2 sm:text-[13px]">
+                Kolaborasi lintas sektor
+              </span>
+              <h2 className="mt-3 text-2xl font-bold leading-tight text-slate-900 dark:text-slate-100 sm:mt-5 sm:text-4xl lg:text-5xl">
+                Dipercaya berbagai industri dan institusi
               </h2>
-              <p className="mx-auto mt-3 max-w-2xl text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-base sm:leading-7">
-                Dipercaya oleh perusahaan energi, pertambangan, laboratorium,
-                dan industri di berbagai wilayah Indonesia.
+              <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-base sm:leading-7">
+                Kami mendukung perusahaan energi, pertambangan, laboratorium,
+                manufaktur, serta institusi pendidikan di berbagai wilayah
+                Indonesia.
               </p>
-            </div>
-            <div className="w-full">
-              <div
-                id="client-logo-grid"
-                className="grid grid-cols-3 gap-1.5 sm:gap-3 md:grid-cols-4 lg:grid-cols-6">
-                {clientLogos.map((logo, index) => (
-                  <div
-                    key={logo.alt}
-                    title={logo.alt}
-                    className={`${!showAllClients && index >= 12 ? "hidden sm:flex" : "flex"} group h-16 flex-col items-center justify-center gap-1 overflow-hidden rounded-lg border border-slate-200 bg-white px-1.5 py-1.5 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-md sm:h-28 sm:rounded-2xl sm:p-4`}>
-                    <div
-                      style={
-                        logo.scale
-                          ? { transform: `scale(${logo.scale})` }
-                          : undefined
-                      }
-                      className={`flex w-full shrink-0 items-center justify-center rounded-lg bg-transparent ${
-                        logo.portrait
-                          ? logo.caption
-                            ? "h-9 sm:h-14"
-                            : "h-10 sm:h-[72px]"
-                          : "h-7 sm:h-12"
-                      }`}>
-                      <img
-                        loading="lazy"
-                        decoding="async"
-                        src={logo.src}
-                        alt={logo.alt}
-                        className="block h-full w-full object-contain transition duration-300 lg:grayscale lg:opacity-75 lg:group-hover:scale-[1.03] lg:group-hover:grayscale-0 lg:group-hover:opacity-100"
-                      />
-                    </div>
-                    {logo.caption && (
-                      <span className="text-center text-[9px] font-semibold leading-tight text-slate-600 transition group-hover:text-slate-700 sm:text-xs">
-                        {logo.caption}
-                      </span>
-                    )}
-                  </div>
-                ))}
-              </div>
               <button
                 type="button"
-                aria-expanded={showAllClients}
-                aria-controls="client-logo-grid"
-                onClick={() => {
-                  if (showAllClients) {
-                    setShowAllClients(false);
-                    window.requestAnimationFrame(() => {
-                      document.getElementById("clients")?.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start",
-                      });
-                    });
-                    return;
-                  }
-
-                  setShowAllClients(true);
-                }}
-                className="mx-auto mt-5 inline-flex min-h-11 items-center justify-center rounded-full border border-slate-300 bg-white px-5 py-2.5 text-[13px] font-semibold text-slate-800 shadow-sm transition hover:border-primary hover:text-orange-700 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:hover:border-primary dark:hover:text-orange-300 sm:hidden">
-                {showAllClients
-                  ? "Tampilkan lebih sedikit"
-                  : `Lihat semua ${clientLogos.length} mitra`}
+                aria-controls="client-logo-marquees"
+                onClick={() =>
+                  setClientMarqueesPaused((current) => !current)
+                }
+                className="client-marquee-control mx-auto mt-4 inline-flex min-h-10 items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-sm transition hover:border-primary hover:text-orange-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200 dark:hover:border-primary dark:hover:text-orange-300 sm:mt-6 sm:text-sm">
+                <span
+                  aria-hidden="true"
+                  className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-orange-100 text-[10px] text-orange-700 dark:bg-orange-500/15 dark:text-orange-300">
+                  {clientMarqueesPaused ? "▶" : "Ⅱ"}
+                </span>
+                {clientMarqueesPaused
+                  ? "Putar animasi logo"
+                  : "Jeda animasi logo"}
               </button>
+            </div>
+            <div
+              id="client-logo-marquees"
+              data-paused={clientMarqueesPaused}
+              className="client-logo-marquees">
+              {clientGroups.map((group) => {
+                const laneLogos = fillMarqueeLane(group.logos);
+
+                return (
+                  <article key={group.id} className="client-sector">
+                    <div className="mb-2 flex items-end justify-between gap-3 px-1 sm:mb-3 sm:px-2">
+                      <div className="min-w-0">
+                        <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 sm:text-lg">
+                          {group.title}
+                        </h3>
+                        <p className="mt-0.5 hidden text-xs text-slate-500 dark:text-slate-400 md:block">
+                          {group.description}
+                        </p>
+                      </div>
+                      <span className="shrink-0 text-[10px] font-bold uppercase tracking-[0.14em] text-orange-700 dark:text-orange-300 sm:text-xs">
+                        {group.logos.length} mitra
+                      </span>
+                    </div>
+                    <div
+                      role="region"
+                      tabIndex={0}
+                      aria-label={`Logo mitra kategori ${group.title}`}
+                      aria-live="off"
+                      data-direction={group.direction}
+                      style={{
+                        "--marquee-duration": `${group.duration}s`,
+                      }}
+                      className="client-marquee">
+                      <div className="client-marquee__track">
+                        <ul className="client-marquee__group" role="list">
+                          {laneLogos.map((logo, index) => {
+                            const filler = index >= group.logos.length;
+
+                            return (
+                              <ClientLogoCard
+                                key={`${group.id}-primary-${index}-${logo.alt}`}
+                                logo={logo}
+                                hidden={filler}
+                                filler={filler}
+                              />
+                            );
+                          })}
+                        </ul>
+                        <ul
+                          className="client-marquee__group client-marquee__clone"
+                          role="presentation"
+                          aria-hidden="true">
+                          {laneLogos.map((logo, index) => (
+                            <ClientLogoCard
+                              key={`${group.id}-clone-${index}-${logo.alt}`}
+                              logo={logo}
+                              hidden
+                            />
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -1553,12 +1737,12 @@ function Home() {
               <span className="inline-flex rounded-full bg-orange-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-700 dark:bg-orange-500/10 dark:text-orange-200 sm:px-4 sm:py-2 sm:text-sm sm:tracking-[0.2em]">
                 FAQ
               </span>
-              <h2 className="mt-3 text-[22px] font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-100 sm:mt-5 sm:text-4xl md:text-5xl lg:text-6xl">
+              <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-100 sm:mt-5 sm:text-4xl md:text-5xl lg:text-6xl">
                 Pertanyaan yang sering diajukan
               </h2>
-              <p className="mx-auto mt-3 max-w-2xl text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-lg sm:leading-8">
-                Semua jawaban singkat tentang layanan, proses, dan cara kerja
-                kami.
+              <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-lg sm:leading-7">
+                Informasi ringkas mengenai layanan, proses kerja, dan
+                permintaan penawaran.
               </p>
             </div>
             <div className="mx-auto max-w-4xl px-0 sm:px-4">
@@ -1594,7 +1778,7 @@ function Home() {
                           role="region"
                           aria-labelledby={questionId}
                           className="px-3 pb-3 sm:px-6 sm:pb-6">
-                          <p className="text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:text-sm sm:leading-7">
+                          <p className="text-sm leading-6 text-slate-600 dark:text-slate-300 sm:leading-7">
                             {item.answer}
                           </p>
                         </div>
@@ -1616,10 +1800,10 @@ function Home() {
                 <span className="inline-flex rounded-full bg-orange-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-700 dark:bg-orange-500/10 dark:text-orange-200 sm:px-4 sm:py-2 sm:text-sm sm:tracking-[0.2em]">
                   Lokasi Kami
                 </span>
-                <h2 className="mt-3 text-[22px] font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-100 sm:mt-6 sm:text-4xl">
+                <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-100 sm:mt-6 sm:text-4xl">
                   Kunjungi kantor Nepatech
                 </h2>
-                <p className="mt-3 text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-base sm:leading-7">
+                <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-base sm:leading-7">
                   Grand Wisata, Cluster Garden Hous BG01 No. 75, Lambangjaya,
                   Tambun Selatan, Kabupaten Bekasi, Jawa Barat.
                 </p>
@@ -1670,7 +1854,7 @@ function Home() {
               <a
                 href="tel:02138716118"
                 className="mt-3 block text-sm font-semibold text-white transition hover:text-orange-300 sm:text-base">
-                Hotline : 02138716118
+                Hotline: 02138716118
               </a>
               <p className="mt-4 text-sm leading-7 text-slate-400">
                 Grand Wisata, Cluster Garden Hous BG01 No. 75, Lambangjaya,
@@ -1689,7 +1873,7 @@ function Home() {
                 Galeri Kerja
               </h3>
               <p className="text-sm leading-6 text-slate-400 sm:text-base">
-                Lihat dokumentasi kalibrasi, maintenance, dan pemasangan
+                Lihat dokumentasi kalibrasi, perawatan, dan pemasangan
                 peralatan pada halaman galeri khusus.
               </p>
               <Link

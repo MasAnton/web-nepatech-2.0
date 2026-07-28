@@ -4,7 +4,15 @@
 
 :root {
   color: #0f172a;
-  font-family: 'Inter', 'Segoe UI', sans-serif;
+  font-family:
+    "Segoe UI Variable Text",
+    "Segoe UI",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
   line-height: 1.5;
   font-weight: 400;
   font-synthesis: none;
@@ -486,6 +494,92 @@ html.site-intro-active .hero-word-reveal__word {
   transform: translateY(-1px);
 }
 
+.client-logo-marquees {
+  display: grid;
+  gap: 1rem;
+}
+
+.client-sector {
+  min-width: 0;
+}
+
+.client-marquee {
+  --lane-gap: 0.5rem;
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 4%,
+    #000 96%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 4%,
+    #000 96%,
+    transparent
+  );
+}
+
+.client-marquee:focus-visible {
+  outline: 2px solid #f08300;
+  outline-offset: 3px;
+}
+
+.client-marquee__track {
+  display: flex;
+  width: max-content;
+  animation: client-logo-marquee var(--marquee-duration, 42s) linear infinite;
+  will-change: transform;
+}
+
+.client-marquee__group {
+  display: flex;
+  flex: none;
+  align-items: stretch;
+  gap: var(--lane-gap);
+  margin: 0;
+  padding: 0 var(--lane-gap) 0 0;
+  list-style: none;
+}
+
+.client-marquee[data-direction="reverse"] .client-marquee__track {
+  animation-direction: reverse;
+}
+
+.client-marquee:focus-within .client-marquee__track,
+.client-logo-marquees[data-paused="true"] .client-marquee__track {
+  animation-play-state: paused;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .client-marquee:hover .client-marquee__track {
+    animation-play-state: paused;
+  }
+}
+
+@media (min-width: 640px) {
+  .client-logo-marquees {
+    gap: 1.5rem;
+  }
+
+  .client-marquee {
+    --lane-gap: 0.75rem;
+  }
+}
+
+@keyframes client-logo-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
 @keyframes hero-enter {
   from {
     opacity: 0;
@@ -624,6 +718,33 @@ html.site-intro-active .hero-word-reveal__word {
   .site-intro__logo-wrap {
     animation: none !important;
     transition: none !important;
+  }
+
+  .client-marquee-control {
+    display: none !important;
+  }
+
+  .client-marquee {
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+    scroll-snap-type: x proximity;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .client-marquee__track {
+    animation: none !important;
+    transform: none !important;
+    will-change: auto;
+  }
+
+  .client-marquee__clone,
+  .client-marquee__group > [data-filler="true"] {
+    display: none;
+  }
+
+  .client-logo-card {
+    scroll-snap-align: start;
   }
 }
 

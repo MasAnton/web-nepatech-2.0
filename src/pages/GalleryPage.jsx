@@ -117,7 +117,7 @@ function GalleryPage() {
     ? "Galeri Pekerjaan Laboratorium"
     : `Galeri ${currentCategory.title}`;
   const pageDescription = isOverview
-    ? "Dokumentasi pekerjaan kalibrasi, maintenance, dan peralatan laboratorium PT. Nepatech Global Solusindo. Filter foto berdasarkan kategori pekerjaan."
+    ? "Dokumentasi pekerjaan kalibrasi, perawatan, dan peralatan laboratorium PT. Nepatech Global Solusindo. Filter foto berdasarkan kategori pekerjaan."
     : `Dokumentasi pekerjaan ${currentCategory.title} dari PT. Nepatech Global Solusindo.`;
   const pageImage = isOverview
     ? allImages[0].fullSrc
@@ -162,20 +162,20 @@ function GalleryPage() {
                 strokeLinejoin="round">
                 <path d="m12.5 4.5-5.5 5.5 5.5 5.5" />
               </svg>
-              Kembali ke Beranda
+              Kembali ke beranda
             </Link>
             <p className="mt-7 text-xs font-bold uppercase tracking-[0.2em] text-orange-700 dark:text-orange-300 sm:mt-9 sm:text-sm">
               {isOverview
                 ? "Dokumentasi Pekerjaan"
                 : `Galeri ${currentCategory.heading}`}
             </p>
-            <h1 className="mt-2 max-w-4xl text-[30px] font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+            <h1 className="mt-2 max-w-4xl text-[32px] font-black leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
               {isOverview ? "Galeri kerja Nepatech" : currentCategory.title}
             </h1>
-            <p className="mt-3 max-w-2xl text-[13px] leading-6 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-lg sm:leading-8">
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-lg sm:leading-7">
               {isOverview
                 ? "Jelajahi dokumentasi pekerjaan berdasarkan kategori."
-                : "Dokumentasi pekerjaan dan peralatan dari tim PT. Nepatech Global Solusindo. Klik foto untuk melihat detail."}
+                : "Dokumentasi tim PT. Nepatech Global Solusindo saat menangani peralatan laboratorium. Pilih foto untuk melihat detail."}
             </p>
             {!isOverview && (
               <Link

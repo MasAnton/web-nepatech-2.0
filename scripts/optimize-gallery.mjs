@@ -24,7 +24,7 @@ const categories = [
     slug: "kalorimeter",
     folder: "Kalorimeter",
     title: "Kalorimeter",
-    heading: "Instrument",
+    heading: "Instrumen",
   },
   {
     slug: "laboratory-mill",
@@ -145,7 +145,7 @@ async function createCategoryManifest(category) {
   }
 
   const images = await Promise.all(
-    names.map(async (name) => {
+    names.map(async (name, index) => {
       const thumbnailFile = path.join(directory, `${name}-480.webp`);
       const fullFile = path.join(directory, `${name}-1280.webp`);
       const [thumbnailVersion, fullVersion] = await Promise.all([
@@ -156,14 +156,13 @@ async function createCategoryManifest(category) {
       const encodedName = encodeURIComponent(name);
       const thumbnailUrl = `/img/galery/${encodedFolder}/${encodedName}-480.webp?v=${thumbnailVersion}`;
       const fullUrl = `/img/galery/${encodedFolder}/${encodedName}-1280.webp?v=${fullVersion}`;
-      const readableName = name.replace(/[-_]+/g, " ").trim();
 
       return {
         id: `${category.slug}-${name}`,
         src: thumbnailUrl,
         fullSrc: fullUrl,
         srcSet: `${thumbnailUrl} 480w, ${fullUrl} 1280w`,
-        alt: `${category.title} ${readableName}`,
+        alt: `Dokumentasi pekerjaan ${category.title} — foto ${String(index + 1).padStart(2, "0")}`,
       };
     }),
   );

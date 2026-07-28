@@ -85,7 +85,7 @@ function InnerPageLayout({ children }) {
               onClick={toggleDarkMode}
               className="inline-flex min-h-9 items-center rounded-full border border-slate-300 bg-white px-3 py-1.5 text-[11px] font-semibold text-slate-900 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800 sm:min-h-10 sm:px-4 sm:text-sm"
               aria-label={darkMode ? "Aktifkan mode terang" : "Aktifkan mode gelap"}>
-              {darkMode ? "Light Mode" : "Dark Mode"}
+              {darkMode ? "Mode terang" : "Mode gelap"}
             </button>
           </div>
 
@@ -129,7 +129,7 @@ function InnerPageLayout({ children }) {
           <div>
             <p className="text-lg font-bold text-white">{site.name}</p>
             <p className="mt-3 max-w-md text-sm leading-6 text-slate-400">
-              Kalibrasi, maintenance, supply, konsultansi akreditasi, dan
+              Kalibrasi, perawatan, pengadaan, konsultansi akreditasi, dan
               pelatihan untuk kebutuhan laboratorium industri.
             </p>
             <a
