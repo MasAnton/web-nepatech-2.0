@@ -1,9 +1,19 @@
 export const site = {
   name: "PT. Nepatech Global Solusindo",
+  brandName: "Nepatech",
   shortName: "Nepatech",
+  acronym: "NTGS",
+  searchTitle: "NTGS | PT. Nepatech Global Solusindo",
+  alternateNames: [
+    "NTGS",
+    "PT Nepatech",
+    "PT NTGS",
+    "PT Nepatech Global Solusindo",
+    "ntgs.co.id",
+  ],
   url: "https://ntgs.co.id",
   description:
-    "Laboratorium kalibrasi terakreditasi KAN LK-377-IDN untuk ruang lingkup tertentu, serta layanan konsultansi, pelatihan, perawatan, dan pengadaan.",
+    "PT. Nepatech Global Solusindo (NTGS), dikenal sebagai Nepatech, menyediakan kalibrasi KAN LK-377-IDN, perawatan, pengadaan, konsultansi, dan pelatihan.",
   email: "operation@ntgs.co.id",
   secondaryEmail: "nepatech1gs@gmail.com",
   phone: "+62 812-6708-4525",
@@ -17,6 +27,39 @@ export const site = {
   kanId: "LK-377-IDN",
   standard: "SNI ISO/IEC 17025:2017",
 };
+
+export const faqItems = [
+  {
+    question: "Apakah NTGS sama dengan PT. Nepatech Global Solusindo?",
+    answer:
+      "Ya. NTGS adalah singkatan dari PT. Nepatech Global Solusindo dan perusahaan kami dikenal sebagai Nepatech atau PT Nepatech. Sebagian orang juga mencarinya dengan sebutan PT NTGS, Nepa, atau PT Nepa; nama badan hukum yang benar tetap PT. Nepatech Global Solusindo.",
+  },
+  {
+    question: "Apa saja layanan yang tersedia?",
+    answer:
+      "Kami menyediakan kalibrasi, perawatan, pengadaan peralatan dan suku cadang, konsultansi akreditasi, pelatihan, serta penyusunan dokumen mutu laboratorium.",
+  },
+  {
+    question: "Berapa estimasi waktu pengerjaan?",
+    answer:
+      "Durasi bergantung pada jenis alat dan ruang lingkup pekerjaan. Estimasi waktu disampaikan setelah kebutuhan dan kondisi alat ditinjau.",
+  },
+  {
+    question: "Apakah ada garansi untuk layanan?",
+    answer:
+      "Ketentuan garansi dan dukungan purna jual menyesuaikan jenis pekerjaan, peralatan, serta ruang lingkup yang disepakati dalam penawaran.",
+  },
+  {
+    question: "Apakah seluruh layanan berada dalam ruang lingkup akreditasi?",
+    answer:
+      "Akreditasi KAN LK-377-IDN berlaku untuk layanan dan rentang ukur yang tercantum dalam ruang lingkup resmi. Tim kami akan mengonfirmasi kesesuaiannya sebelum pekerjaan dimulai.",
+  },
+  {
+    question: "Bagaimana cara menghubungi tim Nepatech?",
+    answer:
+      "Gunakan formulir kontak di bawah, atau langsung hubungi WhatsApp kami lewat tombol di pojok kanan bawah.",
+  },
+];
 
 export const brandAssets = {
   logoLight: "/img/brand/ntgs-light.webp",

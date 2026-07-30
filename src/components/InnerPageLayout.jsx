@@ -62,7 +62,7 @@ function InnerPageLayout({ children }) {
                 width="1098"
                 height="616"
                 className="w-[86px] sm:w-[118px]"
-                alt={site.name}
+                alt={`Logo ${site.acronym} - ${site.name}`}
               />
             </Link>
 

@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 import ContactForm from "../components/ContactForm";
 import Seo from "../components/Seo";
 import galleryPreviewData from "../data/gallery-preview.json";
-import { brandAssets, updateThemeFavicon } from "../data/site";
+import {
+  brandAssets,
+  faqItems,
+  updateThemeFavicon,
+} from "../data/site";
 
 const heroHeadline =
   "Kalibrasi dan dukungan laboratorium untuk operasional yang lebih andal";
@@ -288,7 +292,7 @@ const heroSlides = [
     id: "nepatech-logo",
     src: brandAssets.logoLight,
     darkSrc: brandAssets.logoDark,
-    alt: "Logo PT. Nepatech Global Solusindo",
+    alt: "Logo NTGS - PT. Nepatech Global Solusindo",
     label: "PT. Nepatech Global Solusindo",
     brandLogo: true,
   },
@@ -447,34 +451,6 @@ const navLinks = [
   ["FAQ", "#faq"],
   ["Lokasi", "#location"],
   ["Kontak", "#contact"],
-];
-
-const faqItems = [
-  {
-    question: "Apa saja layanan yang tersedia?",
-    answer:
-      "Kami menyediakan kalibrasi, perawatan, pengadaan peralatan dan suku cadang, konsultansi akreditasi, pelatihan, serta penyusunan dokumen mutu laboratorium.",
-  },
-  {
-    question: "Berapa estimasi waktu pengerjaan?",
-    answer:
-      "Durasi bergantung pada jenis alat dan ruang lingkup pekerjaan. Estimasi waktu disampaikan setelah kebutuhan dan kondisi alat ditinjau.",
-  },
-  {
-    question: "Apakah ada garansi untuk layanan?",
-    answer:
-      "Ketentuan garansi dan dukungan purna jual menyesuaikan jenis pekerjaan, peralatan, serta ruang lingkup yang disepakati dalam penawaran.",
-  },
-  {
-    question: "Apakah seluruh layanan berada dalam ruang lingkup akreditasi?",
-    answer:
-      "Akreditasi KAN LK-377-IDN berlaku untuk layanan dan rentang ukur yang tercantum dalam ruang lingkup resmi. Tim kami akan mengonfirmasi kesesuaiannya sebelum pekerjaan dimulai.",
-  },
-  {
-    question: "Bagaimana cara menghubungi tim Nepatech?",
-    answer:
-      "Gunakan formulir kontak di bawah, atau langsung hubungi WhatsApp kami lewat tombol di pojok kanan bawah.",
-  },
 ];
 
 const showLoadedImage = (event) => {
@@ -910,7 +886,7 @@ function Home() {
                       ? "w-[78px] sm:w-[94px] lg:w-[102px]"
                       : "w-[82px] sm:w-[104px] lg:w-[112px]"
                   }`}
-                  alt="PT. Nepatech Global Solusindo"
+                  alt="Logo NTGS - PT. Nepatech Global Solusindo"
                 />
               </a>
             </div>
@@ -1118,7 +1094,7 @@ function Home() {
               <div className="text-center">
                 <div className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold text-orange-700 shadow-sm shadow-primary/10 dark:bg-orange-500/10 dark:text-orange-200 sm:px-4 sm:py-2 sm:text-sm">
                   <span className="mr-2 inline-flex h-2 w-2 rounded-full bg-primary" />
-                  PT. Nepatech Global Solusindo
+                  PT. Nepatech Global Solusindo (NTGS)
                 </div>
                 <h1
                   aria-label={heroHeadline}
@@ -1376,9 +1352,10 @@ function Home() {
                       Tentang Kami
                     </h3>
                     <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-4 sm:text-base sm:leading-7">
-                      Laboratorium kalibrasi kami terakreditasi KAN dengan nomor
-                      LK-377-IDN sesuai SNI ISO/IEC 17025:2017 untuk ruang
-                      lingkup yang ditetapkan.
+                      PT. Nepatech Global Solusindo (NTGS), dikenal sebagai
+                      Nepatech, merupakan laboratorium kalibrasi terakreditasi
+                      KAN dengan nomor LK-377-IDN sesuai SNI ISO/IEC 17025:2017
+                      untuk ruang lingkup yang ditetapkan.
                     </p>
                   </div>
                   <div className="navy-accent-card rounded-2xl border border-slate-800 border-l-4 border-l-primary bg-slate-950 px-4 py-3 text-white dark:bg-slate-900 sm:px-6 sm:py-5">

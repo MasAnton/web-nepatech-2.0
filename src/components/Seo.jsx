@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { brandAssets, site, toSiteUrl } from "../data/site";
+import { brandAssets, faqItems, site, toSiteUrl } from "../data/site";
 
 function setMeta(attribute, key, content) {
   let element = document.head.querySelector(`meta[${attribute}="${key}"]`);
@@ -20,16 +20,18 @@ function getHomeGraph(canonicalUrl, pageTitle, description) {
       "@type": "WebSite",
       "@id": websiteId,
       url: `${site.url}/`,
-      name: site.name,
-      alternateName: ["NTGS", site.shortName],
+      name: site.brandName,
+      alternateName: site.alternateNames,
       inLanguage: "id-ID",
       publisher: { "@id": organizationId },
     },
     {
       "@type": "Organization",
       "@id": organizationId,
-      name: site.name,
-      alternateName: "NTGS",
+      name: site.brandName,
+      legalName: site.name,
+      alternateName: site.alternateNames,
+      description: site.description,
       url: `${site.url}/`,
       email: site.email,
       telephone: site.phoneHref,
@@ -68,6 +70,20 @@ function getHomeGraph(canonicalUrl, pageTitle, description) {
       inLanguage: "id-ID",
       isPartOf: { "@id": websiteId },
       about: { "@id": organizationId },
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${canonicalUrl}#faq`,
+      url: `${canonicalUrl}#faq`,
+      inLanguage: "id-ID",
+      mainEntity: faqItems.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.answer,
+        },
+      })),
     },
   ];
 }
@@ -132,12 +148,13 @@ function Seo({
   noIndex = false,
 }) {
   useEffect(() => {
-    const pageTitle =
-      title === site.name ? site.name : `${title} | ${site.name}`;
     const pathname = canonicalPath ?? window.location.pathname;
     const canonicalUrl = toSiteUrl(pathname);
     const imageUrl = toSiteUrl(image);
     const isHome = pathname === "/";
+    const pageTitle = isHome
+      ? site.searchTitle
+      : `${title} | ${site.acronym}`;
 
     document.title = pageTitle;
     setMeta("name", "description", description);
