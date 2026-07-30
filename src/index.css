@@ -371,6 +371,14 @@ select {
   transform: scale(0.88);
 }
 
+.hero-logo-media--brand {
+  transform: scale(0.9);
+}
+
+.hero-logo-media--brand.is-loaded {
+  transform: scale(0.96);
+}
+
 .group:hover .media-zoom.is-loaded {
   transform: scale(1.05);
 }

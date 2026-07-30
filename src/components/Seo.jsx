@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { site, toSiteUrl } from "../data/site";
+import { brandAssets, site, toSiteUrl } from "../data/site";
 
 function setMeta(attribute, key, content) {
   let element = document.head.querySelector(`meta[${attribute}="${key}"]`);
@@ -35,12 +35,12 @@ function getHomeGraph(canonicalUrl, pageTitle, description) {
       telephone: site.phoneHref,
       logo: {
         "@type": "ImageObject",
-        url: toSiteUrl("/img/titleLogoNTGS.png"),
-        contentUrl: toSiteUrl("/img/titleLogoNTGS.png"),
-        width: 1000,
-        height: 1000,
+        url: toSiteUrl(brandAssets.organizationLogo),
+        contentUrl: toSiteUrl(brandAssets.organizationLogo),
+        width: 1098,
+        height: 616,
       },
-      image: toSiteUrl("/img/carousel/hero/2.png"),
+      image: toSiteUrl(brandAssets.socialImage),
       hasMap: site.mapsUrl,
       address: {
         "@type": "PostalAddress",
@@ -124,7 +124,7 @@ function getInnerPageGraph({
 function Seo({
   title = site.name,
   description = site.description,
-  image = "/img/carousel/hero/2.png",
+  image = brandAssets.socialImage,
   canonicalPath,
   pageType = "WebPage",
   breadcrumbs,

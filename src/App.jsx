@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
+import { brandAssets } from "./data/site";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 
@@ -123,7 +124,9 @@ function App() {
           className={`site-intro${overlayLeaving ? " is-leaving" : ""}`}>
           <div className="site-intro__logo-wrap">
             <img
-              src="/img/logoNGS_dark.png?v=2"
+              src={brandAssets.logoDark}
+              width="1098"
+              height="616"
               alt=""
               aria-hidden="true"
               decoding="sync"

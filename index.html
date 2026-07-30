@@ -49,17 +49,45 @@
     <meta property="og:site_name" content="PT. Nepatech Global Solusindo" />
     <meta property="og:title" content="PT. Nepatech Global Solusindo" />
     <meta property="og:description" content="Laboratorium kalibrasi terakreditasi KAN LK-377-IDN untuk ruang lingkup tertentu, serta layanan konsultansi, pelatihan, maintenance, dan supply." />
-    <meta property="og:image" content="https://ntgs.co.id/img/carousel/hero/2.png" />
+    <meta property="og:image" content="https://ntgs.co.id/img/brand/ntgs-social.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Logo PT. Nepatech Global Solusindo" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="PT. Nepatech Global Solusindo" />
     <meta name="twitter:description" content="Laboratorium kalibrasi terakreditasi KAN LK-377-IDN untuk ruang lingkup tertentu, serta layanan konsultansi, pelatihan, maintenance, dan supply." />
-    <meta name="twitter:image" content="https://ntgs.co.id/img/carousel/hero/2.png" />
+    <meta name="twitter:image" content="https://ntgs.co.id/img/brand/ntgs-social.png" />
+    <meta name="twitter:image:alt" content="Logo PT. Nepatech Global Solusindo" />
     <title>PT. Nepatech Global Solusindo</title>
-    <link rel="icon" type="image/png" href="/img/titleLogoNTGS.png" />
-    <link rel="apple-touch-icon" href="/img/titleLogoNTGS.png" />
-    <link rel="preload" as="image" href="/img/logoNGS_dark.png?v=2" fetchpriority="high" />
-    <link rel="preload" as="image" href="/img/carousel/hero/2.png" fetchpriority="high" />
+    <link rel="icon" type="image/png" sizes="64x64" href="/img/brand/ntgs-icon-light-64.png" data-theme-favicon />
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/brand/ntgs-icon-light-180.png" />
+    <link rel="preload" as="image" type="image/webp" href="/img/brand/ntgs-dark.webp" fetchpriority="high" />
+    <link rel="preload" as="image" type="image/webp" href="/img/brand/ntgs-light.webp" fetchpriority="high" />
     <link rel="manifest" href="/site.webmanifest" />
+    <script>
+      (() => {
+        try {
+          const storedTheme = window.localStorage.getItem(
+            "nepatech-dark-mode",
+          );
+          const darkMode =
+            storedTheme === null
+              ? window.matchMedia?.("(prefers-color-scheme: dark)")?.matches
+              : storedTheme === "true";
+
+          if (darkMode) {
+            document
+              .querySelector("link[data-theme-favicon]")
+              ?.setAttribute(
+                "href",
+                "/img/brand/ntgs-icon-dark-64.png",
+              );
+          }
+        } catch {
+          // Keep the light icon when browser storage is unavailable.
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

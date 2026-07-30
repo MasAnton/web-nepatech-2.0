@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import ContactForm from "../components/ContactForm";
 import Seo from "../components/Seo";
 import galleryPreviewData from "../data/gallery-preview.json";
+import { brandAssets, updateThemeFavicon } from "../data/site";
 
 const heroHeadline =
   "Kalibrasi dan dukungan laboratorium untuk operasional yang lebih andal";
@@ -285,9 +286,11 @@ const fillMarqueeLane = (logos, minimumItems = 8) => {
 const heroSlides = [
   {
     id: "nepatech-logo",
-    src: "/img/carousel/hero/2.png",
+    src: brandAssets.logoLight,
+    darkSrc: brandAssets.logoDark,
     alt: "Logo PT. Nepatech Global Solusindo",
     label: "PT. Nepatech Global Solusindo",
+    brandLogo: true,
   },
   {
     id: "kan",
@@ -337,20 +340,6 @@ const heroSlides = [
       { title: "ISO 45001:2018", value: "3050260220142HS" },
     ],
     label: "ISO 9001 · 14001 · 45001",
-  },
-  {
-    id: "audit-independent",
-    type: "credential",
-    eyebrow: "Laporan Audit Independen",
-    title: "KAP Abdul Hamid",
-    description: "No. 00086/2.1094/AU.2/05/1271-1/1/1/VII/2025",
-    logos: [
-      {
-        src: "/img/certifications/kap-abdul-hamid.webp",
-        alt: "Logo KAP Abdul Hamid dan Rekan",
-      },
-    ],
-    label: "Audit independen",
   },
   {
     id: "nepatech-akurasindo-utama",
@@ -647,6 +636,7 @@ function Home() {
   useEffect(() => {
     const imageSources = heroSlides.flatMap((slide) => [
       ...(slide.src ? [slide.src] : []),
+      ...(slide.darkSrc ? [slide.darkSrc] : []),
       ...(slide.logos?.map((logo) => logo.src) ?? []),
     ]);
     let cancelled = false;
@@ -808,6 +798,7 @@ function Home() {
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
+    updateThemeFavicon(darkMode);
   }, [darkMode]);
 
   useEffect(() => {
@@ -911,9 +902,9 @@ function Home() {
                 onClick={(event) => handleSectionNavigation(event, "#home")}
                 className="inline-flex rounded-xl p-1 transition duration-300 hover:bg-slate-100/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 dark:hover:bg-slate-800/80">
                 <img
-                  src={
-                    darkMode ? "/img/logoNGS_dark.png?v=2" : "/img/logoNGS.png"
-                  }
+                  src={darkMode ? brandAssets.logoDark : brandAssets.logoLight}
+                  width="1098"
+                  height="616"
                   className={`h-auto transition-[width] duration-300 ${
                     headerScrolled
                       ? "w-[78px] sm:w-[94px] lg:w-[102px]"
@@ -1180,18 +1171,32 @@ function Home() {
                   ) : (
                     <div
                       key={currentHeroSlide.id}
-                      className="hero-slide flex h-[210px] w-full items-center justify-center overflow-hidden p-3 sm:h-[300px] sm:p-5 md:h-[360px] lg:h-[400px]">
+                      className={`hero-slide flex h-[210px] w-full items-center justify-center overflow-hidden p-3 sm:h-[300px] sm:p-5 md:h-[360px] lg:h-[400px] ${
+                        currentHeroSlide.brandLogo
+                          ? "bg-slate-50 dark:bg-slate-950"
+                          : ""
+                      }`}>
                       <img
                         loading="eager"
                         fetchPriority="high"
                         decoding="async"
-                        src={currentHeroSlide.src}
+                        src={
+                          darkMode && currentHeroSlide.darkSrc
+                            ? currentHeroSlide.darkSrc
+                            : currentHeroSlide.src
+                        }
+                        width={currentHeroSlide.brandLogo ? "1098" : undefined}
+                        height={currentHeroSlide.brandLogo ? "616" : undefined}
                         alt={currentHeroSlide.alt}
                         onLoad={showLoadedImage}
                         onError={showLoadedImage}
                         className={`hero-logo-media max-h-full w-full object-contain${
                           currentHeroSlide.compactLogo
                             ? " hero-logo-media--compact"
+                            : ""
+                        }${
+                          currentHeroSlide.brandLogo
+                            ? " hero-logo-media--brand"
                             : ""
                         }`}
                       />

@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { primaryPages, site } from "../data/site";
+import {
+  brandAssets,
+  primaryPages,
+  site,
+  updateThemeFavicon,
+} from "../data/site";
 
 function getInitialDarkMode() {
   if (typeof window === "undefined") return false;
@@ -15,6 +20,7 @@ function InnerPageLayout({ children }) {
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
+    updateThemeFavicon(darkMode);
   }, [darkMode]);
 
   useEffect(() => {
@@ -52,7 +58,9 @@ function InnerPageLayout({ children }) {
               aria-label="Kembali ke beranda Nepatech"
               className="inline-flex rounded-xl p-1 transition hover:opacity-90">
               <img
-                src={darkMode ? "/img/logoNGS_dark.png?v=2" : "/img/logoNGS.png"}
+                src={darkMode ? brandAssets.logoDark : brandAssets.logoLight}
+                width="1098"
+                height="616"
                 className="w-[86px] sm:w-[118px]"
                 alt={site.name}
               />

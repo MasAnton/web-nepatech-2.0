@@ -18,6 +18,26 @@ export const site = {
   standard: "SNI ISO/IEC 17025:2017",
 };
 
+export const brandAssets = {
+  logoLight: "/img/brand/ntgs-light.webp",
+  logoDark: "/img/brand/ntgs-dark.webp",
+  organizationLogo: "/img/brand/ntgs-light.png",
+  socialImage: "/img/brand/ntgs-social.png",
+  faviconLight: "/img/brand/ntgs-icon-light-64.png",
+  faviconDark: "/img/brand/ntgs-icon-dark-64.png",
+};
+
+export function updateThemeFavicon(darkMode) {
+  if (typeof document === "undefined") return;
+
+  document
+    .querySelector("link[data-theme-favicon]")
+    ?.setAttribute(
+      "href",
+      darkMode ? brandAssets.faviconDark : brandAssets.faviconLight,
+    );
+}
+
 export const primaryPages = [
   { label: "Layanan Kalibrasi", to: "/layanan-kalibrasi" },
   { label: "Ruang Lingkup", to: "/ruang-lingkup" },

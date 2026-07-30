@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "optimize:images": "node scripts/optimize-gallery.mjs && node scripts/optimize-client-logos.mjs",
+    "optimize:images": "node scripts/optimize-brand-assets.mjs && node scripts/optimize-gallery.mjs && node scripts/optimize-client-logos.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
