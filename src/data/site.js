@@ -3,7 +3,7 @@ export const site = {
   shortName: "Nepatech",
   url: "https://ntgs.co.id",
   description:
-    "Laboratorium kalibrasi terakreditasi KAN LK-377-IDN untuk ruang lingkup tertentu, serta layanan konsultansi, pelatihan, maintenance, dan supply.",
+    "Laboratorium kalibrasi terakreditasi KAN LK-377-IDN untuk ruang lingkup tertentu, serta layanan konsultansi, pelatihan, perawatan, dan pengadaan.",
   email: "operation@ntgs.co.id",
   secondaryEmail: "nepatech1gs@gmail.com",
   phone: "+62 812-6708-4525",

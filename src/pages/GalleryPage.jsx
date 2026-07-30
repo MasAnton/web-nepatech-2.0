@@ -37,9 +37,7 @@ function GalleryPage() {
   const filteredImages = useMemo(() => {
     if (!isOverview) return currentCategory?.images ?? [];
     if (activeCategory === "all") return allImages;
-    return allImages.filter(
-      (image) => image.categorySlug === activeCategory,
-    );
+    return allImages.filter((image) => image.categorySlug === activeCategory);
   }, [activeCategory, currentCategory, isOverview]);
 
   const visibleImages = isOverview
@@ -93,8 +91,7 @@ function GalleryPage() {
       if (event.key === "Escape") setSelectedIndex(null);
       if (event.key === "ArrowLeft") {
         setSelectedIndex(
-          (index) =>
-            (index - 1 + visibleImages.length) % visibleImages.length,
+          (index) => (index - 1 + visibleImages.length) % visibleImages.length,
         );
       }
       if (event.key === "ArrowRight") {
@@ -120,7 +117,7 @@ function GalleryPage() {
     ? "Galeri Pekerjaan Laboratorium"
     : `Galeri ${currentCategory.title}`;
   const pageDescription = isOverview
-    ? "Dokumentasi pekerjaan kalibrasi, maintenance, dan peralatan laboratorium PT. Nepatech Global Solusindo. Filter foto berdasarkan kategori pekerjaan."
+    ? "Dokumentasi pekerjaan kalibrasi, perawatan, dan peralatan laboratorium PT. Nepatech Global Solusindo. Filter foto berdasarkan kategori pekerjaan."
     : `Dokumentasi pekerjaan ${currentCategory.title} dari PT. Nepatech Global Solusindo.`;
   const pageImage = isOverview
     ? allImages[0].fullSrc
@@ -165,18 +162,20 @@ function GalleryPage() {
                 strokeLinejoin="round">
                 <path d="m12.5 4.5-5.5 5.5 5.5 5.5" />
               </svg>
-              Kembali ke Beranda
+              Kembali ke beranda
             </Link>
             <p className="mt-7 text-xs font-bold uppercase tracking-[0.2em] text-orange-700 dark:text-orange-300 sm:mt-9 sm:text-sm">
-              {isOverview ? "Dokumentasi Pekerjaan" : `Galeri ${currentCategory.heading}`}
+              {isOverview
+                ? "Dokumentasi Pekerjaan"
+                : `Galeri ${currentCategory.heading}`}
             </p>
-            <h1 className="mt-2 max-w-4xl text-[30px] font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+            <h1 className="mt-2 max-w-4xl text-[32px] font-black leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
               {isOverview ? "Galeri kerja Nepatech" : currentCategory.title}
             </h1>
-            <p className="mt-3 max-w-2xl text-[13px] leading-6 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-lg sm:leading-8">
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-lg sm:leading-7">
               {isOverview
-                ? "Jelajahi dokumentasi pekerjaan berdasarkan kategori. Foto dimuat bertahap agar halaman tetap ringan."
-                : "Dokumentasi pekerjaan dan peralatan dari tim PT. Nepatech Global Solusindo. Klik foto untuk melihat detail."}
+                ? "Jelajahi dokumentasi pekerjaan berdasarkan kategori."
+                : "Dokumentasi tim PT. Nepatech Global Solusindo saat menangani peralatan laboratorium. Pilih foto untuk melihat detail."}
             </p>
             {!isOverview && (
               <Link
@@ -284,7 +283,8 @@ function GalleryPage() {
                 <p
                   aria-live="polite"
                   className="text-xs font-medium text-slate-500 dark:text-slate-400 sm:text-sm">
-                  Menampilkan {visibleImages.length} dari {filteredImages.length} foto
+                  Menampilkan {visibleImages.length} dari{" "}
+                  {filteredImages.length} foto
                 </p>
                 {visibleImages.length < filteredImages.length && (
                   <button
@@ -355,7 +355,8 @@ function GalleryPage() {
               className="max-h-[80vh] max-w-full rounded-xl object-contain shadow-2xl"
             />
             <figcaption className="mt-3 text-center text-xs font-medium text-slate-200 sm:mt-4 sm:text-sm">
-              {selectedImage.alt} · {selectedIndex + 1} dari {visibleImages.length}
+              {selectedImage.alt} · {selectedIndex + 1} dari{" "}
+              {visibleImages.length}
             </figcaption>
           </figure>
           <button

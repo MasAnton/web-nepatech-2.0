@@ -14,7 +14,8 @@ function ContactForm({ embedded = false }) {
     if (!serviceId || !templateId || !userId) {
       setStatus({
         type: "error",
-        message: "EmailJS belum dikonfigurasi. Periksa file environment.",
+        message:
+          "Formulir kontak sedang tidak tersedia. Silakan hubungi kami melalui WhatsApp atau email.",
       });
       return;
     }
@@ -55,17 +56,17 @@ function ContactForm({ embedded = false }) {
           data-reveal={embedded ? undefined : ""}
           className={`${embedded ? "" : "reveal-content"} mx-auto grid max-w-6xl overflow-hidden rounded-2xl border border-slate-200 border-t-4 border-t-primary bg-white shadow-[0_30px_70px_-35px_rgba(15,23,42,0.35)] dark:border-slate-700 dark:border-t-primary dark:bg-slate-900 sm:rounded-[32px] lg:grid-cols-[0.8fr_1.2fr]`}>
           <div className="bg-slate-950 p-4 text-white sm:p-10 lg:p-12">
-            <span className="inline-flex rounded-full bg-orange-500/15 px-2.5 py-1 text-[11px] font-semibold text-orange-300 sm:px-4 sm:py-2 sm:text-sm">
+            <span className="inline-flex rounded-full bg-orange-500/15 px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-orange-300 sm:px-4 sm:py-2 sm:text-[13px]">
               Kontak Kami
             </span>
-            <h2 className="mt-3 text-[22px] font-bold leading-tight tracking-tight sm:mt-6 sm:text-4xl">
+            <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight sm:mt-6 sm:text-4xl">
               Mari diskusikan kebutuhan laboratorium Anda.
             </h2>
-            <p className="mt-3 text-[13px] leading-5 text-slate-300 sm:mt-5 sm:text-base sm:leading-7">
+            <p className="mt-3 text-sm leading-6 text-slate-300 sm:mt-5 sm:text-base sm:leading-7">
               Ceritakan alat atau layanan yang Anda butuhkan. Tim kami akan
               menghubungi Anda secepatnya.
             </p>
-            <div className="mt-6 border-t border-slate-800 pt-4 text-[13px] text-slate-400 sm:mt-8 sm:pt-6 sm:text-sm">
+            <div className="mt-6 border-t border-slate-800 pt-4 text-sm text-slate-400 sm:mt-8 sm:pt-6">
               <p className="font-semibold text-white">
                 PT. Nepatech Global Solusindo
               </p>
@@ -82,7 +83,7 @@ function ContactForm({ embedded = false }) {
               <a
                 href="tel:02138716118"
                 className="mt-1 block transition hover:text-orange-300">
-                Hotline : 02138716118
+                Hotline: 02138716118
               </a>
             </div>
           </div>
@@ -141,7 +142,7 @@ function ContactForm({ embedded = false }) {
                 type="submit"
                 disabled={isSubmitting}
                 className="inline-flex min-w-32 items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white transition hover:bg-orange-500 disabled:cursor-not-allowed disabled:opacity-60 sm:px-7 sm:text-base">
-                {isSubmitting ? "Mengirim..." : "Kirim Pesan"}
+                {isSubmitting ? "Mengirim..." : "Kirim pesan"}
               </button>
               {status && (
                 <p

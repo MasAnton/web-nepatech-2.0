@@ -33,7 +33,7 @@ const pageContent = {
         text: "Kalorimeter, laboratory mill, spektrofotometer, pH, konduktivitas, dan viskositas.",
       },
       {
-        title: "Maintenance Preventif",
+        title: "Perawatan Preventif",
         text: "Pemeriksaan dan perawatan untuk membantu menjaga performa serta kesiapan alat.",
       },
       {
@@ -95,10 +95,10 @@ const pageContent = {
     title: "Pendampingan akreditasi dan pelatihan laboratorium.",
     lead: "Program disusun mengikuti kesiapan organisasi, kebutuhan kompetensi personel, dan target pengembangan sistem manajemen laboratorium.",
     sectionEyebrow: "Pendampingan",
-    sectionTitle: "Dari persiapan sampai proses akhir.",
+    sectionTitle: "Dari persiapan hingga penyelesaian proses akreditasi.",
     items: [
       {
-        title: "Persiapan & Gap Analysis",
+        title: "Persiapan & Analisis Kesenjangan",
         text: "Memetakan kondisi awal dan kebutuhan pengembangan sistem.",
       },
       {
@@ -111,11 +111,11 @@ const pageContent = {
       },
       {
         title: "Perbaikan & Verifikasi",
-        text: "Membantu menata tindak lanjut terhadap temuan yang relevan.",
+        text: "Mendampingi penyusunan dan verifikasi tindak lanjut atas temuan.",
       },
       {
         title: "Proses Akhir Akreditasi",
-        text: "Pendampingan sampai rangkaian proses yang disepakati selesai.",
+        text: "Pendampingan hingga seluruh tahapan yang disepakati selesai.",
       },
       {
         title: "Dokumen Mutu",
@@ -142,7 +142,7 @@ const pageContent = {
     eyebrow: "Kontak & Penawaran",
     seoTitle: "Kontak & Permintaan Penawaran",
     description:
-      "Hubungi PT. Nepatech Global Solusindo untuk konsultasi kalibrasi, maintenance, supply, pelatihan, dan kebutuhan laboratorium industri Anda.",
+      "Hubungi PT. Nepatech Global Solusindo untuk konsultasi kalibrasi, perawatan, pengadaan, pelatihan, dan kebutuhan laboratorium industri Anda.",
     title: "Diskusikan kebutuhan laboratorium Anda.",
     lead: "Sampaikan jenis alat, layanan yang dibutuhkan, serta target waktu Anda. Tim kami akan membantu meninjau langkah berikutnya.",
   },
@@ -339,7 +339,7 @@ function ServicePage({ pageKey }) {
               to="/"
               className="mb-5 inline-flex min-h-10 items-center rounded-full border border-slate-300 bg-white/80 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-primary hover:text-orange-700 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:border-primary dark:hover:text-orange-300 sm:mb-7">
               <span aria-hidden="true" className="mr-2">←</span>
-              Kembali ke Beranda
+              Kembali ke beranda
             </Link>
             <nav aria-label="Breadcrumb" className="text-xs font-semibold sm:text-sm">
               <ol className="flex flex-wrap items-center gap-2 text-slate-500 dark:text-slate-400">
@@ -361,7 +361,7 @@ function ServicePage({ pageKey }) {
               <h1 className="mt-4 max-w-5xl text-[32px] font-black leading-[1.08] tracking-tight sm:mt-6 sm:text-5xl lg:text-6xl">
                 {page.title}
               </h1>
-              <p className="mt-4 max-w-3xl text-[14px] leading-6 text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-lg sm:leading-8">
+              <p className="mt-4 max-w-3xl text-[14px] leading-6 text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-lg sm:leading-7">
                 {page.lead}
               </p>
               {!isContactPage && (

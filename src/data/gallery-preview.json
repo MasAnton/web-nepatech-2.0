@@ -1,0 +1,40 @@
+{
+  "items": [
+    {
+      "slug": "furnace",
+      "title": "Furnace",
+      "heading": "Suhu",
+      "image": {
+        "id": "furnace-1",
+        "src": "/img/galery/Furnace/1-480.webp?v=e1182434da",
+        "fullSrc": "/img/galery/Furnace/1-1280.webp?v=3829e33493",
+        "srcSet": "/img/galery/Furnace/1-480.webp?v=e1182434da 480w, /img/galery/Furnace/1-1280.webp?v=3829e33493 1280w",
+        "alt": "Dokumentasi pekerjaan Furnace — foto 01"
+      }
+    },
+    {
+      "slug": "laboratory-mill",
+      "title": "Laboratory Mill",
+      "heading": "Laboratory Mill",
+      "image": {
+        "id": "laboratory-mill-1",
+        "src": "/img/galery/LabMill/1-480.webp?v=f9c5963b0f",
+        "fullSrc": "/img/galery/LabMill/1-1280.webp?v=316eea2099",
+        "srcSet": "/img/galery/LabMill/1-480.webp?v=f9c5963b0f 480w, /img/galery/LabMill/1-1280.webp?v=316eea2099 1280w",
+        "alt": "Dokumentasi pekerjaan Laboratory Mill — foto 01"
+      }
+    },
+    {
+      "slug": "timbangan",
+      "title": "Timbangan",
+      "heading": "Massa",
+      "image": {
+        "id": "timbangan-1",
+        "src": "/img/galery/Massa/1-480.webp?v=abc60cf1ed",
+        "fullSrc": "/img/galery/Massa/1-1280.webp?v=f79f81f69f",
+        "srcSet": "/img/galery/Massa/1-480.webp?v=abc60cf1ed 480w, /img/galery/Massa/1-1280.webp?v=f79f81f69f 1280w",
+        "alt": "Dokumentasi pekerjaan Timbangan — foto 01"
+      }
+    }
+  ]
+}

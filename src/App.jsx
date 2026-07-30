@@ -27,10 +27,6 @@ const shouldShowIntro = () => {
     return false;
   }
 
-  if (window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches) {
-    return false;
-  }
-
   try {
     return window.sessionStorage.getItem(INTRO_SESSION_KEY) !== "true";
   } catch {
@@ -71,10 +67,8 @@ function App() {
     const isHomeInnerPageTransition =
       (previousPath === "/" && isInnerPagePath(pathname)) ||
       (isInnerPagePath(previousPath) && pathname === "/");
-    const prefersReducedMotion =
-      window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
 
-    if (!isHomeInnerPageTransition || prefersReducedMotion) return undefined;
+    if (!isHomeInnerPageTransition) return undefined;
 
     document.documentElement.classList.add("site-intro-active");
     setRouteTransitionStage("visible");

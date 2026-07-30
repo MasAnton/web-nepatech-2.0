@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import ContactForm from "../components/ContactForm";
 import Seo from "../components/Seo";
+import galleryPreviewData from "../data/gallery-preview.json";
 
-const heroHeadline = "Solusi laboratorium andal untuk operasional modern";
+const heroHeadline =
+  "Kalibrasi dan dukungan laboratorium untuk operasional yang lebih andal";
 const heroHeadlineWords = heroHeadline.split(" ");
 
 const clientLogos = [
@@ -87,6 +89,7 @@ const clientLogos = [
     src: "/img/PNG/gema-kreasi-perdana.webp",
     alt: "PT Gema Kreasi Perdana (GKP)",
     caption: "Gema Kreasi Perdana (GKP)",
+    compactMobile: true,
   },
   {
     src: "/img/PNG/mandiri-coal.webp",
@@ -126,11 +129,13 @@ const clientLogos = [
     src: "/img/PNG/leon-testing-consultancy.webp",
     alt: "PT Leon Testing and Consultancy",
     caption: "Leon Testing & Consultancy",
+    compactMobile: true,
   },
   {
     src: "/img/PNG/ugm.webp",
     alt: "Universitas Gadjah Mada",
     caption: "Universitas Gadjah Mada",
+    compactMobile: true,
   },
   {
     src: "/img/PNG/unsoed.webp",
@@ -151,6 +156,131 @@ const clientLogos = [
     portrait: true,
   },
 ];
+
+const clientGroupDefinitions = [
+  {
+    id: "energy",
+    title: "Energi & utilitas",
+    description: "Pembangkit listrik dan layanan utilitas",
+    direction: "forward",
+    duration: 36,
+    members: [
+      "PLN Nusantara Power",
+      "PLN Indonesia Power",
+      "PT Lestari Banten Energi",
+      "PLN",
+      "PT Datang DSSP Power Indonesia",
+      "PT SGPJB",
+      "PT Bhumi Jati Power",
+      "China Shenhua Energy Company Limited",
+      "Cirebon Power",
+      "Aetra",
+    ],
+  },
+  {
+    id: "mining",
+    title: "Pertambangan",
+    description: "Pertambangan dan sumber daya mineral",
+    direction: "reverse",
+    duration: 46,
+    members: [
+      "PT Mitrabara Adiperdana Tbk",
+      "PT Indexim Coalindo",
+      "Antam",
+      "BP",
+      "BSA",
+      "Geomin",
+      "TOP",
+      "PT Bukit Asam Tbk",
+      "PT Marunda Grahamineral",
+      "PT Gema Kreasi Perdana (GKP)",
+      "Mandiri Coal - PT Mandiri Intiperkasa",
+      "PT Bara Prima Pratama",
+    ],
+  },
+  {
+    id: "laboratory",
+    title: "Laboratorium, inspeksi & teknis",
+    description: "Surveyor, pengujian, inspeksi, dan layanan teknis",
+    direction: "forward",
+    duration: 54,
+    members: [
+      "PT Surveyor Indonesia",
+      "Geoservices",
+      "PT Sucofindo",
+      "ATQ Surveyor - PT Asiatrust Technovima Qualiti",
+      "PT Bureau Veritas Indonesia",
+      "PT Cotecna Inspection Indonesia",
+      "MSK",
+      "IBIS",
+      "SCCI",
+      "Tek-MIRA",
+      "PT Anindya Wiraputra Konsult",
+      "PT Tribhakti Inspektama",
+      "PT Zafina Analitika Inspektama",
+      "PT SGS Indonesia",
+      "PT Techno Consult Indonesia",
+      "PT Leon Testing and Consultancy",
+      "CGR",
+    ],
+  },
+  {
+    id: "manufacturing",
+    title: "Manufaktur & industri",
+    description: "Semen, tekstil, logam, dan industri pengolahan",
+    direction: "reverse",
+    duration: 48,
+    members: [
+      "Krakatau",
+      "PT Indocement Tunggal Prakarsa Tbk",
+      "PT Semen Grobogan",
+      "PT Emas Murni Abadi",
+      "PT Kahatex",
+      "Pipit Group",
+      "PT H-One Kogi Prima Auto Technologies Indonesia",
+    ],
+  },
+  {
+    id: "education",
+    title: "Institusi pendidikan",
+    description: "Perguruan tinggi dan institusi pendidikan",
+    direction: "forward",
+    duration: 32,
+    members: [
+      "Universitas Gadjah Mada",
+      "Universitas Jenderal Soedirman",
+      "Institut Teknologi Bandung",
+      "Universitas Indonesia",
+    ],
+  },
+];
+
+const clientLogoByAlt = new Map(
+  clientLogos.map((logo) => [logo.alt, logo]),
+);
+const groupedClientAlts = clientGroupDefinitions.flatMap(
+  (group) => group.members,
+);
+const uniqueGroupedClientAlts = new Set(groupedClientAlts);
+const clientGroupsAreValid =
+  uniqueGroupedClientAlts.size === clientLogos.length &&
+  groupedClientAlts.every((alt) => clientLogoByAlt.has(alt));
+
+if (import.meta.env.DEV && !clientGroupsAreValid) {
+  console.warn("Daftar kategori pelanggan tidak sinkron dengan data logo.");
+}
+
+const clientGroups = clientGroupDefinitions.map(({ members, ...group }) => ({
+  ...group,
+  logos: members
+    .map((alt) => clientLogoByAlt.get(alt))
+    .filter(Boolean),
+}));
+
+const fillMarqueeLane = (logos, minimumItems = 8) => {
+  const repeats = Math.max(1, Math.ceil(minimumItems / logos.length));
+  return Array.from({ length: repeats }, () => logos).flat();
+};
 
 const heroSlides = [
   {
@@ -247,13 +377,13 @@ const serviceItems = [
   },
   {
     number: "02",
-    title: "Maintenance",
+    title: "Perawatan",
     description:
       "Perawatan preventif dan perbaikan untuk menjaga performa alat.",
   },
   {
     number: "03",
-    title: "Supply & Suku Cadang",
+    title: "Pengadaan peralatan dan suku cadang",
     description:
       "Pengadaan peralatan dan komponen sesuai kebutuhan operasional laboratorium.",
   },
@@ -290,8 +420,18 @@ const calibrationScopes = [
   },
 ];
 
+const galleryPreviews = galleryPreviewData.items.map((item) => ({
+  id: item.slug,
+  title: item.title,
+  category: item.heading === item.title ? "Dokumentasi" : item.heading,
+  href: `/gallery/${item.slug}`,
+  src: item.image.src,
+  srcSet: item.image.srcSet,
+  alt: `Dokumentasi pekerjaan ${item.title} PT. Nepatech Global Solusindo`,
+}));
+
 const accreditationSteps = [
-  "Persiapan dan gap analysis",
+  "Persiapan dan analisis kesenjangan",
   "Audit kelayakan dokumen",
   "Pendampingan asesmen lapangan",
   "Tindakan perbaikan dan verifikasi",
@@ -313,7 +453,7 @@ const navLinks = [
   ["Beranda", "#home"],
   ["Tentang Kami", "#about"],
   ["Layanan", "/layanan-kalibrasi"],
-  ["Galeri Kerja", "/galeri"],
+  ["Galeri Kerja", "#gallery-preview"],
   ["Pelanggan", "#clients"],
   ["FAQ", "#faq"],
   ["Lokasi", "#location"],
@@ -324,12 +464,12 @@ const faqItems = [
   {
     question: "Apa saja layanan yang tersedia?",
     answer:
-      "Kami menyediakan kalibrasi, maintenance, supply peralatan dan suku cadang, konsultansi akreditasi, pelatihan, serta penyusunan dokumen mutu laboratorium.",
+      "Kami menyediakan kalibrasi, perawatan, pengadaan peralatan dan suku cadang, konsultansi akreditasi, pelatihan, serta penyusunan dokumen mutu laboratorium.",
   },
   {
-    question: "Berapa lama waktu pengerjaannya?",
+    question: "Berapa estimasi waktu pengerjaan?",
     answer:
-      "Durasi bergantung pada jenis alat dan ruang lingkup pekerjaan. Umumnya estimasi dikomunikasikan setelah survei awal.",
+      "Durasi bergantung pada jenis alat dan ruang lingkup pekerjaan. Estimasi waktu disampaikan setelah kebutuhan dan kondisi alat ditinjau.",
   },
   {
     question: "Apakah ada garansi untuk layanan?",
@@ -337,12 +477,12 @@ const faqItems = [
       "Ketentuan garansi dan dukungan purna jual menyesuaikan jenis pekerjaan, peralatan, serta ruang lingkup yang disepakati dalam penawaran.",
   },
   {
-    question: "Apakah semua layanan termasuk ruang lingkup terakreditasi?",
+    question: "Apakah seluruh layanan berada dalam ruang lingkup akreditasi?",
     answer:
       "Akreditasi KAN LK-377-IDN berlaku untuk layanan dan rentang ukur yang tercantum dalam ruang lingkup resmi. Tim kami akan mengonfirmasi kesesuaiannya sebelum pekerjaan dimulai.",
   },
   {
-    question: "Bagaimana cara menghubungi tim sales?",
+    question: "Bagaimana cara menghubungi tim Nepatech?",
     answer:
       "Gunakan formulir kontak di bawah, atau langsung hubungi WhatsApp kami lewat tombol di pojok kanan bawah.",
   },
@@ -353,6 +493,45 @@ const showLoadedImage = (event) => {
   image.classList.add("is-loaded");
   image.parentElement?.classList.add("media-loaded");
 };
+
+function ClientLogoCard({ logo, hidden = false, filler = false }) {
+  return (
+    <li
+      aria-hidden={hidden || undefined}
+      data-filler={filler || undefined}
+      title={hidden ? undefined : logo.alt}
+      className="client-logo-card group flex h-[72px] w-[120px] shrink-0 flex-col items-center justify-center gap-1 overflow-hidden rounded-xl border border-slate-200 bg-white px-2 py-2 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-orange-200 hover:shadow-md sm:h-24 sm:w-40 sm:rounded-2xl sm:px-3 sm:py-3 lg:h-[104px] lg:w-44">
+      <div
+        style={
+          logo.scale ? { transform: `scale(${logo.scale})` } : undefined
+        }
+        className={`flex w-full shrink-0 items-center justify-center rounded-lg bg-transparent ${
+          logo.compactMobile
+            ? "h-6 sm:h-12"
+            : logo.portrait
+            ? logo.caption
+              ? "h-10 sm:h-14"
+              : "h-12 sm:h-[68px]"
+            : "h-8 sm:h-12"
+        }`}>
+        <img
+          width="176"
+          height="104"
+          loading="lazy"
+          decoding="async"
+          src={logo.src}
+          alt={hidden ? "" : logo.alt}
+          className="block h-full w-full object-contain transition duration-300 lg:group-hover:scale-[1.03]"
+        />
+      </div>
+      {logo.caption && (
+        <span className="line-clamp-2 text-center text-[10px] font-semibold leading-tight text-slate-600 transition group-hover:text-slate-700 sm:text-xs">
+          {logo.caption}
+        </span>
+      )}
+    </li>
+  );
+}
 
 function CredentialHeroSlide({ slide }) {
   const hasMultipleLogos = slide.logos.length > 1;
@@ -403,7 +582,7 @@ function CredentialHeroSlide({ slide }) {
               }
             />
             {logo.name && (
-              <span className="text-[8px] font-bold leading-tight text-slate-700 sm:text-[10px] lg:text-xs">
+              <span className="text-[10px] font-bold leading-tight text-slate-700 sm:text-[11px] lg:text-xs">
                 {logo.name}
               </span>
             )}
@@ -417,8 +596,8 @@ function CredentialHeroSlide({ slide }) {
             <div
               key={detail.title}
               className="block rounded-xl bg-slate-900 px-2 py-2 text-center text-white sm:px-3">
-              <p className="text-[9px] font-bold sm:text-xs">{detail.title}</p>
-              <p className="break-all text-[8px] text-slate-300 sm:mt-1 sm:text-[9px]">
+              <p className="text-[11px] font-bold sm:text-xs">{detail.title}</p>
+              <p className="break-words text-[10px] leading-4 text-slate-300 sm:mt-1 sm:text-[11px]">
                 No. {detail.value}
               </p>
             </div>
@@ -431,6 +610,9 @@ function CredentialHeroSlide({ slide }) {
 
 function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [headerScrolled, setHeaderScrolled] = useState(false);
+  const menuButtonRef = useRef(null);
+  const mobileMenuRef = useRef(null);
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window === "undefined") return false;
     const stored = window.localStorage.getItem("nepatech-dark-mode");
@@ -443,12 +625,7 @@ function Home() {
     );
   });
   const [activeSlide, setActiveSlide] = useState(0);
-  const [carouselPaused, setCarouselPaused] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return (
-      window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false
-    );
-  });
+  const [carouselPaused, setCarouselPaused] = useState(false);
   const [activeSection, setActiveSection] = useState(() => {
     if (typeof window === "undefined") return "home";
     const hash = decodeURIComponent(window.location.hash.slice(1));
@@ -456,7 +633,6 @@ function Home() {
     return navLinks.some(([, href]) => href === `#${hash}`) ? hash : "home";
   });
   const [openFaqIndex, setOpenFaqIndex] = useState(0);
-  const [showAllClients, setShowAllClients] = useState(false);
   const currentHeroSlide = heroSlides[activeSlide];
 
   useEffect(() => {
@@ -545,6 +721,7 @@ function Home() {
       ["home", "home"],
       ["about", "about"],
       ["calibration-scope", "about"],
+      ["gallery-preview", "gallery-preview"],
       ["clients", "clients"],
       ["faq", "faq"],
       ["location", "location"],
@@ -558,7 +735,12 @@ function Home() {
         document.querySelector("[data-site-header]")?.offsetHeight ?? 0;
       const readingLine =
         headerHeight + Math.min(window.innerHeight * 0.24, 180);
+      const nextHeaderScrolled = window.scrollY > 18;
       let nextSection = "home";
+
+      setHeaderScrolled((current) =>
+        current === nextHeaderScrolled ? current : nextHeaderScrolled,
+      );
 
       sectionMap.forEach(([sectionId, navId]) => {
         const section = document.getElementById(sectionId);
@@ -615,10 +797,8 @@ function Home() {
     setMenuOpen(false);
     setActiveSection(targetId === "calibration-scope" ? "about" : targetId);
 
-    const prefersReducedMotion =
-      window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
     target.scrollIntoView({
-      behavior: prefersReducedMotion ? "auto" : "smooth",
+      behavior: "smooth",
       block: "start",
     });
 
@@ -631,20 +811,57 @@ function Home() {
   }, [darkMode]);
 
   useEffect(() => {
-    const closeMenu = (event) => {
-      if (event.key === "Escape") setMenuOpen(false);
-    };
-    const closeMenuOnDesktop = () => {
-      if (window.innerWidth >= 1024) setMenuOpen(false);
+    if (!menuOpen) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    const focusableSelector =
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    document.body.style.overflow = "hidden";
+
+    const focusFrame = window.requestAnimationFrame(() => {
+      mobileMenuRef.current?.querySelector(focusableSelector)?.focus();
+    });
+
+    const handleMenuKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        window.requestAnimationFrame(() => menuButtonRef.current?.focus());
+        return;
+      }
+
+      if (event.key !== "Tab") return;
+
+      const focusableElements = Array.from(
+        mobileMenuRef.current?.querySelectorAll(focusableSelector) ?? [],
+      );
+      if (focusableElements.length === 0) return;
+
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
     };
 
-    window.addEventListener("keydown", closeMenu);
-    window.addEventListener("resize", closeMenuOnDesktop);
-    return () => {
-      window.removeEventListener("keydown", closeMenu);
-      window.removeEventListener("resize", closeMenuOnDesktop);
+    const closeMenuOnDesktop = () => {
+      if (window.innerWidth >= 1280) setMenuOpen(false);
     };
-  }, []);
+
+    window.addEventListener("keydown", handleMenuKeyDown);
+    window.addEventListener("resize", closeMenuOnDesktop);
+
+    return () => {
+      window.cancelAnimationFrame(focusFrame);
+      window.removeEventListener("keydown", handleMenuKeyDown);
+      window.removeEventListener("resize", closeMenuOnDesktop);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [menuOpen]);
 
   return (
     <div
@@ -663,39 +880,91 @@ function Home() {
         </a>
       </div>
 
+      {menuOpen && (
+        <button
+          type="button"
+          className="mobile-menu-backdrop fixed inset-0 z-40 bg-slate-950/35 xl:hidden"
+          onClick={() => {
+            setMenuOpen(false);
+            window.requestAnimationFrame(() => menuButtonRef.current?.focus());
+          }}
+          aria-label="Tutup menu navigasi"
+          tabIndex={-1}
+        />
+      )}
+
       <header
         data-site-header
-        className="fixed inset-x-0 top-0 z-50 w-full border-b border-slate-200 bg-white/95 shadow-lg backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/95">
-        <div className="container relative">
-          <div className="flex items-center justify-between gap-2 px-0 py-2 sm:gap-3 sm:px-4 sm:py-3 lg:py-0">
-            <div>
+        className={`pointer-events-none fixed inset-x-0 top-0 z-50 w-full px-2 transition-[padding] duration-300 sm:px-4 ${
+          headerScrolled ? "pt-1.5 sm:pt-2" : "pt-2 sm:pt-3 lg:pt-4"
+        }`}>
+        <div className="relative mx-auto w-full max-w-[1480px]">
+          <div
+            className={`pointer-events-auto flex items-center justify-between gap-2 rounded-2xl border px-2.5 transition-all duration-300 sm:gap-3 sm:rounded-[22px] sm:px-3 lg:px-4 ${
+              headerScrolled
+                ? "border-slate-200/90 bg-white/[0.92] py-1.5 shadow-[0_18px_45px_-24px_rgba(15,23,42,0.38)] backdrop-blur-xl dark:border-slate-700/80 dark:bg-slate-950/[0.9] sm:py-2"
+                : "border-white/80 bg-white/[0.82] py-2 shadow-[0_14px_40px_-28px_rgba(15,23,42,0.3)] backdrop-blur-xl dark:border-slate-700/70 dark:bg-slate-950/[0.8] sm:py-2.5"
+            }`}>
+            <div className="flex shrink-0">
               <a
                 href="#home"
                 onClick={(event) => handleSectionNavigation(event, "#home")}
-                className="inline-flex rounded-lg p-1 transition-opacity duration-300 hover:opacity-90 sm:rounded-xl sm:p-1.5">
+                className="inline-flex rounded-xl p-1 transition duration-300 hover:bg-slate-100/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 dark:hover:bg-slate-800/80">
                 <img
                   src={
                     darkMode ? "/img/logoNGS_dark.png?v=2" : "/img/logoNGS.png"
                   }
-                  className="w-[82px] sm:w-[120px]"
+                  className={`h-auto transition-[width] duration-300 ${
+                    headerScrolled
+                      ? "w-[78px] sm:w-[94px] lg:w-[102px]"
+                      : "w-[82px] sm:w-[104px] lg:w-[112px]"
+                  }`}
                   alt="PT. Nepatech Global Solusindo"
                 />
               </a>
             </div>
 
-            <div className="flex items-center gap-2 sm:gap-3 lg:order-3">
+            <div className="flex items-center gap-1.5 sm:gap-2 xl:order-3">
               <button
                 type="button"
                 onClick={toggleDarkMode}
-                className="inline-flex items-center whitespace-nowrap rounded-full border border-slate-300 bg-white/90 px-2.5 py-1.5 text-[11px] font-semibold text-slate-900 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/90 dark:text-slate-100 dark:hover:bg-slate-800 sm:px-4 sm:py-2 sm:text-sm"
+                className="group inline-flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200/90 bg-white/70 text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-orange-200 hover:bg-orange-50 hover:text-orange-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200 dark:hover:border-orange-500/40 dark:hover:bg-orange-500/10 dark:hover:text-orange-200 sm:h-10 sm:w-10"
                 aria-label={
                   darkMode ? "Aktifkan mode terang" : "Aktifkan mode gelap"
+                }
+                title={
+                  darkMode ? "Gunakan mode terang" : "Gunakan mode gelap"
                 }>
-                {darkMode ? "Light Mode" : "Dark Mode"}
+                {darkMode ? (
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    className="h-[18px] w-[18px]"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round">
+                    <circle cx="12" cy="12" r="3.5" />
+                    <path d="M12 2.5v2M12 19.5v2M4.5 12h-2M21.5 12h-2M5.3 5.3 3.9 3.9M20.1 20.1l-1.4-1.4M18.7 5.3l1.4-1.4M3.9 20.1l1.4-1.4" />
+                  </svg>
+                ) : (
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    className="h-[18px] w-[18px]"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round">
+                    <path d="M20.2 15.1A8.4 8.4 0 0 1 8.9 3.8 8.5 8.5 0 1 0 20.2 15.1Z" />
+                  </svg>
+                )}
               </button>
               <button
+                ref={menuButtonRef}
                 type="button"
-                className="inline-flex h-9 w-9 shrink-0 flex-col items-center justify-center rounded-lg border border-slate-300 bg-white/90 text-slate-900 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900/90 dark:text-slate-100 dark:hover:bg-slate-800 sm:h-11 sm:w-11 lg:hidden"
+                className="inline-flex h-9 w-9 shrink-0 flex-col items-center justify-center rounded-xl border border-slate-200/90 bg-white/70 text-slate-900 shadow-sm transition hover:border-orange-200 hover:bg-orange-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-100 dark:hover:border-orange-500/40 dark:hover:bg-orange-500/10 sm:h-10 sm:w-10 xl:hidden"
                 onClick={() => setMenuOpen((prev) => !prev)}
                 aria-label={
                   menuOpen ? "Tutup menu navigasi" : "Buka menu navigasi"
@@ -716,8 +985,8 @@ function Home() {
 
             <nav
               aria-label="Navigasi utama"
-              className="hidden lg:block lg:order-2">
-              <ul className="flex">
+              className="hidden xl:block xl:order-2">
+              <ul className="flex items-center gap-0.5 rounded-full border border-slate-200/70 bg-slate-100/55 p-1 dark:border-slate-700/70 dark:bg-slate-900/60 2xl:gap-1">
                 {navLinks.map(([label, href]) => {
                   const isPageLink = href.startsWith("/");
                   const id = href.replace("#", "");
@@ -728,7 +997,16 @@ function Home() {
                       {isPageLink ? (
                         <Link
                           to={href}
-                          className="site-nav-link mx-3 flex py-2 text-sm font-semibold text-slate-900 dark:text-slate-100 xl:mx-5">
+                          aria-current={
+                            activeSection === href.slice(1)
+                              ? "location"
+                              : undefined
+                          }
+                          className={`site-nav-link flex rounded-full px-2.5 py-2 text-[13px] font-semibold 2xl:px-3 2xl:text-sm ${
+                            activeSection === href.slice(1)
+                              ? "is-active text-orange-700 dark:text-orange-200"
+                              : "text-slate-700 dark:text-slate-200"
+                          }`}>
                           {label}
                         </Link>
                       ) : (
@@ -740,8 +1018,8 @@ function Home() {
                           aria-current={isActive ? "location" : undefined}
                           className={
                             isContact
-                              ? `site-nav-contact ml-3 inline-flex rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-orange-500 xl:ml-5 ${isActive ? "is-active" : ""}`
-                              : `site-nav-link mx-3 flex py-2 text-sm font-semibold xl:mx-5 ${isActive ? "is-active text-orange-700 dark:text-orange-300" : "text-slate-900 dark:text-slate-100"}`
+                              ? `site-nav-contact ml-1 inline-flex rounded-full bg-primary px-3.5 py-2 text-[13px] font-bold text-white shadow-sm shadow-orange-500/20 transition hover:-translate-y-0.5 hover:bg-orange-500 2xl:px-4 2xl:text-sm ${isActive ? "is-active" : ""}`
+                              : `site-nav-link flex rounded-full px-2.5 py-2 text-[13px] font-semibold 2xl:px-3 2xl:text-sm ${isActive ? "is-active text-orange-700 dark:text-orange-200" : "text-slate-700 dark:text-slate-200"}`
                           }>
                           {label}
                         </a>
@@ -755,13 +1033,35 @@ function Home() {
 
           {menuOpen && (
             <nav
+              ref={mobileMenuRef}
               id="mobile-navigation"
               aria-label="Navigasi seluler"
-              className="mobile-menu-enter absolute inset-x-0 top-full max-h-[calc(100vh-4rem)] overflow-y-auto rounded-b-2xl border border-t-0 border-slate-200 bg-white/95 p-2 shadow-xl backdrop-blur-xl dark:border-slate-700 dark:bg-slate-950/95 sm:inset-x-4 sm:max-h-[calc(100vh-5rem)] sm:p-3 lg:hidden">
-              <ul className="space-y-1">
+              className="mobile-menu-enter pointer-events-auto absolute inset-x-0 top-[calc(100%+0.5rem)] max-h-[calc(100vh-5rem)] overflow-y-auto rounded-3xl border border-white/80 bg-white/[0.94] p-3 shadow-[0_28px_80px_-28px_rgba(15,23,42,0.5)] backdrop-blur-2xl dark:border-slate-700/80 dark:bg-slate-950/[0.94] sm:left-auto sm:right-0 sm:w-[28rem] sm:max-w-[calc(100vw-2rem)] sm:p-4 xl:hidden">
+              <div className="flex items-center justify-between px-1 pb-3 sm:px-2">
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-[0.2em] text-orange-700 dark:text-orange-300">
+                    Menu Utama
+                  </p>
+                  <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
+                    Jelajahi layanan dan informasi kami
+                  </p>
+                </div>
+                <span className="inline-flex rounded-full border border-orange-200 bg-orange-50 px-2.5 py-1 text-[10px] font-bold text-orange-700 dark:border-orange-500/30 dark:bg-orange-500/10 dark:text-orange-200">
+                  NTGS
+                </span>
+              </div>
+              <ul className="grid grid-cols-2 gap-1.5 sm:gap-2">
                 {navLinks.map(([label, href]) => {
                   const isPageLink = href.startsWith("/");
-                  const className = `block rounded-lg px-3 py-2 text-sm font-semibold transition sm:rounded-xl sm:px-4 sm:py-3 ${href === "#contact" ? "bg-primary text-center text-white hover:bg-orange-500" : activeSection === href.slice(1) ? "border-l-4 border-primary bg-slate-100 text-orange-700 dark:bg-slate-800 dark:text-orange-300" : "border-l-4 border-transparent text-slate-900 hover:bg-slate-100 dark:text-slate-100 dark:hover:bg-slate-800"}`;
+                  const isActive = activeSection === href.slice(1);
+                  const isContact = href === "#contact";
+                  const className = `group flex min-h-11 items-center justify-between rounded-2xl border px-3 py-2.5 text-[13px] font-semibold transition sm:min-h-12 sm:px-4 sm:text-sm ${
+                    isContact
+                      ? "border-primary bg-primary text-white shadow-sm shadow-orange-500/20 hover:bg-orange-500"
+                      : isActive
+                        ? "border-orange-200 bg-orange-50 text-orange-800 dark:border-orange-500/30 dark:bg-orange-500/10 dark:text-orange-200"
+                        : "border-slate-200/80 bg-slate-50/70 text-slate-800 hover:border-orange-200 hover:bg-orange-50/80 hover:text-orange-800 dark:border-slate-700/80 dark:bg-slate-900/70 dark:text-slate-100 dark:hover:border-orange-500/30 dark:hover:bg-orange-500/10 dark:hover:text-orange-200"
+                  }`;
 
                   return (
                     <li key={label}>
@@ -770,7 +1070,18 @@ function Home() {
                           to={href}
                           className={className}
                           onClick={() => setMenuOpen(false)}>
-                          {label}
+                          <span>{label}</span>
+                          <svg
+                            aria-hidden="true"
+                            viewBox="0 0 16 16"
+                            className="h-3.5 w-3.5 opacity-45 transition-transform group-hover:translate-x-0.5"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.8"
+                            strokeLinecap="round"
+                            strokeLinejoin="round">
+                            <path d="m6 3 5 5-5 5" />
+                          </svg>
                         </Link>
                       ) : (
                         <a
@@ -784,7 +1095,17 @@ function Home() {
                           onClick={(event) =>
                             handleSectionNavigation(event, href)
                           }>
-                          {label}
+                          <span>{label}</span>
+                          <span
+                            aria-hidden="true"
+                            className={`h-1.5 w-1.5 rounded-full ${
+                              isContact
+                                ? "bg-white"
+                                : isActive
+                                  ? "bg-primary"
+                                  : "bg-slate-300 transition-colors group-hover:bg-primary dark:bg-slate-600"
+                            }`}
+                          />
                         </a>
                       )}
                     </li>
@@ -810,7 +1131,7 @@ function Home() {
                 </div>
                 <h1
                   aria-label={heroHeadline}
-                  className="mx-auto mt-4 max-w-[1320px] text-balance text-[28px] font-black leading-[1.08] tracking-[-0.035em] text-slate-900 dark:text-slate-100 sm:mt-6 sm:text-5xl sm:leading-[1.04] md:text-6xl lg:text-[80px] lg:leading-[0.98] xl:text-[88px] 2xl:text-[96px]">
+                  className="mx-auto mt-4 max-w-[1320px] text-balance text-[32px] font-black leading-[1.06] tracking-[-0.035em] text-slate-900 dark:text-slate-100 sm:mt-6 sm:text-5xl sm:leading-[1.04] md:text-6xl lg:text-[80px] lg:leading-[0.98] xl:text-[88px] 2xl:text-[96px]">
                   <span aria-hidden="true" className="hero-word-reveal">
                     {heroHeadlineWords.map((word, index) => (
                       <span key={word} className="hero-word-reveal__mask">
@@ -823,21 +1144,21 @@ function Home() {
                     ))}
                   </span>
                 </h1>
-                <p className="mx-auto mt-3 max-w-4xl text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-lg sm:leading-8 lg:text-xl lg:leading-9">
-                  Kalibrasi dalam ruang lingkup KAN LK-377-IDN, didukung
-                  maintenance, supply, konsultansi akreditasi, dan pelatihan
-                  untuk kebutuhan laboratorium industri.
+                <p className="mx-auto mt-3 max-w-4xl text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-lg sm:leading-7 lg:text-xl lg:leading-8">
+                  Layanan kalibrasi sesuai ruang lingkup KAN LK-377-IDN,
+                  didukung perawatan alat, pengadaan, konsultansi akreditasi,
+                  dan pelatihan untuk laboratorium industri.
                 </p>
                 <div className="mt-5 flex flex-col justify-center gap-2 sm:mt-8 sm:flex-row sm:gap-3">
                   <a
                     href="#contact"
                     className="inline-flex items-center justify-center rounded-full bg-primary px-5 py-2.5 text-center text-[13px] font-semibold text-white transition duration-300 hover:bg-orange-500 sm:px-8 sm:py-4 sm:text-base">
-                    Diskusikan Kebutuhan
+                    Diskusikan kebutuhan
                   </a>
                   <a
                     href="#calibration-scope"
                     className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white/80 px-5 py-2.5 text-center text-[13px] font-semibold text-slate-900 transition duration-300 hover:border-primary hover:text-orange-700 dark:border-slate-700 dark:bg-slate-900/80 dark:text-white dark:hover:text-orange-300 sm:px-8 sm:py-4 sm:text-base">
-                    Lihat Ruang Lingkup
+                    Lihat ruang lingkup
                   </a>
                 </div>
               </div>
@@ -1004,24 +1325,25 @@ function Home() {
           id="about"
           className="light-ambient-surface scroll-mt-20 bg-white/70 py-8 dark:bg-slate-950 sm:scroll-mt-24 sm:py-16 lg:py-24">
           <div data-reveal className="reveal-content container">
-            <div className="section-card grid gap-6 sm:gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14">
+            <div className="grid gap-8 sm:gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16">
               <div>
-                <span className="mb-2 inline-flex rounded-full bg-orange-100 px-2.5 py-1 text-[11px] font-semibold text-orange-700 dark:bg-orange-500/10 dark:text-orange-200 sm:mb-3 sm:px-4 sm:py-2 sm:text-sm">
+                <span className="mb-2 inline-flex rounded-full bg-orange-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-orange-700 dark:bg-orange-500/10 dark:text-orange-200 sm:mb-3 sm:px-4 sm:py-2 sm:text-[13px]">
                   Solusi Laboratorium Terintegrasi
                 </span>
-                <h2 className="mt-2 text-[22px] font-bold leading-tight text-slate-900 dark:text-slate-100 sm:mt-4 sm:text-4xl lg:text-5xl">
-                  Dukungan teknis dan sistem mutu dalam satu mitra.
+                <h2 className="mt-2 text-2xl font-bold leading-tight text-slate-900 dark:text-slate-100 sm:mt-4 sm:text-4xl lg:text-5xl">
+                  Satu mitra untuk kebutuhan teknis dan sistem mutu
+                  laboratorium.
                 </h2>
-                <p className="mt-3 max-w-xl text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-lg sm:leading-8">
-                  Kami membantu kebutuhan laboratorium mulai dari kalibrasi dan
-                  perawatan alat hingga pendampingan akreditasi, pelatihan, dan
-                  penyusunan dokumen mutu.
+                <p className="mt-3 max-w-xl text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-lg sm:leading-7">
+                  Kami mendukung operasional laboratorium melalui layanan
+                  kalibrasi, perawatan alat, pendampingan akreditasi, pelatihan,
+                  dan penyusunan dokumen mutu.
                 </p>
                 <div className="mt-5 grid grid-cols-2 gap-2 sm:mt-8 sm:gap-4">
                   {serviceItems.map((item) => (
                     <div
                       key={item.title}
-                      className="group rounded-xl border border-slate-200 bg-slate-50 px-3 py-3.5 transition duration-300 hover:-translate-y-1 hover:border-orange-300 hover:bg-white hover:shadow-lg dark:border-slate-700 dark:bg-slate-950 dark:hover:border-orange-500/50 dark:hover:bg-slate-900 sm:rounded-3xl sm:px-5 sm:py-6">
+                      className="group rounded-xl bg-slate-50/90 px-3 py-3.5 ring-1 ring-inset ring-slate-200/70 transition duration-300 hover:bg-white hover:ring-orange-200 dark:bg-slate-900/70 dark:ring-slate-800 dark:hover:bg-slate-900 dark:hover:ring-orange-500/30 sm:rounded-2xl sm:px-5 sm:py-6">
                       <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-orange-100 text-[11px] font-bold text-orange-700 transition group-hover:bg-primary group-hover:text-white dark:bg-orange-500/15 dark:text-orange-300 sm:h-9 sm:w-9 sm:text-xs">
                         {item.number}
                       </span>
@@ -1041,18 +1363,18 @@ function Home() {
                 </Link>
               </div>
               <div className="flex items-center justify-center">
-                <div className="rounded-2xl border border-slate-200 bg-slate-950/5 p-3 shadow-lg sm:rounded-[32px] sm:p-6">
-                  <div className="mb-3 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-900 sm:mb-6 sm:rounded-3xl sm:p-6">
+                <div className="w-full space-y-3 sm:space-y-5 lg:border-l lg:border-slate-200 lg:pl-10 dark:lg:border-slate-800">
+                  <div className="rounded-2xl border border-slate-200/80 bg-white/85 p-4 dark:border-slate-800 dark:bg-slate-900/75 sm:p-6">
                     <h3 className="text-base font-semibold text-slate-900 dark:text-slate-100 sm:text-xl">
                       Tentang Kami
                     </h3>
-                    <p className="mt-2 text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-4 sm:text-base sm:leading-7">
+                    <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-4 sm:text-base sm:leading-7">
                       Laboratorium kalibrasi kami terakreditasi KAN dengan nomor
                       LK-377-IDN sesuai SNI ISO/IEC 17025:2017 untuk ruang
                       lingkup yang ditetapkan.
                     </p>
                   </div>
-                  <div className="navy-accent-card rounded-xl border border-slate-800 border-l-4 border-l-primary bg-slate-950 px-4 py-3 text-white shadow-xl dark:bg-slate-900 sm:rounded-3xl sm:px-6 sm:py-5">
+                  <div className="navy-accent-card rounded-2xl border border-slate-800 border-l-4 border-l-primary bg-slate-950 px-4 py-3 text-white dark:bg-slate-900 sm:px-6 sm:py-5">
                     <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-300 sm:text-sm">
                       Dipercaya Lintas Industri
                     </p>
@@ -1077,10 +1399,10 @@ function Home() {
               </span>
               <h2
                 id="calibration-scope-title"
-                className="mt-3 text-[22px] font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-100 sm:mt-5 sm:text-4xl md:text-5xl">
+                className="mt-3 text-2xl font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-100 sm:mt-5 sm:text-4xl md:text-5xl">
                 Layanan yang relevan dengan kebutuhan laboratorium Anda.
               </h2>
-              <p className="mx-auto mt-3 max-w-2xl text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-lg sm:leading-8">
+              <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-lg sm:leading-7">
                 Dari pekerjaan teknis hingga pengembangan sistem mutu, setiap
                 kebutuhan dibahas lebih dulu agar ruang lingkupnya tepat.
               </p>
@@ -1102,17 +1424,21 @@ function Home() {
                   </div>
                 </div>
 
-                <p className="mt-3 text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-base sm:leading-7">
+                <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-base sm:leading-7">
                   Laboratorium kalibrasi terakreditasi sesuai SNI ISO/IEC
                   17025:2017 untuk alat dan rentang ukur yang tercantum dalam
                   ruang lingkup resmi.
                 </p>
 
-                <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-7 sm:gap-4">
-                  {calibrationScopes.map((scope) => (
+                <div className="mt-4 grid grid-cols-2 sm:mt-7">
+                  {calibrationScopes.map((scope, index) => (
                     <div
                       key={scope.title}
-                      className="rounded-xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-950 sm:rounded-2xl sm:p-5">
+                      className={`border-slate-200 py-3 dark:border-slate-700 sm:py-4 ${
+                        index % 2 === 0
+                          ? "border-r pr-3 sm:pr-5"
+                          : "pl-3 sm:pl-5"
+                      } ${index < 2 ? "border-b" : ""}`}>
                       <span className="text-xs font-bold text-orange-700 dark:text-orange-300">
                         {scope.number}
                       </span>
@@ -1136,7 +1462,7 @@ function Home() {
                   rel="noopener noreferrer"
                   aria-label="Lihat dokumen ruang lingkup kalibrasi di Google Drive, buka di tab baru"
                   className="mt-4 flex w-full items-center justify-between gap-3 rounded-xl border border-primary bg-primary px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:border-orange-500 hover:bg-orange-500 dark:border-primary dark:bg-primary dark:text-white dark:hover:border-orange-500 dark:hover:bg-orange-500 sm:mt-5 sm:gap-4 sm:rounded-2xl sm:px-5 sm:py-4 sm:text-sm">
-                  <span>Lihat Dokumen Ruang Lingkup</span>
+                  <span>Lihat dokumen ruang lingkup</span>
                   <span
                     aria-hidden="true"
                     className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/20 text-sm text-white sm:h-9 sm:w-9 sm:text-base">
@@ -1155,18 +1481,19 @@ function Home() {
                   Konsultansi & Pelatihan
                 </p>
                 <h3 className="mt-2 text-lg font-bold text-slate-900 dark:text-slate-100 sm:mt-3 sm:text-3xl">
-                  Pendampingan dari persiapan sampai proses akhir.
+                  Pendampingan dari persiapan hingga penyelesaian proses
+                  akreditasi.
                 </h3>
 
-                <ol className="mt-5 space-y-2 sm:mt-7 sm:space-y-3">
+                <ol className="mt-5 divide-y divide-slate-200 border-y border-slate-200 dark:divide-slate-700 dark:border-slate-700 sm:mt-7">
                   {accreditationSteps.map((step, index) => (
                     <li
                       key={step}
-                      className="flex items-center gap-2.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 dark:border-slate-700 dark:bg-slate-950 sm:gap-4 sm:rounded-2xl sm:px-4 sm:py-3">
-                      <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-900 text-xs font-bold text-white dark:bg-orange-600 sm:h-9 sm:w-9 sm:text-sm">
-                        {index + 1}
+                      className="flex items-center gap-3 py-3 sm:gap-4 sm:py-4">
+                      <span className="text-xs font-black tabular-nums text-orange-700 dark:text-orange-300 sm:text-sm">
+                        {String(index + 1).padStart(2, "0")}
                       </span>
-                      <span className="text-[13px] font-medium leading-5 text-slate-700 dark:text-slate-200 sm:text-sm sm:leading-6">
+                      <span className="text-sm font-medium leading-6 text-slate-700 dark:text-slate-200">
                         {step}
                       </span>
                     </li>
@@ -1190,10 +1517,10 @@ function Home() {
 
                 <div className="mt-5 rounded-xl border-l-4 border-l-primary bg-slate-900 p-4 text-white dark:bg-slate-800 sm:mt-7 sm:rounded-2xl sm:p-5">
                   <p className="text-sm font-semibold sm:text-base">
-                    Penyusunan Dokumen Mutu
+                    Penyusunan dokumen mutu
                   </p>
                   <p className="mt-1.5 text-xs leading-5 text-slate-300 sm:mt-2 sm:text-sm sm:leading-6">
-                    Panduan Mutu, SOP, Instruksi Kerja, dan formulir sistem
+                    Panduan mutu, SOP, instruksi kerja, dan formulir sistem
                     manajemen maupun pengujian.
                   </p>
                 </div>
@@ -1202,7 +1529,7 @@ function Home() {
                   <a
                     href="#contact"
                     className="inline-flex min-h-11 items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-orange-500 sm:px-6 sm:py-3 sm:text-base">
-                    Konsultasikan Kebutuhan
+                    Konsultasikan kebutuhan
                   </a>
                   <Link
                     to="/konsultasi-pelatihan"
@@ -1216,82 +1543,166 @@ function Home() {
         </section>
 
         <section
+          id="gallery-preview"
+          aria-labelledby="gallery-preview-title"
+          className="light-ambient-surface scroll-mt-20 bg-white/70 py-8 dark:bg-slate-950 sm:scroll-mt-24 sm:py-20 lg:py-28">
+          <div data-reveal className="reveal-content container">
+            <div className="max-w-2xl">
+              <span className="inline-flex rounded-full bg-orange-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-700 dark:bg-orange-500/10 dark:text-orange-200 sm:px-4 sm:py-2 sm:text-sm sm:tracking-[0.2em]">
+                Galeri Kerja
+              </span>
+              <h2
+                id="gallery-preview-title"
+                className="mt-3 text-2xl font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-100 sm:mt-5 sm:text-4xl md:text-5xl">
+                Dokumentasi pekerjaan tim kami di lapangan.
+              </h2>
+              <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-base sm:leading-7">
+                Lihat tim kami menangani berbagai peralatan laboratorium.
+              </p>
+            </div>
+
+            <div className="mt-6 grid grid-cols-2 gap-2 sm:mt-10 sm:gap-4 lg:grid-cols-12 lg:grid-rows-2">
+              {galleryPreviews.map((item, index) => (
+                <Link
+                  key={item.id}
+                  to={item.href}
+                  aria-label={`Buka galeri ${item.title}`}
+                  className={`lazy-media-frame group relative overflow-hidden bg-slate-200 ring-1 ring-inset ring-slate-900/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary dark:bg-slate-800 ${
+                    index === 0
+                      ? "col-span-2 aspect-[16/10] rounded-2xl md:aspect-[16/9] lg:col-span-7 lg:row-span-2 lg:aspect-auto lg:min-h-[520px] lg:rounded-[28px]"
+                      : "col-span-1 aspect-[4/3] rounded-xl lg:col-span-5 lg:aspect-auto lg:min-h-[252px] lg:rounded-2xl"
+                  }`}>
+                  <img
+                    src={item.src}
+                    srcSet={item.srcSet}
+                    sizes={
+                      index === 0
+                        ? "(min-width: 1024px) 58vw, 100vw"
+                        : "(min-width: 1024px) 42vw, 50vw"
+                    }
+                    alt={item.alt}
+                    loading="lazy"
+                    decoding="async"
+                    onLoad={showLoadedImage}
+                    onError={showLoadedImage}
+                    className="smooth-media media-zoom h-full w-full object-cover"
+                  />
+                  <span className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/10 to-transparent transition duration-300 group-hover:from-slate-950/90" />
+                  <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-2 p-3 text-white sm:p-5">
+                    <span>
+                      <span className="block text-[10px] font-bold uppercase tracking-[0.14em] text-orange-300 sm:text-xs sm:tracking-[0.16em]">
+                        {item.category}
+                      </span>
+                      <span
+                        className={`mt-0.5 block font-bold leading-tight ${
+                          index === 0
+                            ? "text-base sm:text-2xl"
+                            : "text-xs sm:text-lg"
+                        }`}>
+                        {item.title}
+                      </span>
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      className="hidden h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/30 bg-white/10 text-lg backdrop-blur-sm transition group-hover:translate-x-0.5 group-hover:bg-white/20 sm:inline-flex">
+                      →
+                    </span>
+                  </span>
+                </Link>
+              ))}
+            </div>
+
+            <div className="mt-5 flex justify-end sm:mt-7">
+              <Link
+                to="/galeri"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-2.5 text-[13px] font-semibold text-slate-900 transition hover:border-primary hover:text-orange-700 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:hover:border-primary dark:hover:text-orange-300 sm:px-6 sm:text-sm">
+                Lihat seluruh galeri
+                <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        <section
           id="clients"
           className="light-grid-surface scroll-mt-20 bg-slate-50 py-8 text-slate-900 dark:bg-slate-900 dark:text-slate-100 sm:scroll-mt-24 sm:py-20 lg:py-28">
           <div data-reveal className="reveal-content container">
             <div className="mb-6 w-full px-0 text-center sm:mb-14 sm:px-4">
-              <p className="mb-1.5 text-xs font-semibold text-orange-700 dark:text-orange-300 sm:mb-2 sm:text-lg">
-                Perusahaan
-              </p>
-              <h2 className="text-[22px] font-bold leading-tight text-slate-900 dark:text-slate-100 sm:text-4xl lg:text-5xl">
-                Yang Pernah Bekerjasama
+              <span className="inline-flex rounded-full bg-orange-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-orange-700 dark:bg-orange-500/10 dark:text-orange-200 sm:px-4 sm:py-2 sm:text-[13px]">
+                Kolaborasi lintas sektor
+              </span>
+              <h2 className="mt-3 text-2xl font-bold leading-tight text-slate-900 dark:text-slate-100 sm:mt-5 sm:text-4xl lg:text-5xl">
+                Dipercaya berbagai industri dan institusi
               </h2>
-              <p className="mx-auto mt-3 max-w-2xl text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-base sm:leading-7">
-                Dipercaya oleh perusahaan energi, pertambangan, laboratorium,
-                dan industri di berbagai wilayah Indonesia.
+              <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-base sm:leading-7">
+                Kami mendukung perusahaan energi, pertambangan, laboratorium,
+                manufaktur, serta institusi pendidikan di berbagai wilayah
+                Indonesia.
               </p>
             </div>
-            <div className="w-full">
-              <div
-                id="client-logo-grid"
-                className="grid grid-cols-3 gap-1.5 sm:gap-3 md:grid-cols-4 lg:grid-cols-6">
-                {clientLogos.map((logo, index) => (
-                  <div
-                    key={logo.alt}
-                    title={logo.alt}
-                    className={`${!showAllClients && index >= 12 ? "hidden sm:flex" : "flex"} group h-16 flex-col items-center justify-center gap-1 overflow-hidden rounded-lg border border-slate-200 bg-white px-1.5 py-1.5 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-md sm:h-28 sm:rounded-2xl sm:p-4`}>
-                    <div
-                      style={
-                        logo.scale
-                          ? { transform: `scale(${logo.scale})` }
-                          : undefined
-                      }
-                      className={`flex w-full shrink-0 items-center justify-center rounded-lg bg-transparent ${
-                        logo.portrait
-                          ? logo.caption
-                            ? "h-9 sm:h-14"
-                            : "h-10 sm:h-[72px]"
-                          : "h-7 sm:h-12"
-                      }`}>
-                      <img
-                        loading="lazy"
-                        decoding="async"
-                        src={logo.src}
-                        alt={logo.alt}
-                        className="block h-full w-full object-contain transition duration-300 lg:grayscale lg:opacity-75 lg:group-hover:scale-[1.03] lg:group-hover:grayscale-0 lg:group-hover:opacity-100"
-                      />
-                    </div>
-                    {logo.caption && (
-                      <span className="text-center text-[9px] font-semibold leading-tight text-slate-600 transition group-hover:text-slate-700 sm:text-xs">
-                        {logo.caption}
-                      </span>
-                    )}
-                  </div>
-                ))}
-              </div>
-              <button
-                type="button"
-                aria-expanded={showAllClients}
-                aria-controls="client-logo-grid"
-                onClick={() => {
-                  if (showAllClients) {
-                    setShowAllClients(false);
-                    window.requestAnimationFrame(() => {
-                      document.getElementById("clients")?.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start",
-                      });
-                    });
-                    return;
-                  }
+            <div
+              id="client-logo-marquees"
+              className="client-logo-marquees">
+              {clientGroups.map((group) => {
+                const laneLogos = fillMarqueeLane(group.logos);
 
-                  setShowAllClients(true);
-                }}
-                className="mx-auto mt-5 inline-flex min-h-11 items-center justify-center rounded-full border border-slate-300 bg-white px-5 py-2.5 text-[13px] font-semibold text-slate-800 shadow-sm transition hover:border-primary hover:text-orange-700 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:hover:border-primary dark:hover:text-orange-300 sm:hidden">
-                {showAllClients
-                  ? "Tampilkan lebih sedikit"
-                  : `Lihat semua ${clientLogos.length} pelanggan`}
-              </button>
+                return (
+                  <article key={group.id} className="client-sector">
+                    <div className="mb-2 flex items-end justify-between gap-3 px-1 sm:mb-3 sm:px-2">
+                      <div className="min-w-0">
+                        <h3 className="text-sm font-bold text-slate-900 dark:text-slate-100 sm:text-lg">
+                          {group.title}
+                        </h3>
+                        <p className="mt-0.5 hidden text-xs text-slate-500 dark:text-slate-400 md:block">
+                          {group.description}
+                        </p>
+                      </div>
+                      <span className="shrink-0 text-[10px] font-bold uppercase tracking-[0.14em] text-orange-700 dark:text-orange-300 sm:text-xs">
+                        {group.logos.length} mitra
+                      </span>
+                    </div>
+                    <div
+                      role="region"
+                      tabIndex={0}
+                      aria-label={`Logo mitra kategori ${group.title}`}
+                      aria-live="off"
+                      data-direction={group.direction}
+                      style={{
+                        "--marquee-duration": `${group.duration}s`,
+                      }}
+                      className="client-marquee">
+                      <div className="client-marquee__track">
+                        <ul className="client-marquee__group" role="list">
+                          {laneLogos.map((logo, index) => {
+                            const filler = index >= group.logos.length;
+
+                            return (
+                              <ClientLogoCard
+                                key={`${group.id}-primary-${index}-${logo.alt}`}
+                                logo={logo}
+                                hidden={filler}
+                                filler={filler}
+                              />
+                            );
+                          })}
+                        </ul>
+                        <ul
+                          className="client-marquee__group client-marquee__clone"
+                          role="presentation"
+                          aria-hidden="true">
+                          {laneLogos.map((logo, index) => (
+                            <ClientLogoCard
+                              key={`${group.id}-clone-${index}-${logo.alt}`}
+                              logo={logo}
+                              hidden
+                            />
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -1304,12 +1715,12 @@ function Home() {
               <span className="inline-flex rounded-full bg-orange-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-700 dark:bg-orange-500/10 dark:text-orange-200 sm:px-4 sm:py-2 sm:text-sm sm:tracking-[0.2em]">
                 FAQ
               </span>
-              <h2 className="mt-3 text-[22px] font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-100 sm:mt-5 sm:text-4xl md:text-5xl lg:text-6xl">
+              <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-100 sm:mt-5 sm:text-4xl md:text-5xl lg:text-6xl">
                 Pertanyaan yang sering diajukan
               </h2>
-              <p className="mx-auto mt-3 max-w-2xl text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-lg sm:leading-8">
-                Semua jawaban singkat tentang layanan, proses, dan cara kerja
-                kami.
+              <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-lg sm:leading-7">
+                Informasi ringkas mengenai layanan, proses kerja, dan
+                permintaan penawaran.
               </p>
             </div>
             <div className="mx-auto max-w-4xl px-0 sm:px-4">
@@ -1345,7 +1756,7 @@ function Home() {
                           role="region"
                           aria-labelledby={questionId}
                           className="px-3 pb-3 sm:px-6 sm:pb-6">
-                          <p className="text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:text-sm sm:leading-7">
+                          <p className="text-sm leading-6 text-slate-600 dark:text-slate-300 sm:leading-7">
                             {item.answer}
                           </p>
                         </div>
@@ -1367,10 +1778,10 @@ function Home() {
                 <span className="inline-flex rounded-full bg-orange-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-700 dark:bg-orange-500/10 dark:text-orange-200 sm:px-4 sm:py-2 sm:text-sm sm:tracking-[0.2em]">
                   Lokasi Kami
                 </span>
-                <h2 className="mt-3 text-[22px] font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-100 sm:mt-6 sm:text-4xl">
+                <h2 className="mt-3 text-2xl font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-100 sm:mt-6 sm:text-4xl">
                   Kunjungi kantor Nepatech
                 </h2>
-                <p className="mt-3 text-[13px] leading-5 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-base sm:leading-7">
+                <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-base sm:leading-7">
                   Grand Wisata, Cluster Garden Hous BG01 No. 75, Lambangjaya,
                   Tambun Selatan, Kabupaten Bekasi, Jawa Barat.
                 </p>
@@ -1421,7 +1832,7 @@ function Home() {
               <a
                 href="tel:02138716118"
                 className="mt-3 block text-sm font-semibold text-white transition hover:text-orange-300 sm:text-base">
-                Hotline : 02138716118
+                Hotline: 02138716118
               </a>
               <p className="mt-4 text-sm leading-7 text-slate-400">
                 Grand Wisata, Cluster Garden Hous BG01 No. 75, Lambangjaya,
@@ -1440,7 +1851,7 @@ function Home() {
                 Galeri Kerja
               </h3>
               <p className="text-sm leading-6 text-slate-400 sm:text-base">
-                Lihat dokumentasi kalibrasi, maintenance, dan pemasangan
+                Lihat dokumentasi kalibrasi, perawatan, dan pemasangan
                 peralatan pada halaman galeri khusus.
               </p>
               <Link
