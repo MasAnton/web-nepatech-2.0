@@ -9,9 +9,11 @@ import {
   updateThemeFavicon,
 } from "../data/site";
 
-const heroHeadline =
-  "Kalibrasi dan dukungan laboratorium untuk operasional yang lebih andal";
-const heroHeadlineWords = heroHeadline.split(" ");
+const heroHeadlineLines = [
+  "Di balik hasil laboratorium yang dapat dipercaya,",
+  "ada alat yang harus selalu siap.",
+];
+const heroHeadline = heroHeadlineLines.join(" ");
 
 const clientLogos = [
   {
@@ -289,14 +291,6 @@ const fillMarqueeLane = (logos, minimumItems = 8) => {
 
 const heroSlides = [
   {
-    id: "nepatech-logo",
-    src: brandAssets.logoLight,
-    darkSrc: brandAssets.logoDark,
-    alt: "Logo NTGS - PT. Nepatech Global Solusindo",
-    label: "PT. Nepatech Global Solusindo",
-    brandLogo: true,
-  },
-  {
     id: "kan",
     src: "/img/carousel/hero/1.png",
     alt: "Akreditasi KAN LK-377 IDN",
@@ -345,19 +339,18 @@ const heroSlides = [
     ],
     label: "ISO 9001 · 14001 · 45001",
   },
+];
+
+const relatedCompanies = [
   {
-    id: "nepatech-akurasindo-utama",
     src: "/img/certifications/ntau.webp",
     alt: "Logo PT. Nepatech Akurasindo Utama",
-    label: "PT. Nepatech Akurasindo Utama",
-    compactLogo: true,
+    name: "PT. Nepatech Akurasindo Utama",
   },
   {
-    id: "cv-nepa",
     src: "/img/carousel/hero/3.png",
     alt: "Logo CV. Nepa",
-    label: "CV. Nepa",
-    compactLogo: true,
+    name: "CV. Nepa",
   },
 ];
 
@@ -503,16 +496,16 @@ function CredentialHeroSlide({ slide }) {
 
   return (
     <div
-      className="hero-slide flex h-[210px] w-full flex-col items-center justify-center bg-gradient-to-br from-white via-slate-50 to-orange-50 px-3 py-3 text-center sm:h-[300px] sm:px-10 sm:py-8 md:h-[360px] lg:h-[400px]"
+      className="hero-slide flex h-[215px] w-full flex-col items-center justify-center bg-gradient-to-br from-white via-slate-50 to-orange-50 px-3 py-3 text-center sm:h-[270px] sm:px-8 sm:py-6 md:h-[310px] lg:h-[330px]"
       role="group"
       aria-roledescription="slide"
       aria-label={slide.label}>
       <span className="inline-flex rounded-full border border-orange-200 bg-orange-50 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.15em] text-orange-700 sm:text-xs">
         {slide.eyebrow}
       </span>
-      <h2 className="mt-2 text-xl font-black tracking-tight text-slate-900 sm:mt-3 sm:text-3xl lg:text-4xl">
+      <h3 className="mt-2 text-xl font-black tracking-tight text-slate-900 sm:mt-3 sm:text-3xl lg:text-4xl">
         {slide.title}
-      </h2>
+      </h3>
       {slide.description && (
         <p className="mt-1 max-w-2xl text-[11px] font-medium leading-4 text-slate-600 sm:mt-2 sm:text-sm sm:leading-5 lg:text-base lg:leading-6">
           {slide.description}
@@ -536,7 +529,7 @@ function CredentialHeroSlide({ slide }) {
             <img
               src={logo.src}
               alt={logo.alt}
-              loading="eager"
+              loading="lazy"
               decoding="async"
               onLoad={showLoadedImage}
               onError={showLoadedImage}
@@ -590,7 +583,6 @@ function Home() {
     );
   });
   const [activeSlide, setActiveSlide] = useState(0);
-  const [carouselPaused, setCarouselPaused] = useState(false);
   const [activeSection, setActiveSection] = useState(() => {
     if (typeof window === "undefined") return "home";
     const hash = decodeURIComponent(window.location.hash.slice(1));
@@ -601,13 +593,11 @@ function Home() {
   const currentHeroSlide = heroSlides[activeSlide];
 
   useEffect(() => {
-    if (carouselPaused) return undefined;
-
     const timeout = window.setTimeout(() => {
       setActiveSlide((current) => (current + 1) % heroSlides.length);
     }, 5000);
     return () => window.clearTimeout(timeout);
-  }, [activeSlide, carouselPaused]);
+  }, [activeSlide]);
 
   useEffect(() => {
     const imageSources = heroSlides.flatMap((slide) => [
@@ -1087,217 +1077,183 @@ function Home() {
       <main>
         <section
           id="home"
-          className="hero-surface home-hero-surface relative scroll-mt-20 overflow-hidden pb-8 pt-20 sm:scroll-mt-24 sm:pb-16 sm:pt-32 lg:pb-20 lg:pt-36">
+          className="hero-surface home-hero-surface relative scroll-mt-20 overflow-hidden pb-10 pt-20 sm:scroll-mt-24 sm:pb-14 sm:pt-28 lg:pb-16 lg:pt-28">
           <div className="hero-glow" />
           <div className="container">
-            <div className="hero-enter px-0 sm:px-4">
+            <div className="px-0 sm:px-4">
               <div className="text-center">
-                <div className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold text-orange-700 shadow-sm shadow-primary/10 dark:bg-orange-500/10 dark:text-orange-200 sm:px-4 sm:py-2 sm:text-sm">
+                <div
+                  className="hero-story-step inline-flex items-center rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-semibold text-orange-700 shadow-sm shadow-primary/10 dark:bg-orange-500/10 dark:text-orange-200 sm:px-4 sm:py-2 sm:text-sm"
+                  style={{ "--story-delay": "0ms" }}>
                   <span className="mr-2 inline-flex h-2 w-2 rounded-full bg-primary" />
-                  PT. Nepatech Global Solusindo (NTGS)
+                  Laboratorium terakreditasi KAN · LK-377-IDN
                 </div>
                 <h1
                   aria-label={heroHeadline}
-                  className="mx-auto mt-4 max-w-[1320px] text-balance text-[32px] font-black leading-[1.06] tracking-[-0.035em] text-slate-900 dark:text-slate-100 sm:mt-6 sm:text-5xl sm:leading-[1.04] md:text-6xl lg:text-[80px] lg:leading-[0.98] xl:text-[88px] 2xl:text-[96px]">
-                  <span aria-hidden="true" className="hero-word-reveal">
-                    {heroHeadlineWords.map((word, index) => (
+                  className="mx-auto mt-4 max-w-[1180px] text-[32px] font-black leading-[1.06] tracking-[-0.035em] text-slate-900 dark:text-slate-100 sm:mt-6 sm:text-5xl sm:leading-[1.04] md:text-6xl lg:text-[72px] lg:leading-[1] xl:text-[80px] 2xl:text-[84px]">
+                  <span aria-hidden="true" className="block">
+                    {heroHeadlineLines.map((line, index) => (
                       <span
-                        key={word}
-                        className="hero-word-reveal__mask">
-                        <span
-                          className="hero-word-reveal__word"
-                          style={{ animationDelay: `${50 + index * 75}ms` }}>
-                          {word}
-                        </span>
+                        key={line}
+                        className="hero-story-line hero-story-step"
+                        style={{
+                          "--story-delay": `${120 + index * 230}ms`,
+                        }}>
+                        {line}
                       </span>
                     ))}
                   </span>
                 </h1>
-                <p className="mx-auto mt-3 max-w-4xl text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-lg sm:leading-7 lg:text-xl lg:leading-8">
-                  Layanan kalibrasi sesuai ruang lingkup KAN LK-377-IDN,
-                  didukung perawatan alat, pengadaan, konsultansi akreditasi,
-                  dan pelatihan untuk laboratorium industri.
+                <p
+                  className="hero-story-step mx-auto mt-4 max-w-4xl text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-lg sm:leading-7 lg:text-xl lg:leading-8"
+                  style={{ "--story-delay": "600ms" }}>
+                  NTGS mendampingi laboratorium dalam menjaga kesiapan alat dan
+                  memperkuat sistem mutu—melalui kalibrasi sesuai ruang lingkup
+                  KAN, perawatan, pengadaan, konsultansi akreditasi, dan
+                  pelatihan.
                 </p>
-                <div className="mt-5 flex flex-col justify-center gap-2 sm:mt-8 sm:flex-row sm:gap-3">
+                <div
+                  className="hero-story-step mt-5 flex flex-col justify-center gap-2 sm:mt-8 sm:flex-row sm:gap-3"
+                  style={{ "--story-delay": "790ms" }}>
                   <a
                     href="#contact"
                     className="inline-flex items-center justify-center rounded-full bg-primary px-5 py-2.5 text-center text-[13px] font-semibold text-white transition duration-300 hover:bg-orange-500 sm:px-8 sm:py-4 sm:text-base">
-                    Diskusikan kebutuhan
+                    Ceritakan kebutuhan Anda
                   </a>
                   <a
                     href="#calibration-scope"
                     className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white/80 px-5 py-2.5 text-center text-[13px] font-semibold text-slate-900 transition duration-300 hover:border-primary hover:text-orange-700 dark:border-slate-700 dark:bg-slate-900/80 dark:text-white dark:hover:text-orange-300 sm:px-8 sm:py-4 sm:text-base">
-                    Lihat ruang lingkup
+                    Lihat kapabilitas kami
                   </a>
                 </div>
-              </div>
-
-              <div className="mx-auto mt-6 max-w-6xl sm:mt-10 xl:max-w-[1240px]">
-                <div
-                  role="region"
-                  aria-roledescription="carousel"
-                  aria-label="Akreditasi dan profil perusahaan"
-                  aria-live="off"
-                  className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/5 dark:border-slate-700 sm:rounded-[28px]">
-                  {currentHeroSlide.type === "credential" ? (
-                    <CredentialHeroSlide
-                      key={currentHeroSlide.id}
-                      slide={currentHeroSlide}
-                    />
-                  ) : (
-                    <div
-                      key={currentHeroSlide.id}
-                      className={`hero-slide flex h-[210px] w-full items-center justify-center overflow-hidden p-3 sm:h-[300px] sm:p-5 md:h-[360px] lg:h-[400px] ${
-                        currentHeroSlide.brandLogo
-                          ? "bg-slate-50 dark:bg-slate-950"
-                          : ""
-                      }`}>
-                      <img
-                        loading="eager"
-                        fetchPriority="high"
-                        decoding="async"
-                        src={
-                          darkMode && currentHeroSlide.darkSrc
-                            ? currentHeroSlide.darkSrc
-                            : currentHeroSlide.src
-                        }
-                        width={currentHeroSlide.brandLogo ? "1098" : undefined}
-                        height={currentHeroSlide.brandLogo ? "616" : undefined}
-                        alt={currentHeroSlide.alt}
-                        onLoad={showLoadedImage}
-                        onError={showLoadedImage}
-                        className={`hero-logo-media max-h-full w-full object-contain${
-                          currentHeroSlide.compactLogo
-                            ? " hero-logo-media--compact"
-                            : ""
-                        }${
-                          currentHeroSlide.brandLogo
-                            ? " hero-logo-media--brand"
-                            : ""
-                        }`}
-                      />
-                    </div>
-                  )}
-                  <div className="border-t border-slate-200 bg-white px-3 py-2.5 dark:border-slate-700 dark:bg-slate-950 sm:px-5 sm:py-3">
-                    <div className="mx-auto flex max-w-xl flex-nowrap items-center justify-between gap-3">
-                      <div className="min-w-0 flex-1">
-                        <p className="truncate text-xs font-semibold text-slate-700 dark:text-slate-200 sm:text-sm">
-                          {currentHeroSlide.label}
-                        </p>
-                      </div>
-                      <div className="flex shrink-0 items-center gap-2">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setActiveSlide(
-                              (current) =>
-                                (current - 1 + heroSlides.length) %
-                                heroSlides.length,
-                            );
-                          }}
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 sm:h-9 sm:w-9"
-                          aria-label="Slide sebelumnya">
-                          <svg
-                            aria-hidden="true"
-                            viewBox="0 0 20 20"
-                            className="h-4 w-4 fill-none stroke-current"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round">
-                            <path d="m12.5 15-5-5 5-5" />
-                          </svg>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setCarouselPaused((current) => !current)
-                          }
-                          className={`inline-flex h-8 w-8 items-center justify-center rounded-full transition sm:h-9 sm:w-9 ${carouselPaused ? "bg-orange-100 text-orange-700 hover:bg-orange-200 dark:bg-orange-500/15 dark:text-orange-300 dark:hover:bg-orange-500/25" : "bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"}`}
-                          aria-label={
-                            carouselPaused
-                              ? "Putar carousel otomatis"
-                              : "Jeda carousel otomatis"
-                          }
-                          aria-pressed={carouselPaused}>
-                          {carouselPaused ? (
-                            <svg
-                              aria-hidden="true"
-                              viewBox="0 0 20 20"
-                              className="h-3.5 w-3.5 fill-current">
-                              <path d="M6.5 4.75a1 1 0 0 1 1.53-.85l7 5.25a1 1 0 0 1 0 1.7l-7 5.25a1 1 0 0 1-1.53-.85V4.75Z" />
-                            </svg>
-                          ) : (
-                            <svg
-                              aria-hidden="true"
-                              viewBox="0 0 20 20"
-                              className="h-3.5 w-3.5 fill-current">
-                              <rect
-                                x="5"
-                                y="4"
-                                width="3.5"
-                                height="12"
-                                rx="1"
-                              />
-                              <rect
-                                x="11.5"
-                                y="4"
-                                width="3.5"
-                                height="12"
-                                rx="1"
-                              />
-                            </svg>
-                          )}
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setActiveSlide(
-                              (current) => (current + 1) % heroSlides.length,
-                            );
-                          }}
-                          className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 sm:h-9 sm:w-9"
-                          aria-label="Slide berikutnya">
-                          <svg
-                            aria-hidden="true"
-                            viewBox="0 0 20 20"
-                            className="h-4 w-4 fill-none stroke-current"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round">
-                            <path d="m7.5 5 5 5-5 5" />
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-                    <div className="mt-2.5 flex justify-center gap-1.5 sm:gap-2">
-                      {heroSlides.map((slide, index) => (
-                        <button
-                          key={slide.id}
-                          type="button"
-                          onClick={() => {
-                            setActiveSlide(index);
-                          }}
-                          className={`h-1.5 w-4 rounded-full transition sm:w-7 ${activeSlide === index ? "bg-primary" : "bg-slate-300 hover:bg-slate-400 dark:bg-slate-700 dark:hover:bg-slate-600"}`}
-                          aria-label={`Tampilkan ${slide.label}`}
-                          aria-pressed={activeSlide === index}
+                <ul
+                  className="hero-story-step mx-auto mt-6 flex w-fit max-w-full flex-wrap items-center justify-center gap-x-4 gap-y-2 rounded-2xl border border-slate-200 bg-white/75 px-4 py-3 text-xs font-semibold text-slate-600 shadow-sm backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-300 sm:mt-8 sm:gap-x-6 sm:px-6 sm:text-sm"
+                  style={{ "--story-delay": "960ms" }}>
+                  {["ISO/IEC 17025:2017", "Dukungan teknis menyeluruh", "Lintas sektor industri"].map(
+                    (item) => (
+                      <li key={item} className="flex items-center gap-2">
+                        <span
+                          aria-hidden="true"
+                          className="inline-flex h-1.5 w-1.5 rounded-full bg-primary"
                         />
-                      ))}
+                        {item}
+                      </li>
+                    ),
+                  )}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          aria-labelledby="credentials-title"
+          className="light-grid-surface border-y border-slate-200/70 bg-slate-50 py-8 dark:border-slate-800 dark:bg-slate-900 sm:py-16 lg:py-20">
+          <div data-reveal className="reveal-content container px-0 sm:px-4">
+            <div className="mx-auto max-w-3xl text-center">
+              <span className="inline-flex rounded-full bg-orange-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.16em] text-orange-700 dark:bg-orange-500/10 dark:text-orange-200 sm:px-4 sm:py-2 sm:text-[13px]">
+                Kompetensi & Sertifikasi
+              </span>
+              <h2
+                id="credentials-title"
+                className="mt-3 text-2xl font-bold leading-tight tracking-tight text-slate-900 dark:text-slate-100 sm:mt-5 sm:text-4xl lg:text-5xl">
+                Bukti yang mendukung setiap pekerjaan.
+              </h2>
+              <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-5 sm:text-base sm:leading-7">
+                Akreditasi, kualifikasi keselamatan, dan sistem manajemen yang
+                menjadi landasan layanan NTGS.
+              </p>
+            </div>
+
+            <div className="mx-auto mt-6 max-w-5xl sm:mt-10">
+              <div
+                role="region"
+                aria-roledescription="carousel"
+                aria-label="Kompetensi dan sertifikasi perusahaan"
+                aria-live="off"
+                className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl shadow-slate-900/5 dark:border-slate-700 sm:rounded-[28px]">
+                {currentHeroSlide.type === "credential" ? (
+                  <CredentialHeroSlide
+                    key={currentHeroSlide.id}
+                    slide={currentHeroSlide}
+                  />
+                ) : (
+                  <div
+                    key={currentHeroSlide.id}
+                    className="hero-slide flex h-[215px] w-full items-center justify-center overflow-hidden p-3 sm:h-[270px] sm:p-5 md:h-[310px] lg:h-[330px]">
+                    <img
+                      loading="lazy"
+                      decoding="async"
+                      src={currentHeroSlide.src}
+                      alt={currentHeroSlide.alt}
+                      onLoad={showLoadedImage}
+                      onError={showLoadedImage}
+                      className="hero-logo-media max-h-full w-full object-contain"
+                    />
+                  </div>
+                )}
+                <div className="border-t border-slate-200 bg-white px-3 py-2.5 dark:border-slate-700 dark:bg-slate-950 sm:px-5 sm:py-3">
+                  <div className="mx-auto flex max-w-xl flex-nowrap items-center justify-between gap-3">
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-xs font-semibold text-slate-700 dark:text-slate-200 sm:text-sm">
+                        {currentHeroSlide.label}
+                      </p>
+                    </div>
+                    <div className="flex shrink-0 items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setActiveSlide(
+                            (current) =>
+                              (current - 1 + heroSlides.length) %
+                              heroSlides.length,
+                          );
+                        }}
+                        className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 sm:h-9 sm:w-9"
+                        aria-label="Slide sebelumnya">
+                        <svg
+                          aria-hidden="true"
+                          viewBox="0 0 20 20"
+                          className="h-4 w-4 fill-none stroke-current"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round">
+                          <path d="m12.5 15-5-5 5-5" />
+                        </svg>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setActiveSlide(
+                            (current) => (current + 1) % heroSlides.length,
+                          );
+                        }}
+                        className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-700 transition hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700 sm:h-9 sm:w-9"
+                        aria-label="Slide berikutnya">
+                        <svg
+                          aria-hidden="true"
+                          viewBox="0 0 20 20"
+                          className="h-4 w-4 fill-none stroke-current"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round">
+                          <path d="m7.5 5 5 5-5 5" />
+                        </svg>
+                      </button>
                     </div>
                   </div>
-                </div>
-
-                <div className="mt-2.5 grid grid-cols-[1fr_auto] items-center gap-2 rounded-xl border border-slate-800 bg-slate-950 px-3 py-2.5 text-left text-white shadow-lg shadow-slate-950/10 sm:mt-4 sm:grid-cols-[auto_auto_1fr] sm:gap-5 sm:rounded-2xl sm:px-6 sm:py-4">
-                  <div className="flex items-center gap-2 text-sm font-semibold sm:text-base">
-                    <span className="inline-flex h-2 w-2 rounded-full bg-primary" />
-                    KAN LK-377-IDN
+                  <div className="mt-2.5 flex justify-center gap-1.5 sm:gap-2">
+                    {heroSlides.map((slide, index) => (
+                      <button
+                        key={slide.id}
+                        type="button"
+                        onClick={() => setActiveSlide(index)}
+                        className={`h-1.5 w-4 rounded-full transition sm:w-7 ${activeSlide === index ? "bg-primary" : "bg-slate-300 hover:bg-slate-400 dark:bg-slate-700 dark:hover:bg-slate-600"}`}
+                        aria-label={`Tampilkan ${slide.label}`}
+                        aria-pressed={activeSlide === index}
+                      />
+                    ))}
                   </div>
-                  <p className="text-xs text-slate-300 sm:border-l sm:border-slate-700 sm:pl-5 sm:text-sm">
-                    SNI ISO/IEC 17025:2017
-                  </p>
-                  <p className="hidden text-xs leading-5 text-slate-400 sm:block sm:text-right sm:text-sm sm:leading-6">
-                    Kesesuaian alat, metode, dan rentang ukur dikonfirmasi
-                    sebelum pekerjaan dimulai.
-                  </p>
                 </div>
               </div>
             </div>
@@ -1314,13 +1270,13 @@ function Home() {
                   Solusi Laboratorium Terintegrasi
                 </span>
                 <h2 className="mt-2 text-2xl font-bold leading-tight text-slate-900 dark:text-slate-100 sm:mt-4 sm:text-4xl lg:text-5xl">
-                  Satu mitra untuk kebutuhan teknis dan sistem mutu
-                  laboratorium.
+                  Ketepatan alat, kesiapan operasional, dan sistem mutu dalam
+                  satu alur dukungan.
                 </h2>
                 <p className="mt-3 max-w-xl text-sm leading-6 text-slate-600 dark:text-slate-300 sm:mt-6 sm:text-lg sm:leading-7">
-                  Kami mendukung operasional laboratorium melalui layanan
-                  kalibrasi, perawatan alat, pendampingan akreditasi, pelatihan,
-                  dan penyusunan dokumen mutu.
+                  Kami mulai dengan memahami jenis alat, metode, rentang ukur,
+                  dan target operasional Anda. Dari sana, tim NTGS menentukan
+                  dukungan teknis maupun sistem mutu yang paling relevan.
                 </p>
                 <div className="mt-5 grid grid-cols-2 gap-2 sm:mt-8 sm:gap-4">
                   {serviceItems.map((item) => (
@@ -1357,6 +1313,32 @@ function Home() {
                       KAN dengan nomor LK-377-IDN sesuai SNI ISO/IEC 17025:2017
                       untuk ruang lingkup yang ditetapkan.
                     </p>
+                  </div>
+                  <div className="rounded-2xl border border-slate-200/80 bg-white/85 p-4 dark:border-slate-800 dark:bg-slate-900/75 sm:p-6">
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-orange-700 dark:text-orange-300">
+                      Ekosistem Nepatech
+                    </p>
+                    <h3 className="mt-1.5 text-base font-semibold text-slate-900 dark:text-slate-100 sm:text-xl">
+                      Perusahaan terkait
+                    </h3>
+                    <div className="mt-3 grid grid-cols-2 gap-2 sm:mt-4 sm:gap-3">
+                      {relatedCompanies.map((company) => (
+                        <div
+                          key={company.name}
+                          className="flex min-h-28 flex-col items-center justify-center rounded-xl border border-slate-200 bg-white p-2.5 text-center shadow-sm sm:min-h-36 sm:p-4">
+                          <img
+                            src={company.src}
+                            alt={company.alt}
+                            loading="lazy"
+                            decoding="async"
+                            className="h-14 w-full object-contain sm:h-20"
+                          />
+                          <p className="mt-2 text-[10px] font-semibold leading-4 text-slate-600 sm:text-xs">
+                            {company.name}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                   <div className="navy-accent-card rounded-2xl border border-slate-800 border-l-4 border-l-primary bg-slate-950 px-4 py-3 text-white dark:bg-slate-900 sm:px-6 sm:py-5">
                     <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-300 sm:text-sm">

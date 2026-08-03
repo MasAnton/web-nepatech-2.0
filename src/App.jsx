@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { lazy, Suspense, useLayoutEffect, useRef, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { brandAssets } from "./data/site";
 import Home from "./pages/Home";
@@ -72,13 +72,16 @@ function App() {
     if (!isHomeInnerPageTransition) return undefined;
 
     document.documentElement.classList.add("site-intro-active");
+    document.documentElement.classList.add("site-intro-hold-motion");
     setRouteTransitionStage("visible");
 
     const leaveTimer = window.setTimeout(() => {
+      document.documentElement.classList.remove("site-intro-hold-motion");
       setRouteTransitionStage("leaving");
     }, ROUTE_TRANSITION_HOLD_MS);
     const finishTimer = window.setTimeout(() => {
       document.documentElement.classList.remove("site-intro-active");
+      document.documentElement.classList.remove("site-intro-hold-motion");
       setRouteTransitionStage("done");
     }, ROUTE_TRANSITION_TOTAL_MS);
 
@@ -86,15 +89,18 @@ function App() {
       window.clearTimeout(leaveTimer);
       window.clearTimeout(finishTimer);
       document.documentElement.classList.remove("site-intro-active");
+      document.documentElement.classList.remove("site-intro-hold-motion");
     };
   }, [pathname]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (introStage === "done") return undefined;
 
     document.documentElement.classList.add("site-intro-active");
+    document.documentElement.classList.add("site-intro-hold-motion");
 
     const leaveTimer = window.setTimeout(() => {
+      document.documentElement.classList.remove("site-intro-hold-motion");
       setIntroStage("leaving");
     }, INTRO_HOLD_MS);
     const finishTimer = window.setTimeout(() => {
@@ -105,6 +111,7 @@ function App() {
       }
 
       document.documentElement.classList.remove("site-intro-active");
+      document.documentElement.classList.remove("site-intro-hold-motion");
       setIntroStage("done");
     }, INTRO_TOTAL_MS);
 
@@ -112,6 +119,7 @@ function App() {
       window.clearTimeout(leaveTimer);
       window.clearTimeout(finishTimer);
       document.documentElement.classList.remove("site-intro-active");
+      document.documentElement.classList.remove("site-intro-hold-motion");
     };
   }, []);
 
